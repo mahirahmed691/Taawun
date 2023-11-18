@@ -1,0 +1,341 @@
+{
+  "boycottTargets": [
+    {
+      "name": "Siemens",
+      "country": "Germany",
+      "description": "Main contractor for the Euro-Asia Interconnector, planned to connect Israel’s illegal settlements to Europe.",
+      "industry":"Technology",
+      "image": "data:image/png;base64,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"
+    },
+    {
+      "name": "L'oreal",
+      "country": "Paris",
+      "description": "Main contractor for the Euro-Asia Interconnector, planned to connect Israel’s illegal settlements to Europe.",
+      "industry":"Cosmetics",
+      "image": "https://m.media-amazon.com/images/S/abs-image-upload-na/a/AmazonStores/A1F83G8C2ARO7P/85e4e11a6f2eaa973df97a1f8ecbe063.w1500.h1500.jpg"
+    },
+    {
+      "name": "Maybelline",
+      "country": "New York",
+      "description": "Main contractor for the Euro-Asia Interconnector, planned to connect Israel’s illegal settlements to Europe.",
+      "industry":"Cosmetics",
+      "image": "https://1000logos.net/wp-content/uploads/2021/04/Maybelline-logo.png"
+    },
+    {
+      "name": "PUMA",
+      "country": "Germany",
+      "description": "Sponsors the Israel Football Association, which governs teams in Israel’s illegal settlements.",
+      "industry":"Clothing",
+      "image": "https://assets.turbologo.com/blog/en/2019/11/19084917/puma-logo-cover.png"
+    },
+    {
+      "name": "Carrefour",
+      "country": "France",
+      "description": "Supports Israeli soldiers in the genocide of Palestinians and partners with companies involved in violations.",
+      "industry":"Supermarket",
+      "image": "https://logos-world.net/wp-content/uploads/2020/12/Carrefour-Logo.png"
+    },
+    {
+      "name": "AXA",
+      "country": "France",
+      "description": "Invests in Israeli banks financing war crimes and the theft of Palestinian land and resources.",
+      "industry":"Insaurance",
+      "image": "https://www.adviserhome.co.uk/cd-content/uploads/images/axa__logo.png"
+    },
+    {
+      "name": "Hewlett Packard Inc (HP Inc)",
+      "country": "US",
+      "industry":"Technology",
+      "description": "Provides services to the offices of Israeli PM Netanyahu and Financial Minister Smotrich."
+    },
+    {
+      "name": "SodaStream",
+      "industry":"Food & Drink",
+      "description": "Actively complicit in Israel's policy of displacing the indigenous Bedouin-Palestinian citizens.",
+      "image":"https://assets.stickpng.com/images/58428d79a6515b1e0ad75ab2.png"
+    },
+    {
+      "name": "Ahava",
+      "description": "Has its production site, visitor center, and main store in an illegal Israeli settlement.",
+      "industry":"Cosmetics",
+      "image":"https://www.cosmoprof.com/media//cosmoprof/brandBible/2023/2701423A-92E4-5895-B75EBCC59BF49AE1.jpg"
+    },
+    {
+      "name": "RE/MAX",
+      "country": "US",
+      "description": "Markets and sells property in illegal Israeli settlements built on stolen Palestinian land.",
+      "image":""
+    },
+    {
+      "name": "Elbit Systems",
+      "industry":"Technology",
+      "description": "Apartheid Israel’s largest arms company, involved in field-testing weapons on Palestinians.",
+      "image":"https://static.stocktitan.net/company-logo/ESLT-lg.png"
+    },
+    {
+      "name": "Hyundai",
+      "industry":"Autmotive",
+      "description": "Machinery used by Israel in the ethnic cleansing and forced displacement of Palestinians.",
+      "image":"data:image/png;base64,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"
+    },
+    {
+      "name": "Barclays",
+      "country": "UK",
+      "industry":"Bank",
+      "image":"https://i.pinimg.com/736x/bc/45/95/bc4595180ea915c553ac6ecf67ca4b0b.jpg",
+      "description": "Holds shares and provides loans to companies whose weapons have been used in Israel’s armed violence against Palestinians."
+    },
+    {
+      "name": "CAF",
+      "description": "Builds and services the Jerusalem Light Rail serving Israel's illegal settlements in Jerusalem.",
+      "image":"https://www.railadvent.co.uk/wp-content/uploads/2022/06/CAF-1-860x516.jpg"
+    },
+    {
+      "name": "Chevron",
+      "description": "Extracts gas claimed by apartheid Israel in the East Mediterranean, generating revenues for Israel’s war chest.",
+      "image":"https://images.squarespace-cdn.com/content/v1/55e45319e4b0fe8647d43b01/1589568748950-F4O1RRV2QRECCVLMDDT8/5494120-chevron-logo-logodix-chevron-logo-png-480_360_preview.png"
+    },
+    {
+      "name": "HikVision",
+      "description": "Chinese company providing high-resolution CCTV cameras used for surveillance of Palestinians.",
+      "image":""
+    },
+    {
+      "name": "TKH Security",
+      "country": "Netherlands",
+      "description": "Dutch company providing cameras used by Israel for surveillance of Palestinians.",
+      "image":""
+    },
+    {
+      "name": "Google",
+      "country": "US",
+      "industry":"Technology",
+      "description": "Provided cloud technology to the Israeli government and military during the Gaza conflict.",
+      "image":""
+    },
+    {
+      "name": "Disney",
+      "country": "US",
+      "description": "Marvel Studios promoting a 'superhero' personifying apartheid Israel in the next Captain America film.",
+      "image":"https://static.vecteezy.com/system/resources/thumbnails/022/636/380/small_2x/disney-logo-disney-icon-transparent-free-png.png"
+    },
+    {
+      "name": "Nike",
+      "country": "US",
+      "description": "Sponsors events and activities that indirectly support Israel's policies in the Palestinian territories.",
+      "image":""
+    },
+    {
+      "name": "Starbucks",
+      "country": "US",
+      "industry":"Food & Drink",
+      "description": "Has business ties and investments in Israel, contributing to the economic support of the region.",
+      "image":""
+    },
+    {
+      "name": "Burger King",
+      "country": "US",
+      "industry":"Food & Drink",
+      "description": "Has business operations and partnerships supporting Israel, contributing to ongoing controversies.",
+      "image":"data:image/png;base64,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"
+    },
+    {
+      "name": "Nestlé",
+      "country": "Switzerland",
+      "description": "Engages in business practices that indirectly support Israel's policies in the occupied territories.",
+      "image":""
+    },
+    {
+      "name": "Procter & Gamble",
+      "country": "US",
+      "description": "Has connections and business ties that contribute to the economic support of Israel.",
+      "image":""
+    },
+    {
+      "name": "IBM",
+      "country": "US",
+      "industry":"Technology",
+      "description": "Provides technological services that indirectly support Israel's military and government operations.",
+      "image":""
+    },
+    {
+      "name": "Nokia",
+      "country": "Finland",
+      "industry":"Technology",
+      "description": "Has business ties and collaborations supporting Israel's technological and communication sectors.",
+      "image":""
+    },
+    {
+      "name": "McAfee",
+      "country": "US",
+      "industry":"Technology",
+      "description": "Provides cybersecurity services supporting Israel's government and military infrastructure.",
+      "image":""
+    },
+    {
+      "name": "Microsoft",
+      "country": "US",
+      "industry":"Technology",
+      "description": "Provides software and technology services contributing to Israel's technological advancements.",
+      "image":""
+    },
+    {
+      "name": "Walmart",
+      "country": "US",
+      "description": "Has business ties and investments indirectly supporting Israel's economic activities.",
+      "image":"https://media.designrush.com/inspiration_images/345908/conversions/walmart_1-mobile.jpg"
+    },
+    {
+      "name": "Johnson & Johnson",
+      "country": "US",
+      "description": "Engages in business practices that contribute to Israel's pharmaceutical and healthcare sectors.",
+      "image":""
+    },
+    {
+      "name": "PepsiCo",
+      "country": "US",
+      "industry":"Food & Drink",
+      "description": "Has business operations and partnerships supporting Israel, contributing to ongoing controversies.",
+      "image":""
+    },
+    {
+      "name": "Ford",
+      "country": "US",
+      "description": "Engages in business activities that indirectly support Israel's automotive and manufacturing sectors.",
+      "image":"data:image/jpeg;base64,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dD0+peV8Y+UVVJIzy4u4qPwCTtju+1PXqi3Os3DVSOa0EOFUH2SRyUeITrj1jMOXxF+J91pihHe+3iulpZobXTqLAFsYB4emR0LY5hO7PEx6Y1vSNMtNHo07eivCiLgDv8SSe8k5JPiZ32dpb2SLTpItNFGFVQFUDyAnonBnnvtPJeRzERKJIiICIiAiIgJxOYgVfXdhtnddy1W3VXP+sp9h8+JK8mP2gZVzu/2i0Xnpmp1FUdKdbPB+QKn8E0+JacmUmt9kaZRe6pttbKUv9IoX6DvRQ5Pngcf6BK9X1Ld7dtw3OnXNlUxz4MgL+zxD9E3idNzbW90OGoiOPBlDD7jNcebXpr4ukaYUNmtgL8H0GrPSP/vqAB+JUz985XdjSu+dtqlnW+OP0s01W82E2WvPWsqK/YX0f6MSGut0mytf1VrUvsVCf1hprPEfqv2qOln1XdHtMnqtbN9mo3+aCeGruw2vQ8rZX81q0v4mE0H+aHT6H9Te3dL4r/CFnB3Zaunqa1dKPAiofzFUS08TfzT6U6Yzo7uNrx/c2/3lE/xz5G7na8/3Nv8AeUv/ANzRju72oHTXbr76w/8AlnH83m1f/rlz+Kt/xJb+JvvPudLPl3a7YN/dD8alEfxz10d1G1dTqlFPtVB/CDLv/NvtC/ra5dfdVP76s+hurq1f63VLup49R+pmkXxN/NPpTpioLul1anzrXVpSHmzn96gfnORsLszaH/SNat+XVaYUt+tj+UuVDc5s8hy9W6fyLoAfuTP5yWtN2myVtz+Shz9d6jfkWx+UrfE/qv8A5E9P9Ga+i3XabkmpeXh8AGUfDlT/AHyV07W6JI+a9n+I+zVqIWx72wf1zVLHQdH07nRtaFM+KU1U/EgZMk5jlzb97800zH5s3la9yrXFGwQjBWljjHuKlj/jE9ul7qtGot6S6qVbyocFjUYqpI7+EHiPuZjNBiZ/i307fCdPNY2Nrp6CnRppTUdFRQq/cJ6oiUSREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQP/2Q=="
+    },
+    {
+      "name": "General Electric",
+      "country": "US",
+      "description": "Provides industrial and technological services contributing to Israel's infrastructure.",
+      "image":"https://1000logos.net/wp-content/uploads/2018/02/GE-Logo-1998.jpg"
+    },
+    {
+      "name": "Adidas",
+      "country": "Germany",
+      "description": "Sponsors events and engages in business practices indirectly supporting Israel's policies.",
+      "image": "https://cdn.britannica.com/94/193794-050-0FB7060D/Adidas-logo.jpg",
+      "urls": [
+        {
+          "url": "https://bdsmovement.net/news/palestinian-football-clubs-adidas-end-sponsorship-israeli-settlement-teams",
+          "linkDate": "12 March, 2018",
+          "image": "https://bdsmovement.net/sites/default/files/adidas-ifa.jpg"
+        },
+        {
+          "url": "https://electronicintifada.net/blogs/ali-abunimah/adidas-warned-boycott-over-israeli-settlement-teams",
+          "linkDate": "23 March 2018",
+          "image": "https://electronicintifada.net/sites/default/files/styles/original_800w/public/2018-03/adidas_homecourt.jpg?itok=Hu4gYgLp&timestamp=1521833407"
+        }
+      ]
+    },
+    {
+      "name": "Motorola Solutions",
+      "country": "US",
+      "industry":"Technology",
+      "description": "Accused of providing technology used by Israeli security forces in the occupied territories.",
+      "image": "https://logowik.com/content/uploads/images/motorola-new7974.jpg"
+    },
+    {
+      "name": "Veolia",
+      "country": "France",
+      "description": "Involved in the construction and operation of infrastructure in Israeli settlements.",
+      "image": ""
+    },
+    {
+      "name": "G4S",
+      "country": "UK/Denmark",
+      "industry":"Technology",
+      "description": "Accused of providing security services to Israeli prisons and checkpoints.",
+      "image": "https://www.g4s.com/-/media/g4s/global/images/news-and-content-780-x-440/generic/placeholders/placeholder_780px_by_440px-1.ashx"
+    },
+    {
+      "name": "Caterpillar Inc.",
+      "country": "US",
+      "description": "Provides bulldozers and equipment used in the demolition of Palestinian homes.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeucaDicsckJS3DFMjXkbxnZJhjUvPTDmSkkWclgt-O4DcWMFy6q1j0n1y9v1JrpXxFa8&usqp=CAU"
+    },
+    {
+      "name": "HeidelbergCement",
+      "country": "Germany",
+      "description": "Operates quarries in the occupied West Bank, extracting resources from Palestinian land.",
+      "image": "https://www.genesys.com/media/BankHapoalim_ResourceThumbnail.jpg"
+    },
+    {
+      "name": "Veoneer",
+      "country": "Sweden",
+      "description": "Accused of supplying vision systems used in Israeli military vehicles.",
+      "image": "https://www.veoneer.com/sites/default/files/ia/veoneer_logo_blue_300dpi.jpg"
+    },
+    {
+      "name": "Bank Hapoalim",
+      "country": "Israel",
+      "description": "One of the largest banks in Israel, accused of providing financial services to settlements.",
+      "image": "https://www.genesys.com/media/BankHapoalim_ResourceThumbnail.jpg"
+    },
+    {
+      "name": "Bank Leumi",
+      "country": "Israel",
+      "description": "Another major Israeli bank, accused of involvement in financing settlements.",
+      "image": "https://www.fintechfutures.com/files/2018/03/Leumi-1.jpg"
+    },
+    {
+      "name": "Bezeq",
+      "country": "Israel",
+      "description": "Accused of providing telecommunication services to Israeli settlements.",
+      "image": "data:image/jpeg;base64,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"
+    },
+    {
+      "name": "Cellcom",
+      "country": "Israel",
+      "industry":"Technology",
+      "description": "Accused of providing telecommunication services to Israeli settlements.",
+      "image": "https://www.anodot.com/wp-content/uploads/cellcom-israel_52120....png"
+    },
+    {
+      "name": "Hewlett Packard Enterprise (HPE)",
+      "country": "US",
+      "industry":"Technology",
+      "description": "Accused of providing technology used in Israeli surveillance and military operations.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/HP_logo_2012.svg/1200px-HP_logo_2012.svg.png"
+    },
+    {
+      "name": "Coca-Cola",
+      "country": "US",
+      "industry":"Food & Drink",
+      "description": "Accused of operating in illegal Israeli settlements and exploiting Palestinian resources.",
+      "image": "data:image/png;base64,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"
+    },
+    {
+      "name": "Pfizer",
+      "country": "US",
+      "description": "Accused of conducting clinical trials in Israeli settlements and collaborating with Israeli authorities.",
+      "image": ""
+    },
+    {
+      "name": "Intel",
+      "country": "US",
+      "industry":"Technology",
+      "description": "Accused of supplying processors used in military drones deployed by Israel.",
+      "image": ""
+    },
+    {
+      "name": "Airbnb",
+      "country": "US",
+      "description": "Faced criticism for listing properties in illegal Israeli settlements.",
+      "image": "https://miro.medium.com/v2/resize:fit:1358/0*NChTo-XqLOxLabIW"
+    },
+    {
+      "name": "Booking.com",
+      "country": "Netherlands",
+      "description": "Accused of promoting tourism in and around Israeli settlements.",
+      "image": "https://elia-association.org/wp-content/uploads/2020/01/booking-com.jpg"
+    },
+    {
+      "name": "McDonald's",
+      "country": "US",
+      "industry":"Food & Drink",
+      "description": "Accused of operating franchises in Israeli settlements and supporting the Israeli economy.",
+      "image": ""
+    }
+  ]
+}
