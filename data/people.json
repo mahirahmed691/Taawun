@@ -1,0 +1,75 @@
+{
+    "influencers": [
+      {
+        "id": "1",
+        "name": "Linda Sarsour",
+        "socialMedia": {
+          "twitter": "@lsarsour",
+          "instagram": "@lsarsour",
+          "facebook": "/LindaSarsourOfficial"
+        },
+        "description": "Political activist and co-chair of the Women's March."
+      },
+      {
+        "id": "2",
+        "name": "Omar Offendum",
+        "socialMedia": {
+          "twitter": "@Offendum",
+          "instagram": "@offendum",
+          "facebook": "/offendum"
+        },
+        "description": "Syrian-American hip-hop artist and peace advocate."
+      },
+      {
+        "id": "3",
+        "name": "Ahed Tamimi",
+        "socialMedia": {
+          "twitter": "@AhedTamimiReal",
+          "instagram": "@ahedtamimi",
+          "facebook": "/AhedTamimiOfficial"
+        },
+        "description": "Palestinian activist known for her role in the resistance movement."
+      },
+      {
+        "id": "4",
+        "name": "Malala Yousafzai",
+        "socialMedia": {
+          "twitter": "@Malala",
+          "instagram": "@malala",
+          "facebook": "/MalalaFund"
+        },
+        "description": "Pakistani activist for female education and the youngest Nobel Prize laureate."
+      },
+      {
+        "id": "5",
+        "name": "Greta Thunberg",
+        "socialMedia": {
+          "twitter": "@GretaThunberg",
+          "instagram": "@gretathunberg",
+          "facebook": "/gretathunbergsweden"
+        },
+        "description": "Swedish environmental activist focused on climate change."
+      },
+      {
+        "id": "6",
+        "name": "Khalid",
+        "socialMedia": {
+          "twitter": "@thegreatkhalid",
+          "instagram": "@thegr8khalid",
+          "facebook": "/khalidofficial"
+        },
+        "description": "American singer-songwriter known for hits like 'Young Dumb & Broke.'"
+      },
+      {
+        "id": "7",
+        "name": "Emma Watson",
+        "socialMedia": {
+          "twitter": "@EmmaWatson",
+          "instagram": "@emmawatson",
+          "facebook": "/emwatson"
+        },
+        "description": "British actress and UN Women Goodwill Ambassador."
+      }
+    ]
+  }
+  

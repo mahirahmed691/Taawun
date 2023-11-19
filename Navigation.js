@@ -11,6 +11,7 @@ import BarcodeScanner from "./screens/BarcodeScanner";
 import AllowedScreen from "./screens/AllowedScreen";
 import CommunityScreen from "./screens/CommunityScreen";
 import SettingsScreen from "./screens/SettingsScreen";
+import InfluencerScreen from "./screens/InfluencerScreen";
 
 // Load fonts before rendering the app
 async function loadFonts() {
@@ -48,12 +49,17 @@ const BoycottedPlacesStack = () => (
       component={PlaceDetailScreen}
       options={{ headerTitle: "Place Details" }}
     />
+
+    <Stack.Screen
+      name="People"
+      component={InfluencerScreen}
+      options={{ headerTitle: "People" }}
+    />
   </Stack.Navigator>
 );
 
 const Navigation = () => {
   useEffect(() => {
-    // Load fonts when the component mounts
     loadFonts();
   }, []);
 
