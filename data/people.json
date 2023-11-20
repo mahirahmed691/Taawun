@@ -69,6 +69,56 @@
           "facebook": "/emwatson"
         },
         "description": "British actress and UN Women Goodwill Ambassador."
+      },
+      {
+        "id": "8",
+        "name": "Elon Musk",
+        "socialMedia": {
+          "twitter": "@elonmusk",
+          "instagram": "@elonmusk",
+          "facebook": "/elonmuskofficial"
+        },
+        "description": "Entrepreneur, inventor, and CEO of SpaceX and Tesla."
+      },
+      {
+        "id": "9",
+        "name": "Beyoncé",
+        "socialMedia": {
+          "twitter": "@Beyonce",
+          "instagram": "@beyonce",
+          "facebook": "/beyonce"
+        },
+        "description": "Grammy-winning singer, songwriter, and actress."
+      },
+      {
+        "id": "10",
+        "name": "Dwayne Johnson",
+        "socialMedia": {
+          "twitter": "@TheRock",
+          "instagram": "@therock",
+          "facebook": "/DwayneJohnson"
+        },
+        "description": "Actor, producer, and former professional wrestler."
+      },
+      {
+        "id": "11",
+        "name": "Michelle Obama",
+        "socialMedia": {
+          "twitter": "@MichelleObama",
+          "instagram": "@michelleobama",
+          "facebook": "/michelleobama"
+        },
+        "description": "Former First Lady of the United States and author."
+      },
+      {
+        "id": "12",
+        "name": "Virat Kohli",
+        "socialMedia": {
+          "twitter": "@imVkohli",
+          "instagram": "@virat.kohli",
+          "facebook": "/imVkohli"
+        },
+        "description": "Indian cricketer and former captain of the Indian national team."
       }
     ]
   }

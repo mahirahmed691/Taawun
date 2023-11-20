@@ -54,7 +54,8 @@ const AllowedScreen = () => {
         <View style={styles.searchBarContainer}>
           <TextInput
             style={styles.searchBar}
-            placeholder="Search boycotted places by name..."
+            placeholderTextColor="black"
+            placeholder="Search verified places by name..."
             onChangeText={(text) => setSearch(text)}
           />
         </View>

@@ -1,4 +1,3 @@
-// styles.js
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -105,56 +104,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderRadius: 5,
   },
-
   urlText: {
     color: "#333",
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  detailImage: {
-    width: "100%",
-    height: 200,
-    resizeMode: "cover",
-  },
-  sectionHeader: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  newsArticleContainer: {
-    marginBottom: 20,
-  },
-  newsArticleImage: {
-    width: "100%",
-    height: 200,
-    resizeMode: "cover",
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  newsArticleTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  newsArticleDescription: {
-    fontSize: 16,
-    color: "#555",
-  },
-  urlText: {
-    fontSize: 16,
-    color: "#0066cc",
-    textDecorationLine: "underline",
-    marginBottom: 10,
-  },
-  source: {
-    fontSize: 16,
-    color: "#0066cc",
-    textDecorationLine: "underline",
-    marginTop: 5,
   },
   descriptionText: {
     fontWeight: "900",
@@ -212,7 +163,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "center",
     alignItems: "center",
-    height:200,
+    height: 200,
     width: "100%",
   },
   peopleJoined: {
@@ -275,6 +226,234 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     paddingLeft: 12,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+    color: "#000",
+  },
+  createButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "tomato",
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1,
+  },
+  createButtonText: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  forumList: {
+    flex: 1,
+    width: "100%",
+  },
+  forumItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    backgroundColor: "#f0f0f0",
+    marginBottom: 10,
+    borderRadius: 10,
+  },
+  forumTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+    color: "#000",
+  },
+  forumDate: {
+    fontSize: 14,
+    color: "#888",
+    marginBottom: 5,
+  },
+  forumDescription: {
+    fontSize: 16,
+    color: "#000",
+  },
+  modalContainer: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  modalHeaderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    alignItems: "center",
+  },
+  inputContainer: {
+    width: "90%",
+    marginBottom: 20,
+    alignSelf: "center",
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+    color: "#000",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 16,
+    backgroundColor: "#fff",
+    color: "#000",
+  },
+  longPressMenu: {
+    position: "absolute",
+    bottom: 0,
+    right: 50,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 10,
+    flexDirection: "column",
+    alignItems: "flex-end",
+    zIndex: 2,
+  },
+  longPressMenuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  longPressMenuItemText: {
+    marginLeft: 5,
+    color: "#000",
+  },
+  tabBar: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    paddingVertical: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: "#000",
+    alignSelf: "center",
+  },
+  tabBarButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 6,
+    paddingVertical: 10,
+    borderRadius: 0,
+  },
+  tabBarIcon: {
+    marginRight: 5,
+    width: "25%",
+    alignSelf: "center",
+  },
+  activeTab: {
+    backgroundColor: "#000",
+  },
+  activeTabText: {
+    color: "tomato",
+    fontSize: 22,
+  },
+  postContainer: {
+    marginVertical: 10,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  postItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  tweetItem: {
+    borderColor: '#1DA1F2',
+    borderLeftWidth: 5,
+  },
+  instagramItem: {
+    borderColor: '#E1306C',
+    borderLeftWidth: 5,
+  },
+  facebookItem: {
+    borderColor: '#1877F2',
+    borderLeftWidth: 5,
+  },
+  postContentContainer: {
+    marginLeft: 10,
+    flex: 1,
+    flexDirection:'column'
+  },
+  postTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  postDate: {
+    color: '#555',
+  },
+  postContent: {
+    marginTop: 5,
+  },
+  postImage: {
+    marginTop: 10,
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+  },
+  tabBar: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    elevation: 2,
+  },
+  tabBarButton: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+  },
+  activeTab: {
+    backgroundColor: "#000",
+  },
+  tabBarIcon: {
+    marginBottom: 3,
+  },
+  activeTabText: {
+    color: "#fff",
+  },
+  badgeContainer: {
+    position: "absolute",
+    top: 5,
+    right: 30,
+    width:20
+    ,
+    height:20,
+    backgroundColor: "tomato",
+    borderRadius: 10,
+    padding: 0,
+    zIndex: 1,
+  },
+  badgeText: {
+    color: "#fff",
+    marginTop:2,
+    alignSelf:"center",
+  },
+  createButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

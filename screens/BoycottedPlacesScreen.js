@@ -187,12 +187,10 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <View style={styles.logoContainer}>
-          <Image source={require("../assets/logo.png")} style={styles.logo} />
-        </View>
         <View style={styles.searchBarContainer}>
           <TextInput
             style={styles.searchBar}
+            placeholderTextColor="black"
             placeholder="Search boycotted places by name..."
             onChangeText={(text) => setSearch(text)}
           />

@@ -5,53 +5,103 @@ import {
   Text,
   TextInput,
   Modal,
-  StyleSheet,
   TouchableOpacity,
-  FlatList,
   TouchableWithoutFeedback,
   Vibration,
+  FlatList,
+  Image,
+  ScrollView,
+  Dimensions, // Import Dimensions
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
-const ForumListTab = ({ forums, renderItem }) => (
-  <FlatList
-    data={forums}
-    renderItem={renderItem}
-    keyExtractor={(item) => item.id}
-    style={styles.forumList}
-  />
-);
-
-const ExploreTab = () => (
-  <View>
-    {/* Content for Explore Tab */}
-    <Text>Explore Tab</Text>
-  </View>
-);
-
-const NotificationsTab = () => (
-  <View>
-    {/* Content for Notifications Tab */}
-    <Text>Notifications Tab</Text>
-  </View>
-);
-
-const MessagesTab = () => (
-  <View>
-    {/* Content for Messages Tab */}
-    <Text>Messages Tab</Text>
-  </View>
-);
+import ForumListTab from "../components/ForumListTab";
+import ExploreTab from "../components/ExploreTab";
+import NotificationsTab from "../components/NotifcationsTab";
+import MessagesTab from "../components/MessagesTab";
+import styles from "../styles";
 
 const CommunityScreen = ({ navigation }) => {
   const [forumName, setForumName] = useState("");
   const [forumDescription, setForumDescription] = useState("");
-  const [forums, setForums] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLongPressActive, setIsLongPressActive] = useState(false);
   const [shouldKeepMenuOpen, setShouldKeepMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("ForumList");
   const longPressTimeout = useRef(null);
+  const [notificationCount, setNotificationCount] = useState(5);
+
+  const [forums, setForums] = useState([
+    // Initialize with 6 dummy items
+    {
+      id: "1",
+      name: "Forum 1",
+      description: "Description for Forum 1",
+      date: new Date().toLocaleDateString(),
+    },
+    {
+      id: "2",
+      name: "Forum 2",
+      description: "Description for Forum 2",
+      date: new Date().toLocaleDateString(),
+    },
+    {
+      id: "3",
+      name: "Forum 3",
+      description: "Description for Forum 3",
+      date: new Date().toLocaleDateString(),
+    },
+  ]);
+
+  const [posts, setPosts] = useState([
+    {
+      id: "1",
+      type: "tweet",
+      title: "Exciting news!",
+      content: "Just launched my new product. Check it out!",
+      date: "2023-11-17",
+      image: require("../assets/logo.png"),
+    },
+    {
+      id: "2",
+      type: "instagram",
+      title: "Moody Face",
+      content: "The face Ive got whilst I code this app 🌅 #MoodyFace",
+      date: "2023-11-16",
+      image: require("../assets/sunset.jpeg"),
+    },
+    {
+      id: "3",
+      type: "facebook",
+      title: "Fun day with friends",
+      content: "Had a great time with friends at the amusement park!",
+      date: "2023-11-15",
+      image: require("../assets/logo.png"),
+    },
+    {
+      id: "4",
+      type: "tweet",
+      title: "Exciting news!",
+      content: "Just launched my new product. Check it out!",
+      date: "2023-11-17",
+      image: require("../assets/logo.png"),
+    },
+    {
+      id: "5",
+      type: "instagram",
+      title: "Beautiful sunset",
+      content: "Enjoying the sunset at the beach. 🌅 #Nature",
+      date: "2023-11-16",
+      image: require("../assets/sunset.jpeg"),
+    },
+    {
+      id: "6",
+      type: "facebook",
+      title: "Fun day with friends",
+      content: "Had a great time with friends at the amusement park!",
+      date: "2023-11-15",
+      image: require("../assets/logo.png"),
+    },
+  ]);
 
   const createForum = () => {
     if (forumName.trim() === "") {
@@ -114,7 +164,6 @@ const CommunityScreen = ({ navigation }) => {
       borderRadius: 25,
       borderWidth: 2,
       borderColor: "black",
-      overflow: "hidden",
       padding: 14,
     };
 
@@ -130,12 +179,22 @@ const CommunityScreen = ({ navigation }) => {
             Vibration.vibrate(200);
           }}
         >
-          <Ionicons
-            name="mic-outline"
-            size={20}
-            color="#fff"
-            style={buttonStyle}
-          />
+          <View
+            style={{
+              backgroundColor: "#f0f0f0",
+              height: 50,
+              width: 50,
+              borderRadius: 25,
+            }}
+          >
+            <Ionicons
+              name="mic-outline"
+              size={20}
+              color="#fff"
+              borderRadius={20}
+              style={buttonStyle}
+            />
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -148,13 +207,22 @@ const CommunityScreen = ({ navigation }) => {
             Vibration.vibrate(200);
           }}
         >
-          <Ionicons
-            name="earth-outline"
-            size={20}
-            color="#fff"
-            style={buttonStyle}
-            onPress={() => navigation.navigate("People")}
-          />
+          <View
+            style={{
+              backgroundColor: "#f0f0f0",
+              height: 50,
+              width: 50,
+              borderRadius: 25,
+            }}
+          >
+            <Ionicons
+              name="earth-outline"
+              size={20}
+              color="#fff"
+              style={buttonStyle}
+              onPress={() => navigation.navigate("People")}
+            />
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -167,12 +235,21 @@ const CommunityScreen = ({ navigation }) => {
             Vibration.vibrate(200);
           }}
         >
-          <Ionicons
-            name="duplicate-outline"
-            size={20}
-            color="#fff"
-            style={buttonStyle}
-          />
+          <View
+            style={{
+              backgroundColor: "#f0f0f0",
+              height: 50,
+              width: 50,
+              borderRadius: 25,
+            }}
+          >
+            <Ionicons
+              name="duplicate-outline"
+              size={20}
+              color="#fff"
+              style={buttonStyle}
+            />
+          </View>
         </TouchableOpacity>
       </View>
     );
@@ -198,14 +275,71 @@ const CommunityScreen = ({ navigation }) => {
     </View>
   );
 
-  const renderTabContent = () => {
+  const renderPost = ({ item, navigation }) => (
+    <View style={styles.postContainer}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("Slideshow", { post: item });
+        }}
+      >
+        {item.type === "tweet" && (
+          <View style={[styles.postItem, styles.tweetItem]}>
+            <Ionicons name="logo-twitter" size={24} color="#1DA1F2" />
+            <View style={styles.postContentContainer}>
+              <Text style={styles.postTitle}>{item.title}</Text>
+              <Text style={styles.postDate}>{item.date}</Text>
+              <Text style={styles.postContent}>{item.content}</Text>
+            </View>
+          </View>
+        )}
+
+        {item.type === "instagram" && (
+          <View style={[styles.postItem, styles.instagramItem]}>
+            <Ionicons name="logo-instagram" size={24} color="#E1306C" />
+            <View style={styles.postContentContainer}>
+              <Image source={item.image} style={styles.postImage} />
+              <Text style={styles.postTitle}>{item.title}</Text>
+              <Text style={styles.postDate}>{item.date}</Text>
+              <Text style={styles.postContent}>{item.content}</Text>
+            </View>
+          </View>
+        )}
+
+        {item.type === "facebook" && (
+          <View style={[styles.postItem, styles.facebookItem]}>
+            <Ionicons name="logo-facebook" size={24} color="#1877F2" />
+            <View style={styles.postContentContainer}>
+              <Text style={styles.postTitle}>{item.title}</Text>
+              <Text style={styles.postDate}>{item.date}</Text>
+              <Text style={styles.postContent}>{item.content}</Text>
+            </View>
+          </View>
+        )}
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderTabContent = (
+    activeTab,
+    forums,
+    posts,
+    renderItem,
+    navigation,
+    notificationCount
+  ) => {
     switch (activeTab) {
       case "ForumList":
         return <ForumListTab forums={forums} renderItem={renderItem} />;
-      case "Explore":
-        return <ExploreTab />;
+      case "Feed":
+        return (
+          <FlatList
+            data={posts}
+            renderItem={({ item }) => renderPost({ item, navigation })}
+            keyExtractor={(item) => item.id}
+          />
+        );
       case "Notifications":
-        return <NotificationsTab />;
+        return <NotificationsTab notificationCount={notificationCount} />;
       case "Messages":
         return <MessagesTab />;
       default:
@@ -214,334 +348,166 @@ const CommunityScreen = ({ navigation }) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={closeLongPressMenu}>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.tabBar}>
-          <TouchableOpacity
-            style={[
-              styles.tabBarButton,
-              activeTab === "ForumList" && styles.activeTab,
-            ]}
-            onPress={() => setActiveTab("ForumList")}
-          >
-            <Ionicons
-              name="chatbox-outline"
-              size={24}
-              color={activeTab === "ForumList" ? "tomato" : "#000"}
-              style={[
-                styles.tabBarIcon,
-                activeTab === "ForumList" && styles.activeTabText,
-              ]}
-            />
-            <Text
-              style={[
-                {
-                  color: activeTab === "ForumList" ? "tomato" : "#000",
-                  fontSize: activeTab === "ForumList" ? 16 : 14,
-                },
-                activeTab === "ForumList" && styles.activeTabText,
-              ]}
-            >
-              Forums
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-  style={[
-    styles.tabBarButton,
-    activeTab === "Explore" && styles.activeTab,
-  ]}
-  onPress={() => setActiveTab("Explore")}
->
-  <Ionicons
-    name="search-outline"
-    size={24}
-    color={activeTab === "Explore" ? "#fff" : "#000"}
-    style={[styles.tabBarIcon, activeTab === "Explore" && styles.activeTabText]}
-  />
-  <Text
-    style={[
-      {
-        color: activeTab === "Explore" ? "#fff" : "#000",
-        fontSize: activeTab === "Explore" ? 16 : 14,
-      },
-      activeTab === "Explore" && styles.activeTabText,
-    ]}
-  >
-    Explore
-  </Text>
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={[
-    styles.tabBarButton,
-    activeTab === "Notifications" && styles.activeTab,
-  ]}
-  onPress={() => setActiveTab("Notifications")}
->
-  <Ionicons
-    name="notifications-outline"
-    size={24}
-    color={activeTab === "Notifications" ? "#fff" : "#000"}
-    style={[
-      styles.tabBarIcon,
-      activeTab === "Notifications" && styles.activeTabText,
-    ]}
-  />
-  <Text
-    style={[
-      {
-        color: activeTab === "Notifications" ? "#fff" : "#000",
-        fontSize: activeTab === "Notifications" ? 16 : 14,
-      },
-      activeTab === "Notifications" && styles.activeTabText,
-    ]}
-  >
-    Notifications
-  </Text>
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={[
-    styles.tabBarButton,
-    activeTab === "Messages" && styles.activeTab,
-  ]}
-  onPress={() => setActiveTab("Messages")}
->
-  <Ionicons
-    name="mail-outline"
-    size={24}
-    color={activeTab === "Messages" ? "#fff" : "#000"}
-    style={[styles.tabBarIcon, activeTab === "Messages" && styles.activeTabText]}
-  />
-  <Text
-    style={[
-      {
-        color: activeTab === "Messages" ? "#fff" : "#000",
-        fontSize: activeTab === "Messages" ? 16 : 14,
-      },
-      activeTab === "Messages" && styles.activeTabText,
-    ]}
-  >
-    Messages
-  </Text>
-</TouchableOpacity>
-
-        </View>
-
-        {renderTabContent()}
-
-        <TouchableWithoutFeedback
-          onPress={handleCreateButtonPress}
-          onLongPress={() => {
-            handleLongPress();
-            setShouldKeepMenuOpen(true);
-          }}
-          onPressOut={handlePressOut}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.tabBar}>
+        <TouchableOpacity
+          style={[
+            styles.tabBarButton,
+            activeTab === "ForumList" && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab("ForumList")}
         >
-          <View
+          <Ionicons
+            name="chatbox-outline"
+            size={24}
+            color={activeTab === "ForumList" ? "tomato" : "#000"}
             style={[
-              styles.createButton,
-              {
-                backgroundColor: isLongPressActive ? "black" : "tomato",
-                width: isLongPressActive ? 45 : 50,
-                height: isLongPressActive ? 45 : 50,
-              },
+              styles.tabBarIcon,
+              activeTab === "ForumList" && styles.activeTabText,
             ]}
-          >
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.tabBarButton,
+            activeTab === "Feed" && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab("Feed")}
+        >
+          <Ionicons
+            name="newspaper-outline"
+            size={24}
+            color={activeTab === "Feed" ? "#fff" : "#000"}
+            style={[
+              styles.tabBarIcon,
+              activeTab === "Feed" && styles.activeTabText,
+            ]}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.tabBarButton,
+            activeTab === "Notifications" && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab("Notifications")}
+        >
+          <Ionicons
+            name="notifications-outline"
+            size={24}
+            color={activeTab === "Notifications" ? "#fff" : "#000"}
+            style={[
+              styles.tabBarIcon,
+              activeTab === "Notifications" && styles.activeTabText,
+            ]}
+          />
+          {notificationCount > 0 && (
+            <View style={styles.badgeContainer}>
+              <Text style={styles.badgeText}>{notificationCount}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.tabBarButton,
+            activeTab === "Messages" && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab("Messages")}
+        >
+          <Ionicons
+            name="mail-outline"
+            size={18}
+            color={activeTab === "Messages" ? "#fff" : "#000"}
+            style={[
+              styles.tabBarIcon,
+              activeTab === "Messages" && styles.activeTabText,
+            ]}
+          />
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView style={{ flex: 1, marginBottom: 50 }}>
+        {renderTabContent(
+          activeTab,
+          forums,
+          posts,
+          renderItem,
+          navigation,
+          notificationCount
+        )}
+      </ScrollView>
+
+      <TouchableWithoutFeedback
+        onPress={handleCreateButtonPress}
+        onLongPress={() => {
+          handleLongPress();
+          setShouldKeepMenuOpen(true);
+        }}
+        onPressOut={handlePressOut}
+      >
+        <View
+          style={[
+            styles.createButton,
+            {
+              backgroundColor: isLongPressActive ? "black" : "tomato",
+              width: isLongPressActive ? 45 : 50,
+              height: isLongPressActive ? 45 : 50,
+            },
+          ]}
+        >
+          <Ionicons
+            name={isLongPressActive ? "close" : "add"}
+            size={isLongPressActive ? 24 : 30}
+            color="#fff"
+          />
+          {isLongPressActive && renderLongPressMenu()}
+        </View>
+      </TouchableWithoutFeedback>
+
+      <Modal visible={isModalVisible} animationType="slide">
+        <SafeAreaView style={styles.modalContainer}>
+          <View style={styles.modalHeaderContainer}>
             <Ionicons
-              name={isLongPressActive ? "close" : "add"}
-              size={isLongPressActive ? 24 : 30}
-              color="#fff"
+              name="close"
+              size={30}
+              color="black"
+              onPress={() => setIsModalVisible(false)}
             />
-            {isLongPressActive && renderLongPressMenu()}
+
+            <Ionicons
+              name="create"
+              size={30}
+              color="tomato"
+              onPress={createForum}
+            />
           </View>
-        </TouchableWithoutFeedback>
 
-        <Modal visible={isModalVisible} animationType="slide">
-          <SafeAreaView style={styles.modalContainer}>
-            <View style={styles.modalHeaderContainer}>
-              <Ionicons
-                name="close"
-                size={30}
-                color="black"
-                onPress={() => setIsModalVisible(false)}
-              />
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Forum Title:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter forum title"
+              value={forumName}
+              onChangeText={(text) => setForumName(text)}
+            />
+          </View>
 
-              <Ionicons
-                name="create"
-                size={30}
-                color="tomato"
-                onPress={createForum}
-              />
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Forum Title:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter forum title"
-                value={forumName}
-                onChangeText={(text) => setForumName(text)}
-              />
-            </View>
-
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Description:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter forum description"
-                value={forumDescription}
-                onChangeText={(text) => setForumDescription(text)}
-                multiline
-              />
-            </View>
-          </SafeAreaView>
-        </Modal>
-      </SafeAreaView>
-    </TouchableWithoutFeedback>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Description:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter forum description"
+              value={forumDescription}
+              onChangeText={(text) => setForumDescription(text)}
+              multiline
+            />
+          </View>
+        </SafeAreaView>
+      </Modal>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-    color: "#000",
-  },
-  createButton: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    backgroundColor: "tomato",
-    borderRadius: 25,
-    width: 50,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1,
-  },
-  createButtonText: {
-    color: "#fff",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  forumList: {
-    flex: 1,
-    width: "100%",
-  },
-  forumItem: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    backgroundColor: "#f0f0f0",
-    marginBottom: 10,
-    borderRadius: 10,
-  },
-  forumTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
-    color: "#000",
-  },
-  forumDate: {
-    fontSize: 14,
-    color: "#888",
-    marginBottom: 5,
-  },
-  forumDescription: {
-    fontSize: 16,
-    color: "#000",
-  },
-  modalContainer: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
-  },
-  modalHeaderContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    alignItems: "center",
-  },
-  inputContainer: {
-    width: "90%",
-    marginBottom: 20,
-    alignSelf: "center",
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 5,
-    color: "#000",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    fontSize: 16,
-    backgroundColor: "#fff",
-    color: "#000",
-  },
-  longPressMenu: {
-    position: "absolute",
-    bottom: 0,
-    right: 50,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 10,
-    flexDirection: "column",
-    alignItems: "flex-end",
-    zIndex: 2,
-  },
-  longPressMenuItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 5,
-  },
-  longPressMenuItemText: {
-    marginLeft: 5,
-    color: "#000",
-  },
-  tabBar: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    justifyContent: "space-around",
-    alignItems: "center",
-    elevation: 5,
-    paddingVertical: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: "#000",
-    
-  },
-  tabBarButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 6,
-    paddingVertical: 10,
-    borderRadius: 0,
-    backgroundColor:'#f0f0f0'
-  },
-  tabBarIcon: {
-    marginRight: 5,
-  },
-  activeTab: {
-    backgroundColor: "#000", 
-
-  },
-  activeTabText: {
-    color: "tomato", 
-    fontSize: 16,
-  },
-});
 
 export default CommunityScreen;

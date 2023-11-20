@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 8,
     elevation: 10,
+    height:250,
   },
   textContainer: {
     flex: 1,
@@ -89,18 +90,21 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   description: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#111',
-    
   },
   socialMediaContainer: {
     flexDirection: 'row',
-    margin: 15,
+    marginTop:10,
+    marginBottom:10,
     marginLeft:0,
     backgroundColor:'white',
-    width:100,
-    padding:10,
-    borderRadius:10
+    width:120,
+    alignSelf:'center',
+    padding:20,
+    borderRadius:10,
+    position: 'absolute',
+    bottom:0,
   },
   socialIcon: {
     marginRight: 8,
@@ -109,6 +113,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     justifyContent: 'center',
+    width:120,
     alignItems: 'center',
     backgroundColor: '#1E90FF',
   },
