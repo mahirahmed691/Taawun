@@ -16,6 +16,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import ForumListTab from "../components/ForumListTab";
 import ExploreTab from "../components/ExploreTab";
+import PrayerTab from "../components/PrayerTab";
 import NotificationsTab from "../components/NotifcationsTab";
 import MessagesTab from "../components/MessagesTab";
 import styles from "../styles";
@@ -342,6 +343,8 @@ const CommunityScreen = ({ navigation }) => {
         return <NotificationsTab notificationCount={notificationCount} />;
       case "Messages":
         return <MessagesTab />;
+      case "Prayer":
+        return <PrayerTab />;
       default:
         return null;
     }
@@ -389,6 +392,42 @@ const CommunityScreen = ({ navigation }) => {
         <TouchableOpacity
           style={[
             styles.tabBarButton,
+            activeTab === "Prayer" && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab("Prayer")}
+        >
+          <Ionicons
+            name="moon-outline"
+            size={24}
+            color={activeTab === "Prayer" ? "#fff" : "#000"}
+            style={[
+              styles.tabBarIcon,
+              activeTab === "Prayer" && styles.activeTabText,
+            ]}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.tabBarButton,
+            activeTab === "Messages" && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab("Messages")}
+        >
+          <Ionicons
+            name="mail-outline"
+            size={24}
+            color={activeTab === "Messages" ? "#fff" : "#000"}
+            style={[
+              styles.tabBarIcon,
+              activeTab === "Messages" && styles.activeTabText,
+            ]}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[
+            styles.tabBarButton,
             activeTab === "Notifications" && styles.activeTab,
           ]}
           onPress={() => setActiveTab("Notifications")}
@@ -408,24 +447,7 @@ const CommunityScreen = ({ navigation }) => {
             </View>
           )}
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.tabBarButton,
-            activeTab === "Messages" && styles.activeTab,
-          ]}
-          onPress={() => setActiveTab("Messages")}
-        >
-          <Ionicons
-            name="mail-outline"
-            size={18}
-            color={activeTab === "Messages" ? "#fff" : "#000"}
-            style={[
-              styles.tabBarIcon,
-              activeTab === "Messages" && styles.activeTabText,
-            ]}
-          />
-        </TouchableOpacity>
+        
       </View>
 
       <ScrollView style={{ flex: 1, marginBottom: 50 }}>

@@ -9,8 +9,9 @@ import {
   StatusBar,
   View,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
-import { Chip, IconButton } from "react-native-paper";
+import { Chip } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerActions } from "@react-navigation/native";
 import styles from "../styles.js";
@@ -79,38 +80,93 @@ const BoycottedPlacesScreen = ({ navigation }) => {
 
   const renderItem = ({ item }) => {
     const itemJoinCount = joinCounts[item.name] || 0;
+    const alternatives = item.alternatives || [];
 
     return (
-      <TouchableOpacity
-        style={styles.listItem}
-        onPress={() => navigation.navigate("PlaceDetail", { place: item })}
-      >
-        <ImageBackground
-          source={{ uri: item.image }}
-          style={styles.imageBackground}
+      <>
+        <TouchableOpacity
+          style={styles.listItem}
+          onPress={() => navigation.navigate("PlaceDetail", { place: item })}
         >
-          <Chip style={{ width: "40%", backgroundColor: "tomato", borderRadius:0, padding:2, top:0, position:'absolute', left:0 }}>
-            <Text style={{ color: "white", fontSize: 10 }}>
-              People Boycotting: {itemJoinCount}
-            </Text>
-          </Chip>
-          <TouchableOpacity
-            style={styles.joinBoycottButton}
-            onPress={() => handleJoinBoycott(item)}
+          <ImageBackground
+            source={{ uri: item.image }}
+            style={styles.imageBackground}
           >
-            <Text style={styles.joinBoycottButtonText}>Join Boycott</Text>
-          </TouchableOpacity>
-        </ImageBackground>
-        <View style={styles.topLeftContainer}>
-          <Text style={styles.joinCountText}>
-            {itemJoinCount} People Joined
+            <Chip
+              style={{
+                width: "40%",
+                backgroundColor: "tomato",
+                borderRadius: 0,
+                padding: 2,
+                top: 0,
+                position: "absolute",
+                left: 0,
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 10 }}>
+                People Boycotting: {itemJoinCount}
+              </Text>
+            </Chip>
+            <TouchableOpacity
+              style={styles.joinBoycottButton}
+              onPress={() => handleJoinBoycott(item)}
+            >
+              <Text style={styles.joinBoycottButtonText}>Join Boycott</Text>
+            </TouchableOpacity>
+          </ImageBackground>
+          <View style={styles.topLeftContainer}>
+            <Text style={styles.joinCountText}>
+              {itemJoinCount} People Joined
+            </Text>
+          </View>
+          <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
+          <Text style={{ fontWeight: "400", marginTop: 5 }}>
+            {item.description}
           </Text>
-        </View>
-        <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
-        <Text style={{ fontWeight: "400", marginTop: 5 }}>
-          {item.description}
-        </Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        {alternatives.length > 0 && (
+          <View
+            style={{
+              flexDirection: "row",
+              marginLeft: 15,
+              backgroundColor: "#000",
+              width: "90%",
+            }}
+          >
+            <Text
+              style={{
+                marginRight: 5,
+                fontWeight: "900",
+                marginTop: 5,
+                color: "white",
+                marginLeft: 5,
+                fontSize: 6,
+                width: 8,
+                textAlign: "center",
+              }}
+            >
+              {"ALTERNATIVE".split("").map((letter, index) => (
+                <Text key={index}>{letter + "\n"}</Text>
+              ))}
+            </Text>
+            <View style={styles.alternativeBrandsContainer}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.alternativeBrandsScrollView}
+              >
+                {alternatives.map((alternative, index) => (
+                  <Image
+                    key={index}
+                    source={{ uri: alternative }}
+                    style={styles.alternativeBrandImage}
+                  />
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+        )}
+      </>
     );
   };
 

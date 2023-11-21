@@ -1,10 +1,87 @@
 {
   "allowedTargets": [
     {
+      "name": "Abaya's Boutique",
+      "country": "United Kingdom",
+      "instagram": "abayasboutique",
+      "showcase": [
+        "https://abayasboutique.com/10690-superlarge_default_2x/viscose-flared-abaya-in-mauve-.jpg",
+        "https://abayasboutique.com/11133-superlarge_default_2x/zip-abaya-in-mosaic-blue.jpg",
+        "https://abayasboutique.com/11174-superlarge_default_2x/satin-trim-butterfly.jpg",
+        "https://abayasboutique.com/6717-superlarge_default_2x/cotton-zip-through-abaya-peach.jpg"
+      ],
+      "url": "http://www.abayasboutique.com/",
+      "description": "A genderless slow fashion brand handmade in Gaza. Anat aims to revive the textile industry in Gaza, which has been under a restrictive and unjust blockade for more than 10 years. For this reason, their garments are 100% made in Gaza, Palestine, from the denim, to the handmade embroidery, to the design",
+      "image": "https://instagram.flhr9-1.fna.fbcdn.net/v/t51.2885-19/398547183_862183518682506_238463638330060716_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.flhr9-1.fna.fbcdn.net&_nc_cat=106&_nc_ohc=JIJJw91oSCAAX9SzX2Z&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfDconq5tEqQx-VKpb4MUfBsRBrI_2i9AtvQE9pdjiqTZw&oe=6560C0F0&_nc_sid=8b3546"
+    },
+    {
       "name": "Taj Sisters",
       "country": "Germany",
+      "instagram": "tajsisters",
       "description": "Taj Sisters announced that a portion of their profits will be dedicated to help save Palestinians. They’ve shown their commitment to the cause, bringing it far beyond mere Instagram posts in solidarity.",
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgrAi8GQWe0ScEdUUNOCxmAvdHgi3Tvp3Vc6NLHqGmlcOJn6WJ21vXUIWcNz1ht449OZU&usqp=CAU"
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgrAi8GQWe0ScEdUUNOCxmAvdHgi3Tvp3Vc6NLHqGmlcOJn6WJ21vXUIWcNz1ht449OZU&usqp=CAU",
+      "showcase": [
+        "https://tajsisters.com/cdn/shop/files/IMG_8192_576x736.jpg?v=1688555636",
+        "https://tajsisters.com/cdn/shop/files/IMG_7972_576x736.jpg?v=1693994841",
+        "https://tajsisters.com/cdn/shop/files/IMG_8105_576x736.jpg?v=1693994807",
+        "https://tajsisters.com/cdn/shop/files/AD0A5715_576x736.jpg?v=1697991774"
+      ]
+    },
+    {
+      "name": "NòL Collective",
+      "instagram": "nolcollective",
+      "url": "https://nolcollective.com/",
+      "country": "Jenin - Palestine",
+      "showcase": [
+        "https://nolcollective.com/cdn/shop/files/IMG_6157_720x.jpg?v=1699120902",
+        "https://nolcollective.com/cdn/shop/files/2023.07.9.No.Collective16_900x.jpg?v=1691848835",
+        "https://nolcollective.com/cdn/shop/files/IMG_6393-2_720x.jpg?v=1699182476",
+        "https://nolcollective.com/cdn/shop/files/IMG_6290_720x.jpg?v=1699125656"
+      ],
+      "description": "Yasmeen, the founder of Nol Collective is the creative brains behind this exceptionally loved brand. She is an intersectional feminist and creates all her garments in Palestine. Her brand also tells stories to preserve the unique artisanship and collective heritage of her people.",
+      "image": "data:image/jpeg;base64,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"
+    },
+    {
+      "name": "Meera Adnan",
+      "instagram": "meera.adnan.label",
+      "url": "https://www.notjustalabel.com/meera-adnan",
+      "country": "Germany",
+      "showcase": [
+        "https://notjustalabel-prod.s3-accelerate.amazonaws.com/s3fs-public/styles/njal_large/public/uploads/collections/meera_adnan/_DSC8064.jpg?itok=8UXjuZlv",
+        "https://notjustalabel-prod.s3-accelerate.amazonaws.com/s3fs-public/styles/njal_large/public/uploads/collections/meera_adnan/_DSC8003.jpg?itok=5QEF3Jx4",
+        "https://notjustalabel-prod.s3-accelerate.amazonaws.com/s3fs-public/styles/njal_large/public/uploads/collections/meera_adnan/_DSC8257.jpg?itok=1dA5ONDS",
+        "https://notjustalabel-prod.s3-accelerate.amazonaws.com/s3fs-public/styles/njal_large/public/uploads/collections/meera_adnan/_DSC8227.jpg?itok=_4jx6WKn"
+      ],
+      "description": "An intersectional feminist and designer ‑ Meera, creates garments reminiscent of her homeland. She herself lives in Gaza and has launched a relief fund with Islamic Relief to help Palestinians get the aid they need the most.",
+      "image": "https://notjustalabel-prod.s3-accelerate.amazonaws.com/s3fs-public/BEB4B42B-DCF9-4377-B047-60B4A67DFDB0.JPEG"
+    },
+    {
+      "name": "Malak Mattar",
+      "instagram": "Malak_Mattar_Artist",
+      "country": "Palestine",
+      "url": "https://www.etsy.com/shop/MalakArtStore",
+      "showcase": [
+        "https://scontent-man2-1.cdninstagram.com/v/t39.30808-6/401790958_18387966481065516_3168871960647618999_n.jpg?stp=dst-jpg_e15&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDI0eDcwNS5zZHIifQ&_nc_ht=scontent-man2-1.cdninstagram.com&_nc_cat=100&_nc_ohc=J6LgO50ZEKAAX8g6pOB&edm=ACWDqb8AAAAA&ccb=7-5&ig_cache_key=MzIzNjc5NjUyNzMyMTIyNjI0Nw%3D%3D.2-ccb7-5&oh=00_AfCrWvppr2RzeNp6vINUqQA03jAp2S3Ybl6BMnfxhPH5Ww&oe=655F9729&_nc_sid=ee9879",
+        "https://scontent-man2-1.cdninstagram.com/v/t51.2885-15/297537046_1105081423428518_2590560077340090297_n.jpg?stp=dst-jpg_e35&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi41OTF4NDIyLnNkciJ9&_nc_ht=scontent-man2-1.cdninstagram.com&_nc_cat=102&_nc_ohc=5JgcSL_AiZAAX8qNlT_&edm=ABmJApABAAAA&ccb=7-5&ig_cache_key=Mjg5ODc4NDk0OTQ4MzI5NDgzMw%3D%3D.2-ccb7-5&oh=00_AfBntGdmGydQoRSFgnz93Sb5MMuaQE4_-XyftL9XCU7wxg&oe=656206C7&_nc_sid=b41fef",
+        "https://scontent-man2-1.cdninstagram.com/v/t51.2885-15/270229931_243579264577687_2602862197334994031_n.jpg?stp=dst-jpg_e35_p1080x1080&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDEyeDE3NjUuc2RyIn0&_nc_ht=scontent-man2-1.cdninstagram.com&_nc_cat=107&_nc_ohc=bEEMC4NhNgkAX9_xvtW&edm=ABmJApABAAAA&ccb=7-5&ig_cache_key=Mjc0MDM0NzI1Njk2NjI2OTIwNg%3D%3D.2-ccb7-5&oh=00_AfBthng3ROvx8Qbdv1StU0Vro1OIc4rEfBNI8W64HWeOwg&oe=655EF0B7&_nc_sid=b41fef",
+        "https://scontent-man2-1.cdninstagram.com/v/t51.2885-15/250146039_314462186802075_5039508721409361587_n.jpg?stp=dst-jpg_e35_p720x720&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMTc1eDEzODMuc2RyIn0&_nc_ht=scontent-man2-1.cdninstagram.com&_nc_cat=103&_nc_ohc=uQDZuPedLlUAX8ZKcdk&edm=ABmJApABAAAA&ccb=7-5&ig_cache_key=MjY5NjA0MjA1NTU4NTU2Njc0NQ%3D%3D.2-ccb7-5&oh=00_AfAkZueLMRC8FfIrgjxLA6U6aA2GCDoXsz9-ArNnO0Yf3Q&oe=6560D655&_nc_sid=b41fef"
+      ],
+      "description": "Malak Mattar is a Palestinian artist in Gaza, who uses her exceptional talent to voice the struggles of the Palestinian people.",
+      "image": "https://www.artshelp.com/content/images/2021/06/il_1588xN.3088142930_98gz.png"
+    },
+    {
+      "name": "Anat International",
+      "country": "Palestine",
+      "showcase": [
+        "https://anat-international.com/cdn/shop/products/MG_5172_1728x.jpg?v=1615087555",
+        "https://anat-international.com/cdn/shop/products/MG_4770_1728x.jpg?v=1615087555",
+        "https://anat-international.com/cdn/shop/products/image_1728x.jpg?v=1667711234",
+        "https://anat-international.com/cdn/shop/products/image_1728x.heic?v=1667711235"
+      ],
+      "instagram": "Anat.International",
+      "url": "https://anat-international.com/",
+      "description": "A genderless slow fashion brand handmade in Gaza. Anat aims to revive the textile industry in Gaza, which has been under a restrictive and unjust blockade for more than 10 years. For this reason, their garments are 100% made in Gaza, Palestine, from the denim, to the handmade embroidery, to the design",
+      "image": "https://cdn.shopify.com/s/files/1/0305/4606/7593/files/Skarmavbild_2020-02-11_kl._00.09.42.jpeg?height=628&pad_color=fff&v=1614304418&width=1200"
     }
   ]
 }

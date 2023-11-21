@@ -361,10 +361,10 @@ const styles = StyleSheet.create({
   },
   postContainer: {
     marginVertical: 10,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -374,39 +374,39 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   postItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   tweetItem: {
-    borderColor: '#1DA1F2',
+    borderColor: "#1DA1F2",
     borderLeftWidth: 5,
   },
   instagramItem: {
-    borderColor: '#E1306C',
+    borderColor: "#E1306C",
     borderLeftWidth: 5,
   },
   facebookItem: {
-    borderColor: '#1877F2',
+    borderColor: "#1877F2",
     borderLeftWidth: 5,
   },
   postContentContainer: {
     marginLeft: 10,
     flex: 1,
-    flexDirection:'column'
+    flexDirection: "column",
   },
   postTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   postDate: {
-    color: '#555',
+    color: "#555",
   },
   postContent: {
     marginTop: 5,
   },
   postImage: {
     marginTop: 10,
-    width: '100%',
+    width: "100%",
     height: 200,
     borderRadius: 10,
   },
@@ -434,9 +434,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 5,
     right: 30,
-    width:20
-    ,
-    height:20,
+    width: 20,
+    height: 20,
     backgroundColor: "tomato",
     borderRadius: 10,
     padding: 0,
@@ -444,8 +443,8 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     color: "#fff",
-    marginTop:2,
-    alignSelf:"center",
+    marginTop: 2,
+    alignSelf: "center",
   },
   createButton: {
     position: "absolute",
@@ -454,6 +453,36 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     alignItems: "center",
     justifyContent: "center",
+  },
+  instagramLink: {
+    position: "absolute",
+    top: -5,
+    right: 5,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    padding: 5,
+    borderRadius: 5,
+    color: "tomato",
+    fontWeight: "700",
+    fontSize:15
+  },
+  alternativeBrandsContainer: {
+    width:"100%",
+    marginLeft: "0%",
+    alignSelf:'flex-end',
+    flexDirection: "column",
+    backgroundColor:'#f0f0f0',
+    padding:5,
+  },
+  alternativeBrandsScrollView: {
+    alignItems: "center",
+  },
+  alternativeBrandImage: {
+    width: 80,
+    height: 80,
+    marginRight:10,
+    borderRadius:10,
+    borderWidth:1,
+    borderColor:'#f0f0f0'
   },
 });
 

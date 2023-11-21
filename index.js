@@ -1,6 +1,11 @@
-import { registerRootComponent } from 'expo';
+import { registerRootComponent } from "expo";
 
-import App from './App';
+import App from "./App";
+
+if (__DEV__) {
+  // Disable Hermes debugging to avoid _measure error
+  global.HermesInternal.disablePromiseRejectionTracking = true;
+}
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,

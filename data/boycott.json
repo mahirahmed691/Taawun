@@ -199,6 +199,10 @@
     },
     {
       "name": "Adidas",
+      "alternatives": [
+        "https://pbs.twimg.com/profile_images/1177300654420889600/ZFCygN_X_400x400.jpg",
+        "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg"
+      ],
       "country": "Germany",
       "industry": "Clothing",
       "description": "Sponsors events and engages in business practices indirectly supporting Israel's policies.",

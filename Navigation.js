@@ -13,6 +13,7 @@ import CommunityScreen from "./screens/CommunityScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import InfluencerScreen from "./screens/InfluencerScreen";
 import SlideshowScreen from "./components/SlideshowScreen";
+import PlaceDetail from "./screens/PlaceDetails";
 
 // Load fonts before rendering the app
 async function loadFonts() {
@@ -57,6 +58,7 @@ const BoycottedPlacesStack = () => (
       options={{ headerTitle: "People" }}
     />
     <Stack.Screen name="Slideshow" component={SlideshowScreen} />
+    <Stack.Screen name="PlaceDetails" component={PlaceDetail} />
   </Stack.Navigator>
 );
 
