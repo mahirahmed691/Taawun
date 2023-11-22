@@ -15,7 +15,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Your message here.",
+        "NSSpeechRecognitionUsageDescription": "Your message here."
+      },
       "bundleIdentifier": "com.mahir93.boycott"
     },
     "android": {
@@ -27,6 +30,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "793b7a03-e453-4ed0-866d-c546bfb3399e"
+      }
     }
   }
 }

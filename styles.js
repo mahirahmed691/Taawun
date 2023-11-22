@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f4f4",
   },
   cameraContainer: {
     flex: 1,
@@ -281,7 +280,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#fff"
   },
   modalHeaderContainer: {
     flexDirection: "row",
@@ -289,7 +288,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: 20,
     marginRight: 20,
-    alignItems: "center",
+    alignSelf: "center",
   },
   inputContainer: {
     width: "90%",
@@ -463,15 +462,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: "tomato",
     fontWeight: "700",
-    fontSize:15
+    fontSize: 15,
   },
   alternativeBrandsContainer: {
-    width:"100%",
+    width: "100%",
     marginLeft: "0%",
-    alignSelf:'flex-end',
+    alignSelf: "flex-end",
     flexDirection: "column",
-    backgroundColor:'#f0f0f0',
-    padding:5,
+    backgroundColor: "#f0f0f0",
+    padding: 5,
   },
   alternativeBrandsScrollView: {
     alignItems: "center",
@@ -479,10 +478,200 @@ const styles = StyleSheet.create({
   alternativeBrandImage: {
     width: 80,
     height: 80,
-    marginRight:10,
-    borderRadius:10,
-    borderWidth:1,
-    borderColor:'#f0f0f0'
+    marginRight: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
+  },
+
+  toggleAlternativesButton: {
+    backgroundColor: "#000",
+    width:'90%',
+    alignSelf:"center",
+    paddingVertical:10,
+    marginTop: 0,
+  },
+  toggleAlternativesButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  prayerTimeContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 5,
+    padding: 5,
+    backgroundColor: "#000",
+  },
+  prayerName: {
+    fontSize: 13,
+    fontWeight: "bold",
+    color: "#ff4d4d",
+  },
+  prayerTime: {
+    fontSize: 12,
+    color: "#fff",
+  },
+  locationContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+    padding: 10,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+  },
+  locationValue: {
+    fontSize: 10,
+    color: "#000",
+    fontWeight: "700",
+    marginLeft: 8,
+  },
+  duasContainer: {
+    marginTop: 10,
+    padding: 12,
+    backgroundColor: "#f0f0f0",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  duasHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#ff4d4d",
+    marginBottom: 8,
+  },
+  duaContainer: {
+    marginBottom: 12,
+  },
+  duaTitle: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#ff4d4d",
+  },
+  duaContent: {
+    fontSize: 10,
+    color: "#000",
+  },
+  languageToggleContainer: {
+    alignItems: "flex-end",
+    marginBottom: 8,
+  },
+  languageToggleText: {
+    fontSize: 12,
+    color: "#ff4d4d",
+    textDecorationLine: "underline",
+  },
+
+  zikrContainer: {
+    marginTop: 10,
+    padding: 12,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 8,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  zikrHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#ff4d4d",
+    marginBottom: 8,
+  },
+  zikrItemContainer: {
+    marginBottom: 12,
+    padding: 10,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  zikrTitle: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#ff4d4d",
+  },
+  zikrDescription: {
+    fontSize: 10,
+    color: "#000",
+  },
+  zikrCount: {
+    fontSize: 10,
+    color: "#555",
+  },
+
+  startZikrButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#ff4d4d",
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  startZikrButtonText: {
+    fontSize: 16,
+    color: "#fff",
+  },
+  modalContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalContent: {
+    backgroundColor: '#fff', // Set the background color
+    padding: 20, // Add padding to the content
+    borderRadius: 10, // Add border radius for rounded corners
+  },
+  stopCounterButton: {
+    backgroundColor: '#ff4d4d', // Customize the button color
+  },
+  counterText: {
+    fontSize: 36,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+    marginTop:"25%",
+    color: "#333",
+  },
+  currentZikrText: {
+    fontSize: 18,
+    textAlign: "center",
+    color: "#666",
+    marginBottom: 20,
+  },
+  stopCounterText: {
+    fontSize: 18,
+    color: "#ff4d4d",
+    textAlign: "center",
+  },
+  islamicImage: {
+    width: '100%',
+    height: 400,
+    resizeMode: 'cover',
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  islamicMessageContainer: {
+    backgroundColor: '#33cc33', // Background color for the message
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  islamicMessageText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff', // Text color for the message
   },
 });
 

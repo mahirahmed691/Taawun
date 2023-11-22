@@ -1,15 +1,34 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import { Button } from "react-native-paper";
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
+import * as Speech from "expo-speech";
+import Modal from "react-native-modal"; // Import the Modal component
+import styles from "../styles";
+
+const getRandomIslamicImage = async () => {
+  try {
+    const response = await fetch('https://your-heroku-app-name.herokuapp.com/getRandomIslamicImage');
+    const data = await response.json();
+
+    if (data.imageUrl) {
+      return data.imageUrl;
+    } else {
+      console.error('Invalid response format from server:', data);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching random Islamic image:', error);
+    return null;
+  }
+};
+
+
 
 const PrayerTab = () => {
+  const [currentZikrText, setCurrentZikrText] = useState("");
+  const [currentIslamicImageUrl, setCurrentIslamicImageUrl] = useState(null);
   const [prayerTimes, setPrayerTimes] = useState({
     Fajr: "Fetching...",
     Dhuhr: "Fetching...",
@@ -18,6 +37,7 @@ const PrayerTab = () => {
     Isha: "Fetching...",
   });
   const [locationData, setLocationData] = useState(null);
+  const [intervalId, setIntervalId] = useState(null);
   const [duas, setDuas] = useState([
     {
       title: "Dua for Fajr",
@@ -43,13 +63,14 @@ const PrayerTab = () => {
     },
   ]);
   const [isArabic, setIsArabic] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false); // State to control the modal
+  const [counter, setCounter] = useState(0);
 
   const toggleLanguage = () => {
     setIsArabic(!isArabic);
   };
 
   const getTranslatedDuaTitle = (dua) => {
-    // Add Arabic translations for dua titles here
     const arabicTitleTranslations = {
       "Dua for Fajr": "دعاء الفجر",
       "Dua for Dhuhr": "دعاء الظهر",
@@ -62,7 +83,6 @@ const PrayerTab = () => {
   };
 
   const getTranslatedDua = (dua) => {
-    // Add Arabic translations for dua content here
     const arabicTranslations = {
       "Dua for Fajr": "بسم الله الرحمن الرحيم",
       "Dua for Dhuhr": "اللهم إني أعوذ بك من الكسل والهرم",
@@ -72,6 +92,89 @@ const PrayerTab = () => {
     };
 
     return isArabic ? arabicTranslations[dua.title] : dua.content;
+  };
+
+  const [zikrItems, setZikrItems] = useState([
+    {
+      title: "SubhanAllah",
+      description: "Glory is to Allah.",
+    },
+    {
+      title: "Alhamdulillah",
+      description: "All praise is due to Allah.",
+    },
+    {
+      title: "Allahu Akbar",
+      description: "Allah is the Greatest.",
+    },
+    // Add more zikr items as needed
+  ]);
+
+  const [zikrCount, setZikrCount] = useState(0);
+
+  const handleZikrPress = async (zikr) => {
+    try {
+      // Set the current zikr text
+      setCurrentZikrText(zikr.title);
+
+      // Speak the zikr
+      await Speech.speak(zikr.title);
+
+      // Increment the zikr count
+      setZikrCount((prevCount) => prevCount + 1);
+
+      // Open the modal and start the counter
+      setCounter(100);
+      setModalVisible(true);
+      startCounter();
+    } catch (error) {
+      console.error("Error handling zikr press:", error);
+    }
+  };
+
+  const startCounter = () => {
+    const id = setInterval(() => {
+      setCounter((prevCounter) => {
+        if (prevCounter === 0) {
+          // Counter reached 0, close the modal
+          setModalVisible(false);
+          clearInterval(id);
+          return 0;
+        } else {
+          return prevCounter - 1;
+        }
+      });
+    }, 1000);
+
+    setIntervalId(id); // Save the intervalId to state
+  };
+
+  const stopCounter = () => {
+    // Stop the counter and close the modal
+    setModalVisible(false);
+    clearInterval(intervalId);
+  };
+
+  const startZikrSpeech = async () => {
+    console.log("Start Zikr Speech button pressed");
+
+    try {
+      // Your existing code to fetch prayer times and location can remain unchanged
+
+      // Simulate starting the zikr speech without actual speech recognition
+      console.log("Simulating start of Zikr speech...");
+
+      // Set up the event listener for simulated speech recognition results
+      const simulatedSpeechResults = "SubhanAllah"; // Replace with your desired zikr text
+      console.log("Simulated speech result:", simulatedSpeechResults);
+
+      // Handle the simulated spoken text as needed
+
+      // Simulate stopping speech recognition after receiving the result
+      console.log("Simulating stop of Zikr speech...");
+    } catch (error) {
+      console.error("Error starting zikr speech:", error);
+    }
   };
 
   useEffect(() => {
@@ -117,6 +220,19 @@ const PrayerTab = () => {
     fetchPrayerTimes();
   }, []);
 
+  useEffect(() => {
+    const fetchIslamicImage = async () => {
+      const imageUrl = await getRandomIslamicImage();
+      setCurrentIslamicImageUrl(imageUrl);
+    };
+
+    fetchIslamicImage();
+
+    const imageInterval = setInterval(fetchIslamicImage, 20000);
+
+    return () => clearInterval(imageInterval);
+  }, []);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.locationContainer}>
@@ -144,100 +260,57 @@ const PrayerTab = () => {
         <Ionicons name="book" size={24} color="#ff4d4d" />
         <Text style={styles.duasHeader}>Recommended Duas</Text>
         {duas.map((dua, index) => (
-          <View key={index} style={styles.duaContainer}>
-            <Text style={styles.duaTitle}>
-              {isArabic ? getTranslatedDuaTitle(dua) : dua.title}
-            </Text>
-            <Text style={styles.duaContent}>
-              {isArabic ? getTranslatedDua(dua) : dua.content}
-            </Text>
-          </View>
+          <TouchableOpacity
+            key={index}
+            style={styles.duaContainer}
+            onPress={() => handleZikrPress(dua)}
+          >
+            <Text style={styles.duaTitle}>{getTranslatedDuaTitle(dua)}</Text>
+            <Text style={styles.duaContent}>{getTranslatedDua(dua)}</Text>
+          </TouchableOpacity>
         ))}
+      </View>
+
+      <View style={styles.zikrContainer}>
+        <Ionicons name="heart" size={24} color="#ff4d4d" />
+        <Text style={styles.zikrHeader}>Recommended Zikr</Text>
+        {zikrItems.map((zikr, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.zikrItemContainer}
+            onPress={() => handleZikrPress(zikr)}
+          >
+            <Text style={styles.zikrTitle}>{zikr.title}</Text>
+            <Text style={styles.zikrDescription}>{zikr.description}</Text>
+            <Text style={styles.zikrCount}>Count: {zikrCount}</Text>
+          </TouchableOpacity>
+        ))}
+
+        {/* Modernized Modal for the counter with Zikr text */}
+        <Modal isVisible={modalVisible} style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            {currentIslamicImageUrl && (
+              <Image
+                source={{ uri: currentIslamicImageUrl }}
+                style={styles.islamicImage}
+              />
+            )}
+
+            <Text style={styles.counterText}>{counter}</Text>
+            <Text style={styles.currentZikrText}>{currentZikrText}</Text>
+
+            <Button
+              mode="contained"
+              onPress={stopCounter}
+              contentStyle={styles.stopCounterButton}
+            >
+              Stop Counter
+            </Button>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#f0f0f0",
-  },
-  prayerTimeContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 5,
-    padding: 10,
-    backgroundColor: "#000",
-    borderRadius: 8,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-  },
-  prayerName: {
-    fontSize: 13,
-    fontWeight: "bold",
-    color: "#ff4d4d",
-  },
-  prayerTime: {
-    fontSize: 12,
-    color: "#fff",
-  },
-  locationContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-  },
-  locationValue: {
-    fontSize: 10,
-    color: "#000",
-    fontWeight: "700",
-    marginLeft: 8,
-  },
-  duasContainer: {
-    marginTop: 10,
-    padding: 12,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 8,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-  },
-  duasHeader: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#ff4d4d",
-    marginBottom: 8,
-  },
-  duaContainer: {
-    marginBottom: 12,
-  },
-  duaTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: "#ff4d4d",
-  },
-  duaContent: {
-    fontSize: 10,
-    color: "#000",
-  },
-  languageToggleContainer: {
-    alignItems: "flex-end",
-    marginBottom: 8,
-  },
-  languageToggleText: {
-    fontSize: 12,
-    color: "#ff4d4d",
-    textDecorationLine: "underline",
-  },
-});
 
 export default PrayerTab;

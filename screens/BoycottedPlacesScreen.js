@@ -28,6 +28,7 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   const [currentSection, setCurrentSection] = useState("");
   const [currentIndustry, setCurrentIndustry] = useState("");
   const [industryFilter, setIndustryFilter] = useState(null);
+  const [areAlternativesVisible, setAreAlternativesVisible] = useState(false);
 
   const drawerNavigation = useNavigation();
 
@@ -124,46 +125,31 @@ const BoycottedPlacesScreen = ({ navigation }) => {
             {item.description}
           </Text>
         </TouchableOpacity>
-        {alternatives.length > 0 && (
-          <View
-            style={{
-              flexDirection: "row",
-              marginLeft: 15,
-              backgroundColor: "#000",
-              width: "90%",
-            }}
-          >
-            <Text
-              style={{
-                marginRight: 5,
-                fontWeight: "900",
-                marginTop: 5,
-                color: "white",
-                marginLeft: 5,
-                fontSize: 6,
-                width: 8,
-                textAlign: "center",
-              }}
+
+        <TouchableOpacity
+          style={styles.toggleAlternativesButton}
+          onPress={() => setAreAlternativesVisible(!areAlternativesVisible)}
+        >
+          <Text style={styles.toggleAlternativesButtonText}>
+            {areAlternativesVisible ? "Hide Alternatives" : "Show Alternatives"}
+          </Text>
+        </TouchableOpacity>
+
+        {areAlternativesVisible && alternatives.length > 0 && (
+          <View style={styles.alternativeBox}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.alternativeBrandsScrollView}
             >
-              {"ALTERNATIVE".split("").map((letter, index) => (
-                <Text key={index}>{letter + "\n"}</Text>
+              {alternatives.map((alternative, index) => (
+                <Image
+                  key={index}
+                  source={{ uri: alternative }}
+                  style={styles.alternativeBrandImage}
+                />
               ))}
-            </Text>
-            <View style={styles.alternativeBrandsContainer}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.alternativeBrandsScrollView}
-              >
-                {alternatives.map((alternative, index) => (
-                  <Image
-                    key={index}
-                    source={{ uri: alternative }}
-                    style={styles.alternativeBrandImage}
-                  />
-                ))}
-              </ScrollView>
-            </View>
+            </ScrollView>
           </View>
         )}
       </>
@@ -173,30 +159,6 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   const renderSectionHeader = ({ section }) => (
     <Text style={styles.sectionHeader}>{section.title}</Text>
   );
-
-  const handleJoinBoycott = (place) => {
-    setJoinCounts((prevCounts) => {
-      const updatedCounts = { ...prevCounts };
-      updatedCounts[place.name] = (prevCounts[place.name] || 0) + 1;
-      return updatedCounts;
-    });
-  };
-
-  const handleCategoryPress = (category) => {
-    setSelectedCategory(category);
-  };
-
-  const handleScroll = (event) => {
-    const offsetY = event.nativeEvent.contentOffset.y;
-
-    const currentSection = sectionedData.find(
-      (section) =>
-        offsetY >= section.offset && offsetY < section.offset + section.height
-    );
-
-    setCurrentSection(currentSection ? currentSection.title : "");
-    setCurrentIndustry(currentSection ? currentSection.data[0]?.industry : "");
-  };
 
   const renderFilterDropdown = () => {
     const industryOptions = [
@@ -266,19 +228,35 @@ const BoycottedPlacesScreen = ({ navigation }) => {
         keyExtractor={(item, index) => item.title + index}
         renderItem={({ item }) => (
           <View>
+            {renderDynamicHeader()}
             {renderSectionHeader({ section: item })}
             <FlatList
               data={item.data}
               keyExtractor={(item) => item.name}
               renderItem={renderItem}
-              onScroll={handleScroll}
+              onScroll={({ nativeEvent }) => {
+                const offsetY = nativeEvent.contentOffset.y;
+                setCurrentSection(
+                  sectionedData.find(
+                    (section) =>
+                      offsetY >= section.offset &&
+                      offsetY < section.offset + section.height
+                  )?.title || ""
+                );
+                setCurrentIndustry(
+                  sectionedData.find(
+                    (section) =>
+                      offsetY >= section.offset &&
+                      offsetY < section.offset + section.height
+                  )?.data[0]?.industry || ""
+                );
+              }}
               scrollEventThrottle={16}
             />
           </View>
         )}
       />
 
-      {renderDynamicHeader()}
       <StatusBar style="auto" />
     </SafeAreaView>
   );
