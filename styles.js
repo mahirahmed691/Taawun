@@ -278,9 +278,8 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   modalContainer: {
-    flex: 1,
     padding: 16,
-    backgroundColor: "#fff"
+    backgroundColor: "red",
   },
   modalHeaderContainer: {
     flexDirection: "row",
@@ -486,9 +485,9 @@ const styles = StyleSheet.create({
 
   toggleAlternativesButton: {
     backgroundColor: "#000",
-    width:'90%',
-    alignSelf:"center",
-    paddingVertical:10,
+    width: "90%",
+    alignSelf: "center",
+    paddingVertical: 10,
     marginTop: 0,
   },
   toggleAlternativesButtonText: {
@@ -609,70 +608,75 @@ const styles = StyleSheet.create({
   startZikrButton: {
     marginTop: 10,
     padding: 10,
-    backgroundColor: "#ff4d4d",
+    backgroundColor: "#fff",
     borderRadius: 8,
     alignItems: "center",
   },
   startZikrButtonText: {
     fontSize: 16,
-    color: "#fff",
+    color: "#000",
   },
   modalContainer: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 20,
   },
   modalContent: {
-    backgroundColor: '#fff', // Set the background color
-    padding: 20, // Add padding to the content
-    borderRadius: 10, // Add border radius for rounded corners
+    padding: 10,
+    borderRadius: 0,
+    backgroundColor: "transparent",
+    height: "100%",
+    verticalAlign: "middle",
   },
   stopCounterButton: {
-    backgroundColor: '#ff4d4d', // Customize the button color
+    backgroundColor: "white",
+    borderRadius: 0,
+    padding:10,
   },
   counterText: {
-    fontSize: 36,
+    fontSize: 15,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 30,
     textAlign: "center",
-    marginTop:"25%",
-    color: "#333",
+    marginTop: "0%",
+    color: "#000",
+    backgroundColor: "transparent",
+    zIndex: 10,
   },
   currentZikrText: {
-    fontSize: 18,
+    fontSize: 20,
     textAlign: "center",
-    color: "#666",
-    marginBottom: 20,
+    color: "#000",
+    fontWeight:'900',
+    zIndex: 10,
   },
   stopCounterText: {
     fontSize: 18,
-    color: "#ff4d4d",
+    color:"white",
     textAlign: "center",
   },
-  islamicImage: {
-    width: '100%',
-    height: 400,
-    resizeMode: 'cover',
-    borderRadius: 10,
-    marginBottom: 20,
-  },
   islamicMessageContainer: {
-    backgroundColor: '#33cc33', // Background color for the message
-    padding: 20,
+    paddingTop: 0,
     borderRadius: 10,
-    marginBottom: 20,
-    alignItems: 'center',
+    marginBottom: 0,
+    backgroundColor: "transparent",
   },
-  islamicMessageText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff', // Text color for the message
+  backgroundImage: {
+    ...StyleSheet.absoluteFillObject,
+    resizeMode: "contain",
+    alignSelf:'center',
   },
+  roundCounter:{
+    fontSize:15,
+    marginLeft:-0,
+    marginTop:-10,
+    fontWeight:'800',
+    fontFamily:"monospace",
+    color:"#000"
+  },
+  alternativeBox:{
+   marginLeft:20,
+   marginTop:5,
+  }
 });
 
 export default styles;

@@ -1,34 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  Vibration,
+  Animated,
+} from "react-native";
 import { Button } from "react-native-paper";
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
 import * as Speech from "expo-speech";
-import Modal from "react-native-modal"; // Import the Modal component
+import Modal from "react-native-modal";
 import styles from "../styles";
+import { Haptic } from "expo-haptics";
+import * as Animatable from "react-native-animatable";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
-const getRandomIslamicImage = async () => {
-  try {
-    const response = await fetch('https://your-heroku-app-name.herokuapp.com/getRandomIslamicImage');
-    const data = await response.json();
+const getRandomImageURL = () => {
+  const { width, height } = Dimensions.get("window");
 
-    if (data.imageUrl) {
-      return data.imageUrl;
-    } else {
-      console.error('Invalid response format from server:', data);
-      return null;
-    }
-  } catch (error) {
-    console.error('Error fetching random Islamic image:', error);
-    return null;
-  }
+  const randomImageNumber = Math.floor(Math.random() * 1000);
+
+  return `https://picsum.photos/${width}/${height}?image=${randomImageNumber}`;
 };
-
-
 
 const PrayerTab = () => {
   const [currentZikrText, setCurrentZikrText] = useState("");
-  const [currentIslamicImageUrl, setCurrentIslamicImageUrl] = useState(null);
+  const [currentImageUrl, setCurrentImageUrl] = useState(getRandomImageURL());
+  const [roundCounter, setRoundCounter] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentZikrTitle, setCurrentZikrTitle] = useState({
+    arabic: "",
+    english: "",
+  });
   const [prayerTimes, setPrayerTimes] = useState({
     Fajr: "Fetching...",
     Dhuhr: "Fetching...",
@@ -63,8 +70,9 @@ const PrayerTab = () => {
     },
   ]);
   const [isArabic, setIsArabic] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false); // State to control the modal
+  const [modalVisible, setModalVisible] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [emojiAnimation] = useState(new Animated.Value(0));
 
   const toggleLanguage = () => {
     setIsArabic(!isArabic);
@@ -94,9 +102,18 @@ const PrayerTab = () => {
     return isArabic ? arabicTranslations[dua.title] : dua.content;
   };
 
+  useEffect(() => {
+    const imageInterval = setInterval(() => {
+      setCurrentImageUrl(getRandomImageURL());
+    }, 20000);
+
+    return () => clearInterval(imageInterval);
+  }, []);
+
   const [zikrItems, setZikrItems] = useState([
     {
-      title: "SubhanAllah",
+      title: "سُبْحَانَ اللّٰه",
+      englishTitle: "SubhanAllah",
       description: "Glory is to Allah.",
     },
     {
@@ -112,69 +129,108 @@ const PrayerTab = () => {
 
   const [zikrCount, setZikrCount] = useState(0);
 
+  const [floatingEmojis, setFloatingEmojis] = useState([]);
+
+  const animateFloatingEmoji = () => {
+    const newFloatingEmojis = [...floatingEmojis];
+    const key = Date.now().toString();
+    newFloatingEmojis.push({
+      key,
+      emoji: "❤️",
+      translateY: new Animated.Value(Dimensions.get("window").height * 2),
+      translateX: new Animated.Value(100), // Change this to 0 for the top left
+      fontSize: 200,
+    });
+
+    setFloatingEmojis(newFloatingEmojis);
+
+    Animated.parallel([
+      Animated.timing(
+        newFloatingEmojis[newFloatingEmojis.length - 1].translateY,
+        {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }
+      ),
+      Animated.timing(
+        newFloatingEmojis[newFloatingEmojis.length - 1].translateX,
+        {
+          toValue: 0, // Change this to 0 for the top left
+          duration: 1000,
+          useNativeDriver: true,
+        }
+      ),
+    ]).start(() => {
+      // Remove the emoji after the animation is complete
+      setFloatingEmojis((prevEmojis) =>
+        prevEmojis.filter((item) => item.key !== key)
+      );
+    });
+  };
+
+  const handleModalPress = () => {
+    if (isModalOpen) {
+      Vibration.vibrate(10);
+    }
+  };
+
+  const handleHapticTouch = () => {
+    if (isModalOpen) {
+      Vibration.vibrate(50);
+    }
+
+    setZikrCount((prevCount) => prevCount + 1);
+  };
+
   const handleZikrPress = async (zikr) => {
     try {
-      // Set the current zikr text
-      setCurrentZikrText(zikr.title);
+      setCurrentZikrTitle({
+        arabic: zikr.title,
+        english: zikr.englishTitle || "", // Use the English title if available
+      });
 
-      // Speak the zikr
       await Speech.speak(zikr.title);
 
-      // Increment the zikr count
-      setZikrCount((prevCount) => prevCount + 1);
+      setZikrCount((prevCount) => {
+        const newCount = prevCount + 1;
 
-      // Open the modal and start the counter
-      setCounter(100);
+        if (newCount % 10 === 0) {
+          setRoundCounter((prevRoundCounter) => prevRoundCounter + 1);
+          return 0;
+        }
+
+        return newCount;
+      });
+
       setModalVisible(true);
-      startCounter();
+      setIsModalOpen(true);
+
+      if (isModalOpen) {
+        Vibration.vibrate(0);
+      }
+
+      if (counter % 100 === 0) {
+        setRoundCounter((prevRoundCounter) => prevRoundCounter + 1);
+        setCounter(0);
+      }
     } catch (error) {
       console.error("Error handling zikr press:", error);
     }
   };
 
-  const startCounter = () => {
-    const id = setInterval(() => {
-      setCounter((prevCounter) => {
-        if (prevCounter === 0) {
-          // Counter reached 0, close the modal
-          setModalVisible(false);
-          clearInterval(id);
-          return 0;
-        } else {
-          return prevCounter - 1;
-        }
-      });
-    }, 1000);
-
-    setIntervalId(id); // Save the intervalId to state
-  };
-
   const stopCounter = () => {
-    // Stop the counter and close the modal
     setModalVisible(false);
+    setIsModalOpen(false);
     clearInterval(intervalId);
+
+    setCounter(0);
+    setRoundCounter(0);
   };
 
-  const startZikrSpeech = async () => {
-    console.log("Start Zikr Speech button pressed");
-
-    try {
-      // Your existing code to fetch prayer times and location can remain unchanged
-
-      // Simulate starting the zikr speech without actual speech recognition
-      console.log("Simulating start of Zikr speech...");
-
-      // Set up the event listener for simulated speech recognition results
-      const simulatedSpeechResults = "SubhanAllah"; // Replace with your desired zikr text
-      console.log("Simulated speech result:", simulatedSpeechResults);
-
-      // Handle the simulated spoken text as needed
-
-      // Simulate stopping speech recognition after receiving the result
-      console.log("Simulating stop of Zikr speech...");
-    } catch (error) {
-      console.error("Error starting zikr speech:", error);
-    }
+  const handleEmojiPress = () => {
+    animateFloatingEmoji();
+    setCounter((prevCounter) => prevCounter + 1);
   };
 
   useEffect(() => {
@@ -198,8 +254,6 @@ const PrayerTab = () => {
             setLocationData(address[0]);
           }
 
-          // TODO: Fetch prayer times using latitude and longitude
-          // For this example, I'm using dummy data
           const dummyPrayerTimes = {
             Fajr: "5:30 AM",
             Dhuhr: "12:30 PM",
@@ -220,21 +274,11 @@ const PrayerTab = () => {
     fetchPrayerTimes();
   }, []);
 
-  useEffect(() => {
-    const fetchIslamicImage = async () => {
-      const imageUrl = await getRandomIslamicImage();
-      setCurrentIslamicImageUrl(imageUrl);
-    };
-
-    fetchIslamicImage();
-
-    const imageInterval = setInterval(fetchIslamicImage, 20000);
-
-    return () => clearInterval(imageInterval);
-  }, []);
-
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      onTouchStart={handleHapticTouch}
+    >
       <View style={styles.locationContainer}>
         <Ionicons name="location" size={18} color="#ff4d4d" />
         <Text style={styles.locationValue}>
@@ -278,35 +322,96 @@ const PrayerTab = () => {
           <TouchableOpacity
             key={index}
             style={styles.zikrItemContainer}
-            onPress={() => handleZikrPress(zikr)}
+            onPress={() => {
+              handleZikrPress(zikr);
+              handleEmojiPress();
+            }}
           >
             <Text style={styles.zikrTitle}>{zikr.title}</Text>
             <Text style={styles.zikrDescription}>{zikr.description}</Text>
             <Text style={styles.zikrCount}>Count: {zikrCount}</Text>
           </TouchableOpacity>
         ))}
+        <Modal
+          isVisible={modalVisible}
+          onBackdropPress={handleModalPress}
+          style={{ ...styles.modalContainer, height: "100%", margin: 0 }}
+        >
+          <TouchableOpacity
+            style={{ flex: 1 }}
+            activeOpacity={1}
+            onPress={handleEmojiPress}
+          >
+            <View style={styles.modalContent}>
+              <View
+                style={{
+                  zIndex: 1,
+                  marginTop: "70%",
+                  width: "100%",
+                  borderRadius: 10,
+                  position: "absolute",
+                  alignSelf: "center",
+                  paddingBottom: 40,
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  source={require("../assets/islamicbg.avif")}
+                  style={styles.backgroundImage}
+                />
+                <View style={{flexDirection:'row', justifyContent:'space-between',  padding:40}}>
+                  <Text style={styles.roundCounter}>
+                    Rounds: {roundCounter}
+                  </Text>
+                </View>
 
-        {/* Modernized Modal for the counter with Zikr text */}
-        <Modal isVisible={modalVisible} style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            {currentIslamicImageUrl && (
+                <Text style={styles.counterText}>{counter}</Text>
+                <Text style={styles.currentZikrText}>
+                  Say {"\n"}
+                  {currentZikrTitle.arabic}
+                </Text>
+                {currentZikrTitle.english && (
+                  <Text style={styles.currentZikrText}>
+                    {currentZikrTitle.english}
+                  </Text>
+                )}
+              </View>
+              <Animated.View
+                style={{ ...styles.floatingEmojisContainer, zIndex: 2 }}
+              >
+                {floatingEmojis.map((item) => (
+                  <Animatable.Text
+                    key={item.key}
+                    animation="slideInUp"
+                    iterationCount={1}
+                    style={[
+                      styles.floatingEmoji,
+                      { transform: [{ translateY: item.translateY }] },
+                    ]}
+                  >
+                    {item.emoji}
+                  </Animatable.Text>
+                ))}
+              </Animated.View>
+
               <Image
-                source={{ uri: currentIslamicImageUrl }}
-                style={styles.islamicImage}
+                source={{ uri: currentImageUrl }}
+                style={styles.backgroundImage}
               />
-            )}
-
-            <Text style={styles.counterText}>{counter}</Text>
-            <Text style={styles.currentZikrText}>{currentZikrText}</Text>
-
-            <Button
-              mode="contained"
-              onPress={stopCounter}
-              contentStyle={styles.stopCounterButton}
-            >
-              Stop Counter
-            </Button>
-          </View>
+              <Button
+                onPress={stopCounter}
+                contentStyle={styles.stopCounterButton}
+                style={{
+                  position: "absolute",
+                  bottom: 50,
+                  width: "100%",
+                  alignSelf: "center",
+                }}
+              >
+                <Text style={{ color: "#000" }}> Stop Zikr</Text>
+              </Button>
+            </View>
+          </TouchableOpacity>
         </Modal>
       </View>
     </ScrollView>
