@@ -15,7 +15,6 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ForumListTab from "../components/ForumListTab";
-import ExploreTab from "../components/ExploreTab";
 import PrayerTab from "../components/PrayerTab";
 import NotificationsTab from "../components/NotifcationsTab";
 import MessagesTab from "../components/MessagesTab";
@@ -159,12 +158,12 @@ const CommunityScreen = ({ navigation }) => {
 
   const renderLongPressMenu = () => {
     const buttonStyle = {
-      color: "tomato",
+      color: "#094349",
       width: 50,
       height: 50,
       borderRadius: 25,
       borderWidth: 2,
-      borderColor: "black",
+      borderColor: "#094349",
       padding: 14,
     };
 
@@ -363,7 +362,7 @@ const CommunityScreen = ({ navigation }) => {
           <Ionicons
             name="chatbox-outline"
             size={24}
-            color={activeTab === "ForumList" ? "tomato" : "#000"}
+            color={activeTab === "ForumList" ? "tomato" : "#094349"}
             style={[
               styles.tabBarIcon,
               activeTab === "ForumList" && styles.activeTabText,
@@ -381,7 +380,7 @@ const CommunityScreen = ({ navigation }) => {
           <Ionicons
             name="newspaper-outline"
             size={24}
-            color={activeTab === "Feed" ? "#fff" : "#000"}
+            color={activeTab === "Feed" ? "#fff" : "#094349"}
             style={[
               styles.tabBarIcon,
               activeTab === "Feed" && styles.activeTabText,
@@ -399,7 +398,7 @@ const CommunityScreen = ({ navigation }) => {
           <Ionicons
             name="moon-outline"
             size={24}
-            color={activeTab === "Prayer" ? "#fff" : "#000"}
+            color={activeTab === "Prayer" ? "#fff" : "#094349"}
             style={[
               styles.tabBarIcon,
               activeTab === "Prayer" && styles.activeTabText,
@@ -417,7 +416,7 @@ const CommunityScreen = ({ navigation }) => {
           <Ionicons
             name="mail-outline"
             size={24}
-            color={activeTab === "Messages" ? "#fff" : "#000"}
+            color={activeTab === "Messages" ? "#fff" : "#094349"}
             style={[
               styles.tabBarIcon,
               activeTab === "Messages" && styles.activeTabText,
@@ -435,7 +434,7 @@ const CommunityScreen = ({ navigation }) => {
           <Ionicons
             name="notifications-outline"
             size={24}
-            color={activeTab === "Notifications" ? "#fff" : "#000"}
+            color={activeTab === "Notifications" ? "#fff" : "#094349"}
             style={[
               styles.tabBarIcon,
               activeTab === "Notifications" && styles.activeTabText,
@@ -447,7 +446,6 @@ const CommunityScreen = ({ navigation }) => {
             </View>
           )}
         </TouchableOpacity>
-        
       </View>
 
       <ScrollView style={{ flex: 1, marginBottom: 50 }}>

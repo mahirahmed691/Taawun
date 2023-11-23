@@ -90,7 +90,7 @@ const BarcodeScanner = () => {
 
       {!isScanning && (
         <Image
-          source={require("../assets/barcode.avif")}
+          source={require("../assets/logo.png")}
           style={{ width: 200, height: 50, marginBottom: 10 }}
         />
       )}

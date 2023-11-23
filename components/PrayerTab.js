@@ -8,6 +8,7 @@ import {
   Dimensions,
   Vibration,
   Animated,
+  ImageBackground
 } from "react-native";
 import { Button } from "react-native-paper";
 import * as Location from "expo-location";
@@ -15,9 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Speech from "expo-speech";
 import Modal from "react-native-modal";
 import styles from "../styles";
-import { Haptic } from "expo-haptics";
 import * as Animatable from "react-native-animatable";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const getRandomImageURL = () => {
   const { width, height } = Dimensions.get("window");
@@ -25,6 +24,28 @@ const getRandomImageURL = () => {
   const randomImageNumber = Math.floor(Math.random() * 1000);
 
   return `https://picsum.photos/${width}/${height}?image=${randomImageNumber}`;
+};
+
+const calculateTimeUntilPrayer = (currentTime, prayerTimes) => {
+  const prayerNames = Object.keys(prayerTimes);
+  let timeUntil = "";
+  let nextPrayer = "";
+
+  for (let i = 0; i < prayerNames.length; i++) {
+    const prayerTime = new Date(
+      `${currentTime.toDateString()} ${prayerTimes[prayerNames[i]]}`
+    );
+    if (prayerTime > currentTime) {
+      const timeDiff = Math.floor((prayerTime - currentTime) / (60 * 1000)); // in minutes
+      const hours = Math.floor(timeDiff / 60);
+      const minutes = timeDiff % 60;
+      timeUntil = `${hours}h ${minutes}m`;
+      nextPrayer = prayerNames[i];
+      break;
+    }
+  }
+
+  return { timeUntil, nextPrayer };
 };
 
 const PrayerTab = () => {
@@ -45,6 +66,9 @@ const PrayerTab = () => {
   });
   const [locationData, setLocationData] = useState(null);
   const [intervalId, setIntervalId] = useState(null);
+  const [timeUntilNextPrayer, setTimeUntilNextPrayer] = useState("");
+  const [nextPrayer, setNextPrayer] = useState("");
+  const [clockIntervalId, setClockIntervalId] = useState(null);
   const [duas, setDuas] = useState([
     {
       title: "Dua for Fajr",
@@ -73,6 +97,34 @@ const PrayerTab = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [counter, setCounter] = useState(0);
   const [emojiAnimation] = useState(new Animated.Value(0));
+ 
+  const Clock = () => {
+    const [currentTime, setCurrentTime] = useState(new Date());
+  
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        setCurrentTime(new Date());
+      }, 1000);
+  
+      return () => clearInterval(intervalId);
+    }, []);
+  
+    const formattedTime = currentTime.toLocaleTimeString([], { timeStyle: 'short' });
+  
+    return (
+      <View style={styles.clockContainer}>
+        <ImageBackground
+          source={require('../assets/logo.png')}  // Replace with your clock background image
+          style={styles.clockBackground}
+          resizeMode="cover"
+        >
+          <Ionicons name="time" size={48} color="#fff" style={styles.clockIcon} />
+          <Text style={styles.clockValue}>{formattedTime}</Text>
+        </ImageBackground>
+      </View>
+    );
+  };
+  
 
   const toggleLanguage = () => {
     setIsArabic(!isArabic);
@@ -219,6 +271,17 @@ const PrayerTab = () => {
     }
   };
 
+  const updateTimeUntilNextPrayer = () => {
+    const currentTime = new Date();
+    const { timeUntil, nextPrayer } = calculateTimeUntilPrayer(
+      currentTime,
+      prayerTimes
+    );
+
+    setTimeUntilNextPrayer(timeUntil);
+    setNextPrayer(nextPrayer);
+  };
+
   const stopCounter = () => {
     setModalVisible(false);
     setIsModalOpen(false);
@@ -274,17 +337,22 @@ const PrayerTab = () => {
     fetchPrayerTimes();
   }, []);
 
+  useEffect(() => {
+    updateTimeUntilNextPrayer();
+
+    const clockInterval = setInterval(updateTimeUntilNextPrayer, 1000);
+    setClockIntervalId(clockInterval);
+
+    return () => clearInterval(clockInterval);
+  }, []);
+
   return (
     <ScrollView
       contentContainerStyle={styles.container}
       onTouchStart={handleHapticTouch}
     >
-      <View style={styles.locationContainer}>
-        <Ionicons name="location" size={18} color="#ff4d4d" />
-        <Text style={styles.locationValue}>
-          {locationData?.city}, {locationData?.country}{" "}
-        </Text>
-      </View>
+    
+      <Clock />
 
       {Object.entries(prayerTimes).map(([prayerName, time]) => (
         <View key={prayerName} style={styles.prayerTimeContainer}>
@@ -356,10 +424,16 @@ const PrayerTab = () => {
                 }}
               >
                 <Image
-                  source={require("../assets/islamicbg.avif")}
+                  source={require("../assets/logo.png")}
                   style={styles.backgroundImage}
                 />
-                <View style={{flexDirection:'row', justifyContent:'space-between',  padding:40}}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    padding: 40,
+                  }}
+                >
                   <Text style={styles.roundCounter}>
                     Rounds: {roundCounter}
                   </Text>

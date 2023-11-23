@@ -420,7 +420,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   activeTab: {
-    backgroundColor: "#000",
+    backgroundColor: "#094349",
   },
   tabBarIcon: {
     marginBottom: 3,
@@ -496,22 +496,31 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   prayerTimeContainer: {
+    margin:10,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 5,
-    padding: 5,
-    backgroundColor: "#000",
+    marginBottom: 2,
+    paddingVertical:20,
+    backgroundColor: "#094349",
   },
   prayerName: {
-    fontSize: 13,
+    paddingTop:10,
+    fontSize: 16,
+    position:'absolute',
+    left:10,
     fontWeight: "bold",
     color: "#ff4d4d",
   },
   prayerTime: {
-    fontSize: 12,
+    paddingTop:10,
+    fontSize: 16,
     color: "#fff",
+    fontWeight:'700',
+    position:'absolute',
+    right:10,
   },
   locationContainer: {
+    
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
@@ -676,7 +685,47 @@ const styles = StyleSheet.create({
   alternativeBox:{
    marginLeft:20,
    marginTop:5,
-  }
+  },
+  roundClockContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  roundClockTime: {
+    // Your styles for time text
+  },
+  roundClockNextPrayer: {
+    // Your styles for next prayer text
+  },
+
+clockContainer: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginVertical: 50,  // Adjust as needed
+  paddingHorizontal: 50,
+},
+
+clockBackground: {
+  width: '100%',
+  height: 200,  // Adjust the height as needed
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex:-1
+},
+
+clockIcon: {
+  marginBottom: 10,
+  fontSize: 48, 
+  backgroundColor:'black'
+},
+
+clockValue: {
+  fontSize: 24,  // Adjust the font size as needed
+  color: '#fff',
+  textAlign: 'center',
+  zIndex:100,
+  backgroundColor:'pink'
+},
 });
 
 export default styles;

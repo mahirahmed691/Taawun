@@ -36,6 +36,12 @@ const BoycottedPlacesScreen = ({ navigation }) => {
     drawerNavigation.dispatch(DrawerActions.openDrawer());
   };
 
+  const handleJoinBoycott = (place) => {
+    const updatedJoinCounts = { ...joinCounts };
+    updatedJoinCounts[place.name] = (joinCounts[place.name] || 0) + 1;
+    setJoinCounts(updatedJoinCounts);
+  };
+
   const filteredPlaces = boycottedPlaces.filter((place) => {
     const matchesSearch = place.name
       ? place.name.toLowerCase().includes(search.toLowerCase())
@@ -95,16 +101,17 @@ const BoycottedPlacesScreen = ({ navigation }) => {
           >
             <Chip
               style={{
-                width: "40%",
-                backgroundColor: "tomato",
+                width: "50%",
+                backgroundColor: "#094349",
                 borderRadius: 0,
                 padding: 2,
                 top: 0,
+    
                 position: "absolute",
                 left: 0,
               }}
             >
-              <Text style={{ color: "white", fontSize: 10 }}>
+              <Text style={{ color: "white", fontSize: 10, fontWeight:'900', alignSelf:'center' }}>
                 People Boycotting: {itemJoinCount}
               </Text>
             </Chip>

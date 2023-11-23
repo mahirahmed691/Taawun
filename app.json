@@ -7,9 +7,10 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#000"
+      "image": "./assets/logo.png",
+      "width":100,
+      "resizeMode": "contain",
+      "backgroundColor": "#094349"
     },
     "assetBundlePatterns": [
       "**/*"
