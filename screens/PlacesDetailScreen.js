@@ -10,28 +10,10 @@ import {
   Linking,
 } from "react-native";
 import styles from "../styles";
+import { ScrollView } from "react-native-gesture-handler";
 
-const PlaceDetailScreen = ({ route }) => {
+const PlacesDetailScreen = ({ route }) => {
   const { place } = route.params;
-
-  const renderNewsArticle = ({ item }) => (
-    <View style={styles.newsArticleContainer}>
-      <TouchableOpacity onPress={() => openURL(item.url)}>
-        <Image
-          source={{ uri: item.image }}
-          style={styles.newsArticleImage}
-          onError={(error) =>
-            console.error(
-              "News article image loading error:",
-              error.nativeEvent.error
-            )
-          }
-        />
-      </TouchableOpacity>
-      <Text style={styles.newsArticleTitle}>{item.title}</Text>
-      <Text style={styles.newsArticleDescription}>{item.description}</Text>
-    </View>
-  );
 
   const openURL = (url) => {
     Linking.openURL(url).catch((err) =>
@@ -68,6 +50,15 @@ const PlaceDetailScreen = ({ route }) => {
     );
   };
 
+  const renderAlternative = ({ item, index }) => (
+    <TouchableOpacity onPress={() => openURL(item)}>
+      <ScrollView showsVerticalScrollIndicator style={styles.alternativeContainer}>
+        <Image source={{ uri: item }} style={{ height: 80, width: 80, marginTop: 5, margin: 5 }} />
+      </ScrollView>
+    </TouchableOpacity>
+  );
+  
+
   return (
     <SafeAreaView style={styles.container}>
       <Image
@@ -77,10 +68,15 @@ const PlaceDetailScreen = ({ route }) => {
           console.error("Main image loading error:", error.nativeEvent.error)
         }
       />
-      <Text style={styles.descriptionText}>
-        {place.description}
-      </Text>
-      <Text style={styles.sectionHeader}>Sources</Text>
+      <Text style={styles.descriptionText}>{place.description}</Text>
+      <Text style={styles.sectionHeader2}>Alternatives</Text>
+      <FlatList
+        data={place.alternatives}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={renderAlternative}
+        horizontal 
+      />
+      <Text style={styles.sectionHeader2}>Sources</Text>
       <FlatList
         data={place.urls}
         keyExtractor={(item, index) => index.toString()}
@@ -90,4 +86,4 @@ const PlaceDetailScreen = ({ route }) => {
   );
 };
 
-export default PlaceDetailScreen;
+export default PlacesDetailScreen;

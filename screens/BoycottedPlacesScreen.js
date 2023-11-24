@@ -9,7 +9,6 @@ import {
   StatusBar,
   View,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import { Chip } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -29,12 +28,17 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   const [currentIndustry, setCurrentIndustry] = useState("");
   const [industryFilter, setIndustryFilter] = useState(null);
   const [areAlternativesVisible, setAreAlternativesVisible] = useState(false);
+  const [viewAsTiles, setViewAsTiles] = useState(false);
 
   const drawerNavigation = useNavigation();
 
   const openDrawer = () => {
     drawerNavigation.dispatch(DrawerActions.openDrawer());
   };
+
+  const renderSectionHeader = ({ section }) => (
+    <Text style={styles.sectionHeader}>{section.title}</Text>
+  );
 
   const handleJoinBoycott = (place) => {
     const updatedJoinCounts = { ...joinCounts };
@@ -91,102 +95,59 @@ const BoycottedPlacesScreen = ({ navigation }) => {
 
     return (
       <>
-        <TouchableOpacity
-          style={styles.listItem}
-          onPress={() => navigation.navigate("PlaceDetail", { place: item })}
-        >
-          <ImageBackground
-            source={{ uri: item.image }}
-            style={styles.imageBackground}
+        {viewAsTiles ? (
+          <TouchableOpacity
+            style={styles.tileItemContainer}
+            onPress={() => navigation.navigate("PlaceDetail", { place: item })}
           >
-            <Chip
-              style={{
-                width: "50%",
-                backgroundColor: "#094349",
-                borderRadius: 0,
-                padding: 2,
-                top: 0,
-    
-                position: "absolute",
-                left: 0,
-              }}
+            <Image source={{ uri: item.image }} style={styles.tileItemImage} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.listItem}
+            onPress={() => navigation.navigate("PlaceDetail", { place: item })}
+          >
+            <ImageBackground
+              source={{ uri: item.image }}
+              style={styles.imageBackground}
             >
-              <Text style={{ color: "white", fontSize: 10, fontWeight:'900', alignSelf:'center' }}>
-                People Boycotting: {itemJoinCount}
-              </Text>
-            </Chip>
-            <TouchableOpacity
-              style={styles.joinBoycottButton}
-              onPress={() => handleJoinBoycott(item)}
-            >
-              <Text style={styles.joinBoycottButtonText}>Join Boycott</Text>
-            </TouchableOpacity>
-          </ImageBackground>
-          <View style={styles.topLeftContainer}>
-            <Text style={styles.joinCountText}>
-              {itemJoinCount} People Joined
+              <Chip
+                style={{
+                  width: "50%",
+                  backgroundColor: "crimson",
+                  borderRadius: 0,
+                  padding: 3,
+                  top: 0,
+
+                  position: "absolute",
+                  left: 0,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 15,
+                    fontWeight: "800",
+                    alignSelf: "center",
+                  }}
+                >
+                  Boycotting: {itemJoinCount}
+                </Text>
+              </Chip>
+              <TouchableOpacity
+                style={styles.joinBoycottButton}
+                onPress={() => handleJoinBoycott(item)}
+              >
+                <Text style={styles.joinBoycottButtonText}>Join Boycott</Text>
+              </TouchableOpacity>
+            </ImageBackground>
+            <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
+            <Text style={{ fontWeight: "400", marginTop: 5 }}>
+              {item.description}
             </Text>
-          </View>
-          <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
-          <Text style={{ fontWeight: "400", marginTop: 5 }}>
-            {item.description}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.toggleAlternativesButton}
-          onPress={() => setAreAlternativesVisible(!areAlternativesVisible)}
-        >
-          <Text style={styles.toggleAlternativesButtonText}>
-            {areAlternativesVisible ? "Hide Alternatives" : "Show Alternatives"}
-          </Text>
-        </TouchableOpacity>
-
-        {areAlternativesVisible && alternatives.length > 0 && (
-          <View style={styles.alternativeBox}>
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.alternativeBrandsScrollView}
-            >
-              {alternatives.map((alternative, index) => (
-                <Image
-                  key={index}
-                  source={{ uri: alternative }}
-                  style={styles.alternativeBrandImage}
-                />
-              ))}
-            </ScrollView>
-          </View>
+          </TouchableOpacity>
         )}
       </>
-    );
-  };
-
-  const renderSectionHeader = ({ section }) => (
-    <Text style={styles.sectionHeader}>{section.title}</Text>
-  );
-
-  const renderFilterDropdown = () => {
-    const industryOptions = [
-      { key: 0, section: true, label: "Select Industry" },
-      { key: 1, label: "All Industries" },
-      ...boycottedPlaces.reduce((options, place) => {
-        if (!options.find((opt) => opt.label === place.industry)) {
-          options.push({ key: options.length + 2, label: place.industry });
-        }
-        return options;
-      }, []),
-    ];
-
-    return (
-      <ModalSelector
-        data={industryOptions}
-        initValue="Select Industry"
-        onChange={(option) => setIndustryFilter(option.label)}
-        animationType="none"
-        style={{ backgroundColor: "white" }}
-      />
     );
   };
 
@@ -209,6 +170,16 @@ const BoycottedPlacesScreen = ({ navigation }) => {
     );
   };
 
+  // Render item for the tile view
+  const renderTileItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.tileItemContainer}
+      onPress={() => navigation.navigate("PlaceDetail", { place: item })}
+    >
+      <Image source={{ uri: item.image }} style={styles.tileItemImage} />
+    </TouchableOpacity>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -228,41 +199,63 @@ const BoycottedPlacesScreen = ({ navigation }) => {
         </Text>
       ) : null}
 
-      {renderFilterDropdown()}
-
-      <FlatList
-        data={sectionedData}
-        keyExtractor={(item, index) => item.title + index}
-        renderItem={({ item }) => (
-          <View>
-            {renderDynamicHeader()}
-            {renderSectionHeader({ section: item })}
+      {viewAsTiles ? (
+        <FlatList
+          data={sectionedData}
+          keyExtractor={(item, index) => item.title + index + "tile"}
+          renderItem={({ item }) => (
             <FlatList
               data={item.data}
-              keyExtractor={(item) => item.name}
-              renderItem={renderItem}
-              onScroll={({ nativeEvent }) => {
-                const offsetY = nativeEvent.contentOffset.y;
-                setCurrentSection(
-                  sectionedData.find(
-                    (section) =>
-                      offsetY >= section.offset &&
-                      offsetY < section.offset + section.height
-                  )?.title || ""
-                );
-                setCurrentIndustry(
-                  sectionedData.find(
-                    (section) =>
-                      offsetY >= section.offset &&
-                      offsetY < section.offset + section.height
-                  )?.data[0]?.industry || ""
-                );
-              }}
-              scrollEventThrottle={16}
+              keyExtractor={(item) => item.name + "tile"}
+              renderItem={renderTileItem}
+              horizontal
             />
-          </View>
-        )}
-      />
+          )}
+        />
+      ) : (
+        <FlatList
+          data={sectionedData}
+          keyExtractor={(item, index) => item.title + index}
+          renderItem={({ item }) => (
+            <View>
+              {renderDynamicHeader()}
+              {renderSectionHeader({ section: item })}
+              <FlatList
+                data={item.data}
+                keyExtractor={(item) => item.name}
+                renderItem={renderItem}
+                onScroll={({ nativeEvent }) => {
+                  const offsetY = nativeEvent.contentOffset.y;
+                  setCurrentSection(
+                    sectionedData.find(
+                      (section) =>
+                        offsetY >= section.offset &&
+                        offsetY < section.offset + section.height
+                    )?.title || ""
+                  );
+                  setCurrentIndustry(
+                    sectionedData.find(
+                      (section) =>
+                        offsetY >= section.offset &&
+                        offsetY < section.offset + section.height
+                    )?.data[0]?.industry || ""
+                  );
+                }}
+                scrollEventThrottle={16}
+              />
+            </View>
+          )}
+        />
+      )}
+
+      <TouchableOpacity
+        style={styles.toggleViewButton}
+        onPress={() => setViewAsTiles(!viewAsTiles)}
+      >
+        <Text style={styles.toggleViewButtonText}>
+          {viewAsTiles ? "List View" : "Tile View"}
+        </Text>
+      </TouchableOpacity>
 
       <StatusBar style="auto" />
     </SafeAreaView>

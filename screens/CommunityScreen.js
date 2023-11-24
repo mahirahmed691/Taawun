@@ -11,7 +11,6 @@ import {
   FlatList,
   Image,
   ScrollView,
-  Dimensions, // Import Dimensions
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ForumListTab from "../components/ForumListTab";
@@ -19,6 +18,7 @@ import PrayerTab from "../components/PrayerTab";
 import NotificationsTab from "../components/NotifcationsTab";
 import MessagesTab from "../components/MessagesTab";
 import styles from "../styles";
+import ForumComment from "../components/ForumComment";
 
 const CommunityScreen = ({ navigation }) => {
   const [forumName, setForumName] = useState("");
@@ -167,6 +167,18 @@ const CommunityScreen = ({ navigation }) => {
       padding: 14,
     };
 
+    const handleForumCommentAdd = (forumId, comment) => {
+      // Find the forum by ID
+      const updatedForums = forums.map((forum) =>
+        forum.id === forumId
+          ? { ...forum, comments: [...(forum.comments || []), comment] }
+          : forum
+      );
+
+      // Update the state with the new comments
+      setForums(updatedForums);
+    };
+
     return (
       <View style={styles.longPressMenu}>
         <TouchableOpacity
@@ -260,6 +272,7 @@ const CommunityScreen = ({ navigation }) => {
       <Text style={styles.forumTitle}>{item.name}</Text>
       <Text style={styles.forumDate}>{item.date}</Text>
       <Text style={styles.forumDescription}>{item.description}</Text>
+
       <View
         style={{
           flexDirection: "row",
@@ -267,7 +280,12 @@ const CommunityScreen = ({ navigation }) => {
           marginTop: 10,
         }}
       >
-        <Ionicons name="chatbox-outline" size={20} color="#111" />
+        <ForumComment
+          forumComments={item.comments || []}
+          onAddForumComment={(comment) =>
+            handleForumCommentAdd(item.id, comment)
+          }
+        />
         <Ionicons name="flame-outline" size={20} color="#111" />
         <Ionicons name="bookmarks-outline" size={20} color="#111" />
         <Ionicons name="share-social-outline" size={20} color="#111" />

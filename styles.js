@@ -86,16 +86,26 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
   sectionHeader: {
-    backgroundColor: "#f4f4f4",
-    padding: 10,
     marginLeft: 10,
     fontSize: 30,
     fontWeight: "bold",
+    color:'black',
+  },
+
+  sectionHeader2: {
+    fontSize: 20,
+    padding:1,
+    fontWeight: "900",
+    letterSpacing:1,
+    color:'white',
+    backgroundColor:'teal'
   },
   detailImage: {
     width: "100%",
-    height: 200,
+    height: 150,
+    alignSelf:'center',
     resizeMode: "cover",
+
   },
   urlContainer: {
     backgroundColor: "#e0e0e0",
@@ -109,7 +119,7 @@ const styles = StyleSheet.create({
   descriptionText: {
     fontWeight: "900",
     color: "white",
-    backgroundColor: "teal",
+    backgroundColor: "#000",
     padding: 5,
   },
   urlContainer: {
@@ -178,7 +188,7 @@ const styles = StyleSheet.create({
     top: 10,
     left: 10,
     marginLeft: 5,
-    color: "white",
+    color: "red",
     zIndex: 100,
   },
   dynamicHeaderContainer: {
@@ -287,7 +297,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: 20,
     marginRight: 20,
-    alignSelf: "center",
   },
   inputContainer: {
     width: "90%",
@@ -473,11 +482,12 @@ const styles = StyleSheet.create({
   },
   alternativeBrandsScrollView: {
     alignItems: "center",
+    marginLeft: 20,
   },
   alternativeBrandImage: {
     width: 80,
     height: 80,
-    marginRight: 10,
+    marginRight: 5,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#f0f0f0",
@@ -627,7 +637,7 @@ const styles = StyleSheet.create({
   roundCounter: {
     fontSize: 18,
     fontWeight: "bold",
-    color:'white'
+    color: "white",
   },
   counterText: {
     fontSize: 32,
@@ -652,6 +662,33 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     padding: 10,
   },
+  tileItemContainer: {
+    flex: 1,
+    margin: 5,
+    borderRadius: 0,
+    overflow: "hidden",
+
+    flexDirection:'row' // Ensure a square aspect ratio for the tiles
+  },
+  tileItemImage: {
+    width: 60,
+    height: 60,
+    flexDirection:'row', 
+    resizeMode:'contain'
+  },
+  toggleViewButton:{
+    backgroundColor:'#000',
+    padding:15,
+  },
+  toggleViewButtonText:{
+    color:'white',
+    alignSelf:'center',
+    fontSize:15
+  },
+  alternativeContainer:{
+    height:150,
+    backgroundColor:'#f0f0f0'
+  }
 });
 
 export default styles;

@@ -65,7 +65,7 @@ const AllowedScreen = ({navigation}) => {
       <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom:10 }}>
         <Text style={{ fontWeight: "bold", marginTop:10, fontSize:20, }}>{item.name}</Text>
         <Button
-          mode="contained"
+          mode="outlined"
           onPress={() => openInstagram(item.instagram)}
           theme={{
             colors: {

@@ -6,7 +6,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import BoycottedPlacesScreen from "./screens/BoycottedPlacesScreen";
-import PlaceDetailScreen from "./screens/PlacedDetailScreen";
+import PlacesDetailScreen from "./screens/PlacesDetailScreen";
 import BarcodeScanner from "./screens/BarcodeScanner";
 import AllowedScreen from "./screens/AllowedScreen";
 import CommunityScreen from "./screens/CommunityScreen";
@@ -48,7 +48,7 @@ const BoycottedPlacesStack = () => (
     />
     <Stack.Screen
       name="PlaceDetail"
-      component={PlaceDetailScreen}
+      component={PlacesDetailScreen}
       options={{ headerTitle: "Place Details" }}
     />
 
@@ -97,8 +97,8 @@ const TabNavigation = () => {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Barcode") {
             iconName = focused ? "barcode" : "barcode-outline";
-          } else if (route.name === "Verified") {
-            iconName = focused ? "shield-checkmark" : "checkmark-outline";
+          } else if (route.name === "Shop") {
+            iconName = focused ? "receipt" : "receipt-outline";
           } else if (route.name === "Community") {
             iconName = focused ? "chatbubble" : "chatbubble-outline";
           } else if (route.name === "Settings") {
@@ -138,7 +138,7 @@ const TabNavigation = () => {
         options={{
           headerShown: false,
         }}
-        name="Verified"
+        name="Shop"
         component={AllowedScreen}
       />
 
@@ -166,7 +166,7 @@ const getHeaderTitle = (route) => {
     case "Barcode":
       return "Barcode Scanner";
     case "Verified":
-      return "Verified Places";
+      return "Shop";
     default:
       return "FromTheRiver 🇵🇸🕊️";
   }

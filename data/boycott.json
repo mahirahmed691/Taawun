@@ -3,6 +3,10 @@
     {
       "name": "Siemens",
       "country": "Germany",
+      "alternatives": [
+        "https://pbs.twimg.com/profile_images/1177300654420889600/ZFCygN_X_400x400.jpg",
+        "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg"
+      ],
       "description": "Main contractor for the Euro-Asia Interconnector, planned to connect Israel’s illegal settlements to Europe.",
       "industry": "Technology",
       "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAflBMVEX///8AAADs7OxOTk7Y2Nj09PTV1dVFRUWysrL6+vo2NjYuLi6/v794eHhCQkLIyMg9PT23t7fe3t6Tk5NfX1/k5OSoqKh3d3eBgYGIiIi9vb1aWlr29vZxcXHKyspkZGSfn58lJSUZGRkSEhKZmZkODg6QkJAgICApKSlUVFQKC4u8AAAGNUlEQVR4nO2aa3uiOhRGQRFFUcRaq/XaDrX6///gFDXJzmVHWsPMec6865OSsBMWEHYCUQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAHyJJ8UFPuOn+7K/9xdsvPmNCtEqtKh7Jxb3aTcVUzvoEaUbBp0IYriHkEPV/hlSwpD8flclUtimdG1SF2UOmHEo1o4UBGd+1qkN/qWgVHGv/VKhYHtGjQhvBBt82Nw9ySsk+HhtnTUIt5PtjCCq4D2rFEfVr0LVkFJ2tE44+tYiFr0KANlyzVyytLUjS0NOymjrBDI8SK78EvarYFWXGPxLdLH5YV6zebT9bmzEXOmQg2u3ZllSr8s136uKy3prIcrUv2spY9UmjM2pW1VeEdA9PjsuJxM1kdb+yTGL29taZ0jG9DVqzCr+3CALLYm0iX9e6N/cSfT8VWC9iKLHXlOgpDyKLDIivLmQ1IpG/6BOgvkl6W9ZLyFvSguXpAFps6kDZ2jsIgsqYNZHkjy4ccPVQylke7rv6/qaxB7uBVHLSjJ10R5+godMoaFc42WFnyJuJlaSeqSuuEO5uVL9d6aiSaqUqvkcbCyseayPJPlFS9N/lLlMmU99OOpsmaMsFZWXF6T1alNmsjT/lBnoRRlKpqm+gOIWWtZbDCPMilHe1BWbG4ODhZKrM/GeG0lJTIWng7EYWVdZZD6upaVIr/+5Ud7VFZ61shJ0s9iMeumAJyG8Zbe+6sEVJWNxG/bnM0eXIHLVxZ4kLgZM3V5p4zqtX/mvNqseMm20Fl9SNjF/V3bEd7WNbticbJorPSp5k7sGXgxttL6RLcRFaepBauVGqiLv1LJHWFR/dkDWd2E6k8SYysd68sI9nsLhe5UxmXwpwLq+pP86yzU5bs4OV5I4ew8V1ZTmR3GFnXpxwna+ba43NMk3/zAAxOP8mzXMwdbU3IzLUu6Yo/+c9kyQk5J+uSGbFJ6YnZaWtcYK7M+cZerxlWlvqT0pKsLVn10M3KYlf04rU+Cntmh7+0oSuwLCmlIp2dRCFlaVO+oW8ivedD6ylVyVfUMtXAsuTa0JSsP1ZBZaXahbDyrWe5HnQ39OWEDrtIqIUMLGsj/2SRnOKkQWUV+rpPQteEzZVSuj5voNuKEvYyJBdhYFmRfDmQqyOMAsvSnl/vVIi1Bl/wa1rm5CYrGbXfkzWyOakTo+rVsp7En6W8I/cNZH0M7Tbe5SqAKSuNGewXFlHe5SpnduVOXu0/zHoqgWgiyztbMGTJ43gb06j3ZE28TZiy1Cm5L+tr74H7FntyVf5iszt+uOuFnO5M9L9094DTnUtiPfmGrJpOYV8y754W6fNR3UTBZc1jg0ufQsvaxE5YWRc2hf7Sy3fHkFc+KjMNLsvK8Jb11tCymIzTL8voSOyZXdMmX+TG4LKsd3WF0ccwstxvRu/LogcsF1u/Gjga1cg5r1z7hpEVmUPDZWN4Wc6pny3LWiomaZm8suoXjH3tKBMS9HtPw+/JMk55ty1ZrleolqwjuXzM7src4WZmqcYwbUql9m0iq0hcpFbrV1m53v9DI1nDmbONZ48sV1Zryqrf5ay0LWu7shr+zou003su9O9ESIbx8/eGwrjaMHHtO2ski2Hrk+WYKBuybmZUrp7SL6wOzfpB4oWXZeRA0SOyXryyrOHRkKU6sl/sZrOi0j/Uut6FlRnDgN7GLcjSmt+2KctaDKWysjd/7Ov1lvk/iNA/BmtBljZzK9uUZX3OQGT5Pjeqkevi/OpMrH+B0oosbcbTa1WWeaREFr9OatbkPyA5GS/F2pBFBl7xyWRbsoyO3n1hIVjTID1mbcZ6Q92GLKJBJMZtyTJWa7QBPuOXlU0NHXs+MDK+O63RHl0PyhKZJUkXRfb7ojaFlaV/PDvSy1LX17dfDx3XDLoYk2fr3P6CpmbbVUzkcJZNu3cRZ1FVlWsZZ7FFJubHvtwkevo6udtE/3Zhbkh3JmZKPic7GK+uvnTZV9eRnZD00nJxWJSpf8byf0ZbLe5Wpmpgskny8jVP/t0rBgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf5rfdNxaBszfaE8AAAAASUVORK5CYII="
@@ -10,6 +14,10 @@
     {
       "name": "L'oreal",
       "country": "Paris",
+      "alternatives": [
+        "https://pbs.twimg.com/profile_images/1177300654420889600/ZFCygN_X_400x400.jpg",
+        "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg"
+      ],
       "description": "Main contractor for the Euro-Asia Interconnector, planned to connect Israel’s illegal settlements to Europe.",
       "industry": "Cosmetics",
       "image": "https://m.media-amazon.com/images/S/abs-image-upload-na/a/AmazonStores/A1F83G8C2ARO7P/85e4e11a6f2eaa973df97a1f8ecbe063.w1500.h1500.jpg"
@@ -17,6 +25,10 @@
     {
       "name": "Maybelline",
       "country": "New York",
+      "alternatives": [
+        "https://pbs.twimg.com/profile_images/1177300654420889600/ZFCygN_X_400x400.jpg",
+        "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg"
+      ],
       "description": "Main contractor for the Euro-Asia Interconnector, planned to connect Israel’s illegal settlements to Europe.",
       "industry": "Cosmetics",
       "image": "https://1000logos.net/wp-content/uploads/2021/04/Maybelline-logo.png"
@@ -24,6 +36,10 @@
     {
       "name": "PUMA",
       "country": "Germany",
+      "alternatives": [
+        "https://pbs.twimg.com/profile_images/1177300654420889600/ZFCygN_X_400x400.jpg",
+        "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg"
+      ],
       "description": "Sponsors the Israel Football Association, which governs teams in Israel’s illegal settlements.",
       "industry": "Clothing",
       "image": "https://assets.turbologo.com/blog/en/2019/11/19084917/puma-logo-cover.png"
@@ -31,6 +47,10 @@
     {
       "name": "Carrefour",
       "country": "France",
+      "alternatives": [
+        "https://pbs.twimg.com/profile_images/1177300654420889600/ZFCygN_X_400x400.jpg",
+        "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg"
+      ],
       "description": "Supports Israeli soldiers in the genocide of Palestinians and partners with companies involved in violations.",
       "industry": "Supermarket",
       "image": "https://logos-world.net/wp-content/uploads/2020/12/Carrefour-Logo.png"
@@ -38,6 +58,10 @@
     {
       "name": "AXA",
       "country": "France",
+      "alternatives": [
+        "https://pbs.twimg.com/profile_images/1177300654420889600/ZFCygN_X_400x400.jpg",
+        "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg"
+      ],
       "description": "Invests in Israeli banks financing war crimes and the theft of Palestinian land and resources.",
       "industry": "Insaurance",
       "image": "https://www.adviserhome.co.uk/cd-content/uploads/images/axa__logo.png"
@@ -200,6 +224,10 @@
     {
       "name": "Adidas",
       "alternatives": [
+        "https://pbs.twimg.com/profile_images/1177300654420889600/ZFCygN_X_400x400.jpg",
+        "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg",
+        "data:image/png;base64,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",
+        "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg",
         "https://pbs.twimg.com/profile_images/1177300654420889600/ZFCygN_X_400x400.jpg",
         "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg"
       ],
