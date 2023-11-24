@@ -168,7 +168,7 @@ const getHeaderTitle = (route) => {
     case "Verified":
       return "Verified Places";
     default:
-      return "Revolt";
+      return "FromTheRiver 🇵🇸🕊️";
   }
 };
 

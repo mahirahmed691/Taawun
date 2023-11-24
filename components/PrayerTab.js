@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   View,
   Text,
@@ -8,8 +8,9 @@ import {
   Dimensions,
   Vibration,
   Animated,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
+import debounce from "lodash/debounce";
 import { Button } from "react-native-paper";
 import * as Location from "expo-location";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,6 +18,7 @@ import * as Speech from "expo-speech";
 import Modal from "react-native-modal";
 import styles from "../styles";
 import * as Animatable from "react-native-animatable";
+import FastImage from "react-native-fast-image";
 
 const getRandomImageURL = () => {
   const { width, height } = Dimensions.get("window");
@@ -92,39 +94,95 @@ const PrayerTab = () => {
       content:
         "Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.",
     },
+    {
+      title: "Dua for Sunrise",
+      content: "O Allah, bless this day with goodness and prosperity.",
+    },
+    {
+      title: "Dua for Sunset",
+      content: "O Allah, thank you for the blessings of this day.",
+    },
+    {
+      title: "Dua for Rain",
+      content:
+        "O Allah, bless us with beneficial rain and make it a source of mercy.",
+    },
+    {
+      title: "Dua for Travel",
+      content: "O Allah, protect us on our journey and bring us back safely.",
+    },
+    // Add more duas as needed
   ]);
+
   const [isArabic, setIsArabic] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [counter, setCounter] = useState(0);
   const [emojiAnimation] = useState(new Animated.Value(0));
- 
-  const Clock = () => {
-    const [currentTime, setCurrentTime] = useState(new Date());
-  
-    useEffect(() => {
-      const intervalId = setInterval(() => {
-        setCurrentTime(new Date());
-      }, 1000);
-  
-      return () => clearInterval(intervalId);
-    }, []);
-  
-    const formattedTime = currentTime.toLocaleTimeString([], { timeStyle: 'short' });
-  
-    return (
-      <View style={styles.clockContainer}>
-        <ImageBackground
-          source={require('../assets/logo.png')}  // Replace with your clock background image
-          style={styles.clockBackground}
-          resizeMode="cover"
-        >
-          <Ionicons name="time" size={48} color="#fff" style={styles.clockIcon} />
-          <Text style={styles.clockValue}>{formattedTime}</Text>
-        </ImageBackground>
-      </View>
-    );
+
+  const Clock = React.memo(
+    ({ timeUntilNextPrayer, nextPrayer, nextPrayerTime }) => {
+      const [currentTime, setCurrentTime] = useState(new Date());
+
+      useEffect(() => {
+        const clockInterval = setInterval(() => {
+          setCurrentTime(new Date());
+        }, 1000);
+
+        return () => clearInterval(clockInterval);
+      }, []);
+
+      const formattedTime = currentTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      });
+
+      const [hours, minutes, seconds] = formattedTime.split(":");
+
+      return (
+        <View style={styles.clockContainer}>
+          <ImageBackground
+            source={require("../assets/logo.png")}
+            style={styles.clockBackground}
+            resizeMode="cover"
+          >
+            <View style={styles.clockOverlay}>
+              <View style={styles.timeContainer}>
+                <Text style={styles.timeSegment}>{hours}</Text>
+                <Text style={styles.timeSeparator}>:</Text>
+                <Text style={styles.timeSegment}>{minutes}</Text>
+              </View>
+
+              <Text style={styles.seconds}>{seconds}</Text>
+            </View>
+          </ImageBackground>
+        </View>
+      );
+    }
+  );
+
+  const debouncedUpdateImage = useMemo(() => {
+    return debounce(() => {
+      setCurrentImageUrl(getRandomImageURL());
+    }, 20000);
+  }, []);
+
+  const preloadClockImage = async () => {
+    await Image.prefetch(require("../assets/logo.png"));
   };
-  
+
+  useEffect(() => {
+    preloadClockImage();
+  }, []);
+
+  useEffect(() => {
+    const imageInterval = setInterval(() => {
+      debouncedUpdateImage();
+    }, 20000);
+
+    return () => clearInterval(imageInterval);
+  }, [debouncedUpdateImage]);
 
   const toggleLanguage = () => {
     setIsArabic(!isArabic);
@@ -239,10 +297,14 @@ const PrayerTab = () => {
     try {
       setCurrentZikrTitle({
         arabic: zikr.title,
-        english: zikr.englishTitle || "", // Use the English title if available
+        english: zikr.englishTitle || "",
       });
 
       await Speech.speak(zikr.title);
+
+      if (zikr.content) {
+        await Speech.speak(zikr.content);
+      }
 
       setZikrCount((prevCount) => {
         const newCount = prevCount + 1;
@@ -269,17 +331,6 @@ const PrayerTab = () => {
     } catch (error) {
       console.error("Error handling zikr press:", error);
     }
-  };
-
-  const updateTimeUntilNextPrayer = () => {
-    const currentTime = new Date();
-    const { timeUntil, nextPrayer } = calculateTimeUntilPrayer(
-      currentTime,
-      prayerTimes
-    );
-
-    setTimeUntilNextPrayer(timeUntil);
-    setNextPrayer(nextPrayer);
   };
 
   const stopCounter = () => {
@@ -337,22 +388,48 @@ const PrayerTab = () => {
     fetchPrayerTimes();
   }, []);
 
+  const readDua = async (dua) => {
+    try {
+      await Speech.speak(getTranslatedDuaTitle(dua));
+
+      if (dua.content) {
+        await Speech.speak(getTranslatedDua(dua));
+      }
+    } catch (error) {
+      console.error("Error reading dua:", error);
+    }
+  };
+
   useEffect(() => {
+    const updateTimeUntilNextPrayer = () => {
+      const currentTime = new Date();
+      const { timeUntil, nextPrayer } = calculateTimeUntilPrayer(
+        currentTime,
+        prayerTimes
+      );
+
+      setTimeUntilNextPrayer(timeUntil);
+      setNextPrayer(nextPrayer);
+    };
+
     updateTimeUntilNextPrayer();
 
     const clockInterval = setInterval(updateTimeUntilNextPrayer, 1000);
     setClockIntervalId(clockInterval);
 
     return () => clearInterval(clockInterval);
-  }, []);
+  }, [prayerTimes]);
 
   return (
     <ScrollView
       contentContainerStyle={styles.container}
       onTouchStart={handleHapticTouch}
     >
-    
-      <Clock />
+      <Clock
+        timeUntilNextPrayer={timeUntilNextPrayer}
+        nextPrayer={nextPrayer}
+        nextPrayerTime={prayerTimes[nextPrayer]}
+      />
 
       {Object.entries(prayerTimes).map(([prayerName, time]) => (
         <View key={prayerName} style={styles.prayerTimeContainer}>
@@ -375,7 +452,7 @@ const PrayerTab = () => {
           <TouchableOpacity
             key={index}
             style={styles.duaContainer}
-            onPress={() => handleZikrPress(dua)}
+            onPress={() => readDua(dua)}
           >
             <Text style={styles.duaTitle}>{getTranslatedDuaTitle(dua)}</Text>
             <Text style={styles.duaContent}>{getTranslatedDua(dua)}</Text>
@@ -424,7 +501,7 @@ const PrayerTab = () => {
                 }}
               >
                 <Image
-                  source={require("../assets/logo.png")}
+                  source={require("../assets/clock.jpeg")}
                   style={styles.backgroundImage}
                 />
                 <View
@@ -482,7 +559,7 @@ const PrayerTab = () => {
                   alignSelf: "center",
                 }}
               >
-                <Text style={{ color: "#000" }}> Stop Zikr</Text>
+                <Text style={{ color: "#fff" }}> Stop Zikr</Text>
               </Button>
             </View>
           </TouchableOpacity>

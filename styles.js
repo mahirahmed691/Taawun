@@ -495,237 +495,163 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+
+  clockContainer: {
+    height: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000",
+  },
+  clockBackground: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  clockOverlay: {
+    position: "absolute",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    borderRadius: 10,
+    padding: 20,
+  },
+  overlayContent: {
+    marginBottom: 10,
+  },
+  overlayText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  timeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  timeSegment: {
+    color: "#fff",
+    fontSize: 40,
+  },
+  timeSeparator: {
+    color: "#fff",
+    fontSize: 40,
+    marginHorizontal: 5,
+  },
+  seconds: {
+    color: "#fff",
+    fontSize: 16,
+    alignSelf: "center",
+  },
   prayerTimeContainer: {
-    margin:10,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 2,
-    paddingVertical:20,
-    backgroundColor: "#094349",
+    alignItems: "center",
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
   prayerName: {
-    paddingTop:10,
     fontSize: 16,
-    position:'absolute',
-    left:10,
     fontWeight: "bold",
-    color: "#ff4d4d",
   },
   prayerTime: {
-    paddingTop:10,
     fontSize: 16,
-    color: "#fff",
-    fontWeight:'700',
-    position:'absolute',
-    right:10,
-  },
-  locationContainer: {
-    
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-  },
-  locationValue: {
-    fontSize: 10,
-    color: "#000",
-    fontWeight: "700",
-    marginLeft: 8,
   },
   duasContainer: {
-    marginTop: 10,
-    padding: 12,
-    backgroundColor: "#f0f0f0",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-  },
-  duasHeader: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#ff4d4d",
-    marginBottom: 8,
-  },
-  duaContainer: {
-    marginBottom: 12,
-  },
-  duaTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    color: "#ff4d4d",
-  },
-  duaContent: {
-    fontSize: 10,
-    color: "#000",
+    padding: 20,
+    backgroundColor: "#f5f5f5",
   },
   languageToggleContainer: {
-    alignItems: "flex-end",
-    marginBottom: 8,
+    marginBottom: 10,
   },
   languageToggleText: {
-    fontSize: 12,
-    color: "#ff4d4d",
-    textDecorationLine: "underline",
+    color: "#3498db",
+    fontSize: 16,
   },
-
+  duasHeader: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  duaContainer: {
+    marginBottom: 15,
+  },
+  duaTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#2c3e50",
+  },
+  duaContent: {
+    fontSize: 16,
+    color: "#7f8c8d",
+  },
   zikrContainer: {
-    marginTop: 10,
-    padding: 12,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 8,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    padding: 20,
+    backgroundColor: "#ecf0f1",
   },
   zikrHeader: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "bold",
-    color: "#ff4d4d",
-    marginBottom: 8,
+    marginBottom: 10,
   },
   zikrItemContainer: {
-    marginBottom: 12,
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    marginBottom: 15,
   },
   zikrTitle: {
-    fontSize: 12,
+    fontSize: 18,
     fontWeight: "bold",
-    color: "#ff4d4d",
+    color: "#e74c3c",
   },
   zikrDescription: {
-    fontSize: 10,
-    color: "#000",
+    fontSize: 16,
+    color: "#95a5a6",
   },
   zikrCount: {
-    fontSize: 10,
-    color: "#555",
-  },
-
-  startZikrButton: {
-    marginTop: 10,
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  startZikrButtonText: {
-    fontSize: 16,
-    color: "#000",
+    fontSize: 14,
+    color: "#34495e",
   },
   modalContainer: {
-    backgroundColor: "#f0f0f0",
-    borderRadius: 20,
+    justifyContent: "flex-end",
+    margin: 0,
   },
   modalContent: {
-    padding: 10,
-    borderRadius: 0,
-    backgroundColor: "transparent",
-    height: "100%",
-    verticalAlign: "middle",
-  },
-  stopCounterButton: {
-    backgroundColor: "white",
-    borderRadius: 0,
-    padding:10,
-  },
-  counterText: {
-    fontSize: 15,
-    fontWeight: "bold",
-    marginBottom: 30,
-    textAlign: "center",
-    marginTop: "0%",
-    color: "#000",
-    backgroundColor: "transparent",
-    zIndex: 10,
-  },
-  currentZikrText: {
-    fontSize: 20,
-    textAlign: "center",
-    color: "#000",
-    fontWeight:'900',
-    zIndex: 10,
-  },
-  stopCounterText: {
-    fontSize: 18,
-    color:"white",
-    textAlign: "center",
-  },
-  islamicMessageContainer: {
-    paddingTop: 0,
-    borderRadius: 10,
-    marginBottom: 0,
-    backgroundColor: "transparent",
+    backgroundColor: "#fff",
+    padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    minHeight: "100%",
   },
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: "contain",
-    alignSelf:'center',
+    zIndex: -1,
+    opacity: 1,
   },
-  roundCounter:{
-    fontSize:15,
-    marginLeft:-0,
-    marginTop:-10,
-    fontWeight:'800',
-    fontFamily:"monospace",
-    color:"#000"
+  roundCounter: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color:'white'
   },
-  alternativeBox:{
-   marginLeft:20,
-   marginTop:5,
+  counterText: {
+    fontSize: 32,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginVertical: 10,
+    color: "white",
   },
-  roundClockContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
+  currentZikrText: {
+    fontSize: 18,
+    textAlign: "center",
+    marginVertical: 5,
+    color: "white",
   },
-  roundClockTime: {
-    // Your styles for time text
+  floatingEmojisContainer: {
+    zIndex: 1,
   },
-  roundClockNextPrayer: {
-    // Your styles for next prayer text
+  floatingEmoji: {
+    fontSize: 32,
   },
-
-clockContainer: {
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginVertical: 50,  // Adjust as needed
-  paddingHorizontal: 50,
-},
-
-clockBackground: {
-  width: '100%',
-  height: 200,  // Adjust the height as needed
-  justifyContent: 'center',
-  alignItems: 'center',
-  zIndex:-1
-},
-
-clockIcon: {
-  marginBottom: 10,
-  fontSize: 48, 
-  backgroundColor:'black'
-},
-
-clockValue: {
-  fontSize: 24,  // Adjust the font size as needed
-  color: '#fff',
-  textAlign: 'center',
-  zIndex:100,
-  backgroundColor:'pink'
-},
+  stopCounterButton: {
+    backgroundColor: "#000",
+    padding: 10,
+  },
 });
 
 export default styles;
