@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
   },
   detailImage: {
     height: 200,
+    borderRadius:0,
   },
   detailContainer: {
     padding: 16,
@@ -83,6 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 8,
+    borderRadius:0,
   },
   detailDescription: {
     fontSize: 16,
@@ -94,12 +96,14 @@ const styles = StyleSheet.create({
     fontWeight:'500'
   },
   showcaseContainer: {
-    marginTop: 20,
+    marginTop: 0,
+    marginBottom:40,
   },
   showcaseTitle: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 10,
+    marginLeft:15
   },
   showcaseImage: {
     width: 300,

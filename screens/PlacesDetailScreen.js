@@ -45,6 +45,7 @@ const PlacesDetailScreen = ({ route }) => {
             }
           />
           <Text style={styles.linkDateText}>Link Date: {url.linkDate}</Text>
+          <View style={styles.horizontalLine} />
         </View>
       </TouchableOpacity>
     );
@@ -52,15 +53,15 @@ const PlacesDetailScreen = ({ route }) => {
 
   const renderAlternative = ({ item, index }) => (
     <TouchableOpacity onPress={() => openURL(item)}>
-      <ScrollView showsVerticalScrollIndicator style={styles.alternativeContainer}>
-        <Image source={{ uri: item }} style={{ height: 80, width: 80, marginTop: 5, margin: 5 }} />
-      </ScrollView>
-    </TouchableOpacity>
+    <ScrollView showsVerticalScrollIndicator style={styles.alternativeContainer}>
+      <Image source={{ uri: item }} style={{ height: 80, width: 80, marginTop: 5, margin: 0 }} />
+    </ScrollView>
+  </TouchableOpacity>
   );
   
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container2}>
       <Image
         source={{ uri: place.image }}
         style={styles.detailImage}
@@ -82,7 +83,7 @@ const PlacesDetailScreen = ({ route }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => renderUrl(item, index)}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -295,11 +295,16 @@ const CommunityScreen = ({ navigation }) => {
 
   const renderPost = ({ item, navigation }) => (
     <View style={styles.postContainer}>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("Slideshow", { post: item });
-        }}
-      >
+        <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('FromTheRiver', {
+          screen: 'Slide',
+          params: {
+            post: item,
+          },
+        });
+      }}
+    >
         {item.type === "tweet" && (
           <View style={[styles.postItem, styles.tweetItem]}>
             <Ionicons name="logo-twitter" size={24} color="#1DA1F2" />

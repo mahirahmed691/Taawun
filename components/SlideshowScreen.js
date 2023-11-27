@@ -115,13 +115,11 @@ const styles = StyleSheet.create({
   slide: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
   },
   postItem: {
     flexDirection: "row",
     alignItems: "center",
     padding: 16,
-    borderRadius: 10,
     margin: 8,
     backgroundColor: "#fff",
   },
@@ -141,7 +139,7 @@ const styles = StyleSheet.create({
   postContentContainer: {
     marginLeft: 16,
     backgroundColor: "white",
-    padding: 10,
+    padding: 40,
     width: "100%",
     marginLeft: -1,
     alignSelf: "center",
@@ -154,6 +152,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: "flex-end",
     padding: 16,
+    marginBottom: 30,
   },
   closeIcon: {
     marginBottom: 20,
@@ -193,8 +192,9 @@ const styles = StyleSheet.create({
   },
   twitterPostContainer: {
     backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: 20,
+    margin: 10,
+    padding: 40,
     marginTop: 10,
   },
   twitterUserInfo: {
@@ -220,8 +220,9 @@ const styles = StyleSheet.create({
   facebookPostContainer: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 10,
+    padding: 20,
     marginTop: 10,
+    margin:10,
   },
   facebookPostHeader: {
     flexDirection: "row",

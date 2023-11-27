@@ -9,14 +9,14 @@ import {
   StatusBar,
   View,
   Linking,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { Button } from "react-native-paper";
 import styles from "../styles.js";
 import allowedData from "../data/allowed.json";
 import { Ionicons } from "@expo/vector-icons";
 
-const AllowedScreen = ({navigation}) => {
+const AllowedScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [allowedPlaces, setAllowedPlaces] = useState(
     allowedData.allowedTargets
@@ -56,32 +56,43 @@ const AllowedScreen = ({navigation}) => {
   }, []); // Empty dependency array means this effect runs once after the initial render
 
   const navigateToDetails = (item) => {
-    navigation.navigate('PlaceDetails', item);
+    navigation.navigate("FromTheRiver", {
+      screen: "ShopDetail",
+      params: { name: item.name, image: item.image, instagram: item.instagram, url:item.url, description:item.description, showcase:item.showcase  },
+      // assuming you have a 'url' property in your data
+    });
   };
-
   const renderItem = ({ item }) => (
     <View style={styles.listItem}>
       <TouchableOpacity onPress={() => navigateToDetails(item)}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom:10 }}>
-        <Text style={{ fontWeight: "bold", marginTop:10, fontSize:20, }}>{item.name}</Text>
-        <Button
-          mode="outlined"
-          onPress={() => openInstagram(item.instagram)}
-          theme={{
-            colors: {
-              primary: "#E94A67",
-            },
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginBottom: 10,
           }}
         >
-          <Text>
-            <Ionicons name="logo-instagram" />
+          <Text style={{ fontWeight: "bold", marginTop: 10, fontSize: 20 }}>
+            {item.name}
           </Text>
-        </Button>
-      </View>
+          <Button
+            mode="outlined"
+            onPress={() => openInstagram(instagram)}
+            theme={{
+              colors: {
+                primary: "#E94A67",
+              },
+            }}
+          >
+            <Text>
+              <Ionicons name="logo-instagram" />
+            </Text>
+          </Button>
+        </View>
       </TouchableOpacity>
 
-      <Text style={{ fontWeight: "700", marginTop: 5, marginBottom:10, }}>
-        {item.description}
+      <Text style={{ fontWeight: "700", marginTop: 5, marginBottom: 10 }}>
+    {item.description}
       </Text>
       <ImageBackground
         source={{ uri: item.image }}

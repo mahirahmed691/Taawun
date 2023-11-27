@@ -1,10 +1,8 @@
-// LoginScreen.js
-
 import React, { useState } from "react";
 import { View, Text, Alert, StyleSheet, Image } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { signInWithEmailAndPassword } from "firebase/auth"; // Import the correct function
-import { auth } from "../config/firebase"; // Update the path accordingly
+import { auth } from "../config/firebaseConfig"; // Update the path accordingly
 import Logo from "../assets/logo.png";
 
 const LoginScreen = ({ navigation }) => {
@@ -13,14 +11,18 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
+      // Attempt to sign in the user with the provided email and password
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
+
+      // If successful, log the user in and navigate to the Home screen
       console.log("User logged in:", userCredential.user);
       navigation.navigate("Home");
     } catch (error) {
+      // Handle errors, such as incorrect password or non-existent user
       Alert.alert("Error", error.message);
     }
   };

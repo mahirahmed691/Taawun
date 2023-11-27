@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   SafeAreaView,
   Text,
@@ -9,13 +9,17 @@ import {
   StatusBar,
   View,
   TouchableOpacity,
+  TouchableHighlight,
 } from "react-native";
-import { Chip } from "react-native-paper";
+import { Chip, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerActions } from "@react-navigation/native";
 import styles from "../styles.js";
 import boycottData from "../data/boycott.json";
 import ModalSelector from "react-native-modal-selector";
+import * as Sharing from "expo-sharing";
+import { captureRef } from "react-native-view-shot";
+import { Ionicons } from "@expo/vector-icons";
 
 const BoycottedPlacesScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
@@ -29,8 +33,10 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   const [industryFilter, setIndustryFilter] = useState(null);
   const [areAlternativesVisible, setAreAlternativesVisible] = useState(false);
   const [viewAsTiles, setViewAsTiles] = useState(false);
+  const [showClearFilters, setShowClearFilters] = useState(false);
 
   const drawerNavigation = useNavigation();
+  const viewRef = useRef();
 
   const openDrawer = () => {
     drawerNavigation.dispatch(DrawerActions.openDrawer());
@@ -40,10 +46,25 @@ const BoycottedPlacesScreen = ({ navigation }) => {
     <Text style={styles.sectionHeader}>{section.title}</Text>
   );
 
+  const industries = Array.from(
+    new Set(boycottedPlaces.map((place) => place.industry))
+  ).filter(Boolean);
+
+  const handleIndustryFilterChange = (industry) => {
+    setIndustryFilter(industry);
+    setShowClearFilters(true);
+  };
+
   const handleJoinBoycott = (place) => {
     const updatedJoinCounts = { ...joinCounts };
     updatedJoinCounts[place.name] = (joinCounts[place.name] || 0) + 1;
     setJoinCounts(updatedJoinCounts);
+  };
+
+  const clearFilters = () => {
+    setSelectedCategory("");
+    setIndustryFilter(null);
+    setShowClearFilters(false);
   };
 
   const filteredPlaces = boycottedPlaces.filter((place) => {
@@ -74,7 +95,7 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   }, {});
 
   const sectionedData = Object.keys(groupedPlaces)
-    .sort()
+    .sort() // Sort keys alphabetically
     .map((key) => {
       const sortedData = groupedPlaces[key].sort((a, b) =>
         a.name.localeCompare(b.name)
@@ -98,14 +119,24 @@ const BoycottedPlacesScreen = ({ navigation }) => {
         {viewAsTiles ? (
           <TouchableOpacity
             style={styles.tileItemContainer}
-            onPress={() => navigation.navigate("PlaceDetail", { place: item })}
+            onPress={() =>
+              navigation.navigate("FromTheRiver", {
+                screen: "PlaceDetailScreen",
+                params: { place: item },
+              })
+            }
           >
             <Image source={{ uri: item.image }} style={styles.tileItemImage} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             style={styles.listItem}
-            onPress={() => navigation.navigate("PlaceDetail", { place: item })}
+            onPress={() =>
+              navigation.navigate("FromTheRiver", {
+                screen: "PlaceDetailScreen",
+                params: { place: item },
+              })
+            }
           >
             <ImageBackground
               source={{ uri: item.image }}
@@ -118,7 +149,6 @@ const BoycottedPlacesScreen = ({ navigation }) => {
                   borderRadius: 0,
                   padding: 3,
                   top: 0,
-
                   position: "absolute",
                   left: 0,
                 }}
@@ -173,15 +203,46 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   // Render item for the tile view
   const renderTileItem = ({ item }) => (
     <TouchableOpacity
-      style={styles.tileItemContainer}
-      onPress={() => navigation.navigate("PlaceDetail", { place: item })}
+      style={styles.listItem}
+      onPress={() =>
+        navigation.navigate("FromTheRiver", {
+          screen: "PlaceDetailScreen",
+          params: { place: item },
+        })
+      }
     >
       <Image source={{ uri: item.image }} style={styles.tileItemImage} />
     </TouchableOpacity>
   );
 
+  const onShare = async () => {
+    try {
+      // Capture the entire view
+      const uri = await captureRef(viewRef, {
+        format: "png", // or 'jpeg'
+        quality: 0.8,
+      });
+
+      // Check if sharing is available on the device
+      if (!(await Sharing.isAvailableAsync())) {
+        alert("Sharing is not available on your device");
+        return;
+      }
+
+      // Share the captured image with a title (considered as default message on Twitter)
+      await Sharing.shareAsync(uri, {
+        mimeType: "image/png", // or 'image/jpeg'
+        dialogTitle: "Share this view",
+        UTI: "public.png", // or 'public.jpeg'
+        title: "Check out this amazing view from the app!", // Your custom message
+      });
+    } catch (error) {
+      console.error("Sharing failed:", error.message);
+    }
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} ref={viewRef}>
       <View style={styles.headerContainer}>
         <View style={styles.searchBarContainer}>
           <TextInput
@@ -191,7 +252,33 @@ const BoycottedPlacesScreen = ({ navigation }) => {
             onChangeText={(text) => setSearch(text)}
           />
         </View>
+        {showClearFilters && (
+          <TouchableOpacity
+            style={styles.clearFiltersButton}
+            onPress={clearFilters}
+          >
+            <Text style={styles.clearFiltersButtonText}>Clear Filters</Text>
+          </TouchableOpacity>
+        )}
       </View>
+
+      <ModalSelector
+        data={industries.map((industry) => ({
+          key: industry,
+          label: industry,
+        }))}
+        initValue="Filter by Industry"
+        onChange={(option) => handleIndustryFilterChange(option.key)}
+        selectStyle={{ borderWidth: 1, backgroundColor: "black" }} // Remove border
+        selectTextStyle={{ color: "black" }} // Text color
+        selectedItemTextStyle={{ color: "black" }} // Selected item text color
+        optionStyle={{ backgroundColor: "#F5F5F5" }} // Option background color
+        optionTextStyle={{ color: "black" }} // Option text color
+        cancelStyle={{ backgroundColor: "crimson" }} // Cancel button background color
+        cancelTextStyle={{ color: "white" }} // Cancel button text color
+        overlayStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} // Overlay background color
+        sectionTextStyle={{ color: "black" }} // Section text color
+      />
 
       {selectedCategory ? (
         <Text style={styles.selectedCategoryText}>
@@ -204,12 +291,16 @@ const BoycottedPlacesScreen = ({ navigation }) => {
           data={sectionedData}
           keyExtractor={(item, index) => item.title + index + "tile"}
           renderItem={({ item }) => (
-            <FlatList
-              data={item.data}
-              keyExtractor={(item) => item.name + "tile"}
-              renderItem={renderTileItem}
-              horizontal
-            />
+            <View>
+              {renderDynamicHeader()}
+              {renderSectionHeader({ section: item })}
+              <FlatList
+                data={item.data}
+                keyExtractor={(item) => item.name + "tile"}
+                renderItem={renderTileItem}
+                horizontal
+              />
+            </View>
           )}
         />
       ) : (
@@ -248,14 +339,30 @@ const BoycottedPlacesScreen = ({ navigation }) => {
         />
       )}
 
-      <TouchableOpacity
-        style={styles.toggleViewButton}
+      <TouchableHighlight
+        style={{
+          ...styles.toggleViewButton,
+          backgroundColor: "#000",
+        }}
         onPress={() => setViewAsTiles(!viewAsTiles)}
+        underlayColor="yourPressedColor" // Set the color when pressed
       >
         <Text style={styles.toggleViewButtonText}>
           {viewAsTiles ? "List View" : "Tile View"}
         </Text>
-      </TouchableOpacity>
+      </TouchableHighlight>
+
+      <IconButton
+        icon={({ color, size }) => (
+          <Ionicons name="share-outline" color={color} size={size} />
+        )}
+        style={styles.shareButton}
+        iconColor="pink"
+        size={20}
+        onPress={onShare}
+      >
+        Share View
+      </IconButton>
 
       <StatusBar style="auto" />
     </SafeAreaView>

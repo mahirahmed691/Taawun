@@ -3,6 +3,16 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
+  },
+  container2: {
+    flex: 1,
+    padding: 5,
+    backgroundColor: "white",
+  },
+  containerSlide: {
+    flex: 1,
+    marginBottom: 50,
   },
   cameraContainer: {
     flex: 1,
@@ -89,23 +99,22 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 30,
     fontWeight: "bold",
-    color:'black',
+    color: "black",
   },
 
   sectionHeader2: {
     fontSize: 20,
-    padding:1,
+    padding: 1,
     fontWeight: "900",
-    letterSpacing:1,
-    color:'white',
-    backgroundColor:'teal'
+    letterSpacing: 1,
+    color: "white",
+    backgroundColor: "teal",
   },
   detailImage: {
     width: "100%",
-    height: 150,
-    alignSelf:'center',
-    resizeMode: "cover",
-
+    height: 100,
+    alignSelf: "center",
+    resizeMode: "contain",
   },
   urlContainer: {
     backgroundColor: "#e0e0e0",
@@ -664,31 +673,123 @@ const styles = StyleSheet.create({
   },
   tileItemContainer: {
     flex: 1,
-    margin: 5,
     borderRadius: 0,
-    overflow: "hidden",
-
-    flexDirection:'row' // Ensure a square aspect ratio for the tiles
+    padding: 3,
   },
   tileItemImage: {
-    width: 60,
-    height: 60,
-    flexDirection:'row', 
-    resizeMode:'contain'
+    width: 25,
+    height: 50,
+    resizeMode: "contain",
+    aspectRatio: 1.2 / 1,
+    flexDirection: "row",
   },
-  toggleViewButton:{
-    backgroundColor:'#000',
-    padding:15,
+  toggleViewButton: {
+    backgroundColor: "#000",
+    padding: 15,
   },
-  toggleViewButtonText:{
-    color:'white',
-    alignSelf:'center',
-    fontSize:15
+  toggleViewButtonText: {
+    color: "white",
+    alignSelf: "center",
+    fontSize: 15,
+    fontWeight: "900",
   },
-  alternativeContainer:{
-    height:150,
-    backgroundColor:'#f0f0f0'
-  }
+  alternativeContainer: {
+    height: 120,
+    backgroundColor: "#fff",
+  },
+  clearFiltersButton: {
+    backgroundColor: "crimson",
+    padding: 10,
+    margin: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  clearFiltersButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  shareButton: {
+    position: "absolute",
+    bottom: 0,
+    right: 10,
+    backgroundColor: "#000",
+    borderRadius: 0,
+    paddingHorizontal: 0,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  shareButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  scannerImage: {
+    height: 300,
+    width: 300,
+    marginBottom: 20,
+  },
+  infoText: {
+    fontSize: 16,
+    textAlign: "center",
+    marginBottom: 20,
+    fontWeight: "900",
+    color: "black",
+  },
+  scanButton: {
+    backgroundColor: "black",
+    borderRadius: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    marginBottom: 20,
+  },
+  scanButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  scanResultContainer: {
+    padding: 15,
+    backgroundColor: "black",
+    elevation: 3,
+    marginBottom: 20,
+  },
+  scanResultText: {
+    fontSize: 16,
+    fontWeight: "200",
+    color: "#fff",
+    letterSpacing: 3,
+  },
+  modalContainer: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  faceImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  closeButton: {
+    width: 100,
+    paddingVertical: 15,
+    backgroundColor: "#e74c3c",
+    borderRadius: 10,
+    elevation: 3,
+  },
+  closeButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+    alignSelf: "center",
+  },
+  horizontalLine: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0", // You can set the color of the line
+    marginVertical: 10, // Adjust the margin as needed
+  },
 });
 
 export default styles;
