@@ -4,8 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import { auth } from "./config/firebaseConfig";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import TabNavigation from "./Auth/TabNavigation"; 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import TabNavigation from "./Auth/TabNavigation";
 import LoginScreen from "./screens/LoginScreen";
 import CommunityScreen from "./screens/CommunityScreen";
 import AllowedScreen from "./screens/AllowedScreen";
@@ -13,24 +13,30 @@ import BarcodeScanner from "./screens/BarcodeScanner";
 import SettingsScreen from "./screens/SettingsScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import PlacesDetailScreen from "./screens/PlacesDetailScreen";
-import SlideShowScreen from "./components/SlideshowScreen"
+import SlideShowScreen from "./components/SlideshowScreen";
 import PlaceDetails from "./screens/PlaceDetails";
+import InfluencerScreen from "./screens/InfluencerScreen";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { IconButton } from "react-native-paper";
+import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
+import CommentScreen from "./screens/CommentScreen";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-
 const AuthenticatedApp = () => (
   <Drawer.Navigator initialRouteName="Home">
     <Drawer.Screen name="Home" component={TabNavigation} />
-    <Drawer.Screen name="Community" component={CommunityScreen} />
+    <Drawer.Screen name="Community" component={CommunityScreen}  />
     <Drawer.Screen name="Barcode" component={BarcodeScanner} />
     <Drawer.Screen name="Shop" component={AllowedScreen} />
     <Drawer.Screen name="Settings" component={SettingsScreen} />
-    <Drawer.Screen name="FromTheRiver" component={MainStackNavigator}  options={{ drawerLabel: "" }} />
+    <Drawer.Screen
+      name="FromTheRiver"
+      component={MainStackNavigator}
+      options={{ drawerLabel: "" }}
+    />
   </Drawer.Navigator>
 );
 
@@ -41,7 +47,7 @@ const MainStackNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: true, // Show the header
-        headerTitle:"",
+        headerTitle: "",
         headerLeft: () => (
           <IconButton
             icon={({ color, size }) => (
@@ -60,6 +66,8 @@ const MainStackNavigator = () => {
       <Stack.Screen name="PlaceDetailScreen" component={PlacesDetailScreen} />
       <Stack.Screen name="ShopDetail" component={PlaceDetails} />
       <Stack.Screen name="Slide" component={SlideShowScreen} />
+      <Stack.Screen name="Influencer" component={InfluencerScreen} />
+      <Stack.Screen name="Comment" component={CommentScreen} />
     </Stack.Navigator>
   );
 };
@@ -72,6 +80,7 @@ const UnauthenticatedApp = () => (
   >
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Register" component={RegisterScreen} />
+    <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
   </Stack.Navigator>
 );
 
@@ -80,7 +89,7 @@ const Navigation = () => {
 
   useEffect(() => {
     const checkAuthState = async () => {
-      const userJson = await AsyncStorage.getItem('user');
+      const userJson = await AsyncStorage.getItem("user");
       const user = userJson ? JSON.parse(userJson) : null;
       setUser(user);
     };
@@ -88,7 +97,7 @@ const Navigation = () => {
     checkAuthState();
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      AsyncStorage.setItem('user', JSON.stringify(user));
+      AsyncStorage.setItem("user", JSON.stringify(user));
       setUser(user);
     });
 

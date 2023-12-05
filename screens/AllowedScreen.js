@@ -18,9 +18,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 const AllowedScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
-  const [allowedPlaces, setAllowedPlaces] = useState(
-    allowedData.allowedTargets
-  );
+  const [allowedPlaces, setAllowedPlaces] = useState([]);
+
+  useEffect(() => {
+    if (allowedData && allowedData.allowedTargets) {
+      setAllowedPlaces(allowedData.allowedTargets);
+    }
+  }, [allowedData]);
 
   const filteredPlaces = allowedPlaces.filter((place) =>
     place.name.toLowerCase().includes(search.toLowerCase())
@@ -42,26 +46,20 @@ const AllowedScreen = ({ navigation }) => {
       data: groupedPlaces[key].sort((a, b) => a.name.localeCompare(b.name)),
     }));
 
-  useEffect(() => {
-    const handleOpenURL = (event) => {
-      // Handle the URL event if needed
-    };
-
-    Linking.addEventListener("url", handleOpenURL);
-
-    return () => {
-      // Remove the event listener
-      Linking.removeEventListener("url", handleOpenURL);
-    };
-  }, []); // Empty dependency array means this effect runs once after the initial render
-
   const navigateToDetails = (item) => {
     navigation.navigate("FromTheRiver", {
       screen: "ShopDetail",
-      params: { name: item.name, image: item.image, instagram: item.instagram, url:item.url, description:item.description, showcase:item.showcase  },
-      // assuming you have a 'url' property in your data
+      params: {
+        name: item.name,
+        image: item.image,
+        instagram: item.instagram,
+        url: item.url,
+        description: item.desc,
+        showcase: item.showcase,
+      },
     });
   };
+
   const renderItem = ({ item }) => (
     <View style={styles.listItem}>
       <TouchableOpacity onPress={() => navigateToDetails(item)}>
@@ -77,7 +75,7 @@ const AllowedScreen = ({ navigation }) => {
           </Text>
           <Button
             mode="outlined"
-            onPress={() => openInstagram(instagram)}
+            onPress={() => openInstagram(item.instagram)}
             theme={{
               colors: {
                 primary: "#E94A67",
@@ -92,7 +90,7 @@ const AllowedScreen = ({ navigation }) => {
       </TouchableOpacity>
 
       <Text style={{ fontWeight: "700", marginTop: 5, marginBottom: 10 }}>
-    {item.description}
+        {item.desc}
       </Text>
       <ImageBackground
         source={{ uri: item.image }}

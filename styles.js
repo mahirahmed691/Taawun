@@ -302,10 +302,11 @@ const styles = StyleSheet.create({
   },
   modalHeaderContainer: {
     flexDirection: "row",
+    width:"90%",
     justifyContent: "space-between",
     marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 0,
+    marginRight: 0,
   },
   inputContainer: {
     width: "90%",
@@ -318,10 +319,6 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
     fontSize: 16,
     backgroundColor: "#fff",
     color: "#000",
@@ -605,6 +602,7 @@ const styles = StyleSheet.create({
   zikrContainer: {
     padding: 20,
     backgroundColor: "#ecf0f1",
+    flex:1
   },
   zikrHeader: {
     fontSize: 24,
@@ -637,11 +635,13 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     minHeight: "100%",
+    width:"100%"
   },
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
-    zIndex: -1,
     opacity: 1,
+    width:"100%",
+
   },
   roundCounter: {
     fontSize: 18,

@@ -422,7 +422,7 @@ const PrayerTab = () => {
 
   return (
     <ScrollView
-      contentContainerStyle={styles.container}
+      contentContainerStyle={styles.container3}
       onTouchStart={handleHapticTouch}
     >
       <Clock
@@ -480,7 +480,7 @@ const PrayerTab = () => {
         <Modal
           isVisible={modalVisible}
           onBackdropPress={handleModalPress}
-          style={{ ...styles.modalContainer, height: "100%", margin: 0 }}
+          style={{ ...styles.modalContainer}}
         >
           <TouchableOpacity
             style={{ flex: 1 }}
@@ -502,7 +502,7 @@ const PrayerTab = () => {
               >
                 <Image
                   source={require("../assets/clock.jpeg")}
-                  style={styles.backgroundImage}
+                  style={{width:"100%", height:'50%'}}
                 />
                 <View
                   style={{

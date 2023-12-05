@@ -1,9 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   SafeAreaView,
   View,
   Text,
-  TextInput,
   Modal,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -12,15 +11,20 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
+import { collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
 import ForumListTab from "../components/ForumListTab";
 import PrayerTab from "../components/PrayerTab";
 import NotificationsTab from "../components/NotifcationsTab";
 import MessagesTab from "../components/MessagesTab";
 import styles from "../styles";
-import ForumComment from "../components/ForumComment";
+import { firestore, db } from "../config/firebaseConfig";
+import { useAuth } from '../Auth/AuthContext'; 
 
 const CommunityScreen = ({ navigation }) => {
+  const { isAuthenticated, user, login, logout } = useAuth();
+  const [keywords, setKeywords] = useState("");
   const [forumName, setForumName] = useState("");
   const [forumDescription, setForumDescription] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -29,104 +33,58 @@ const CommunityScreen = ({ navigation }) => {
   const [activeTab, setActiveTab] = useState("ForumList");
   const longPressTimeout = useRef(null);
   const [notificationCount, setNotificationCount] = useState(5);
+  const [dismissableKeywords, setDismissableKeywords] = useState([]);
+  const [likedTweets, setLikedTweets] = useState({});
+  const [bookmarkedForums, setBookmarkedForums] = useState([]);
 
-  const [forums, setForums] = useState([
-    // Initialize with 6 dummy items
-    {
-      id: "1",
-      name: "Forum 1",
-      description: "Description for Forum 1",
-      date: new Date().toLocaleDateString(),
-    },
-    {
-      id: "2",
-      name: "Forum 2",
-      description: "Description for Forum 2",
-      date: new Date().toLocaleDateString(),
-    },
-    {
-      id: "3",
-      name: "Forum 3",
-      description: "Description for Forum 3",
-      date: new Date().toLocaleDateString(),
-    },
-  ]);
+  const [forums, setForums] = useState([]);
+  const [posts, setPosts] = useState([]);
 
-  const [posts, setPosts] = useState([
-    {
-      id: "1",
-      type: "tweet",
-      title: "Exciting news!",
-      content: "Just launched my new product. Check it out!",
-      date: "2023-11-17",
-      image: require("../assets/logo.png"),
-    },
-    {
-      id: "2",
-      type: "instagram",
-      title: "Moody Face",
-      content: "The face Ive got whilst I code this app 🌅 #MoodyFace",
-      date: "2023-11-16",
-      image: require("../assets/sunset.jpeg"),
-    },
-    {
-      id: "3",
-      type: "facebook",
-      title: "Fun day with friends",
-      content: "Had a great time with friends at the amusement park!",
-      date: "2023-11-15",
-      image: require("../assets/logo.png"),
-    },
-    {
-      id: "4",
-      type: "tweet",
-      title: "Exciting news!",
-      content: "Just launched my new product. Check it out!",
-      date: "2023-11-17",
-      image: require("../assets/logo.png"),
-    },
-    {
-      id: "5",
-      type: "instagram",
-      title: "Beautiful sunset",
-      content: "Enjoying the sunset at the beach. 🌅 #Nature",
-      date: "2023-11-16",
-      image: require("../assets/sunset.jpeg"),
-    },
-    {
-      id: "6",
-      type: "facebook",
-      title: "Fun day with friends",
-      content: "Had a great time with friends at the amusement park!",
-      date: "2023-11-15",
-      image: require("../assets/logo.png"),
-    },
-  ]);
+  useEffect(() => {
+    const forumsCollection = collection(firestore, "forums");
+
+    const unsubscribeForums = onSnapshot(forumsCollection, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log("Forums from Firestore:", data);
+      setForums(data); // Update the forums state
+    });
+
+    return () => {
+      unsubscribeForums();
+    };
+  }, []);
 
   const createForum = () => {
+    // Validation
     if (forumName.trim() === "") {
       return;
     }
 
+    // Create new forum data
     const newForum = {
-      id: Date.now().toString(),
       name: forumName,
       description: forumDescription,
       date: new Date().toLocaleDateString(),
     };
 
-    setForums((prevForums) => [...prevForums, newForum]);
+    // Add the new forum to Firestore
+    addDoc(collection(db, "forums"), newForum)
+      .then((docRef) => {
+        console.log("Forum added successfully with ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.error("Error adding forum: ", error);
+      });
 
+    // Clear local state
     setForumName("");
     setForumDescription("");
-
     setIsModalVisible(false);
     setIsLongPressActive(false);
     setShouldKeepMenuOpen(false);
-  };
-
-  const openModal = () => {
-    setIsModalVisible(true);
   };
 
   const handleLongPress = () => {
@@ -134,6 +92,12 @@ const CommunityScreen = ({ navigation }) => {
       setIsLongPressActive(true);
       Vibration.vibrate(500);
     }, 500);
+  };
+
+  const handleKeywordPress = (keyword) => {
+    setDismissableKeywords((prevKeywords) =>
+      prevKeywords.filter((k) => k !== keyword)
+    );
   };
 
   const handlePressOut = () => {
@@ -152,7 +116,7 @@ const CommunityScreen = ({ navigation }) => {
     if (isLongPressActive) {
       closeLongPressMenu();
     } else {
-      openModal();
+      setIsModalVisible(true); // Open the modal
     }
   };
 
@@ -167,16 +131,16 @@ const CommunityScreen = ({ navigation }) => {
       padding: 14,
     };
 
-    const handleForumCommentAdd = (forumId, comment) => {
-      // Find the forum by ID
-      const updatedForums = forums.map((forum) =>
-        forum.id === forumId
-          ? { ...forum, comments: [...(forum.comments || []), comment] }
-          : forum
-      );
+    const handleLikePress = (tweetId) => {
+      // Toggle the liked status for the tweet
+      setLikedTweets((prevLikedTweets) => {
+        const updatedLikedTweets = { ...prevLikedTweets };
+        updatedLikedTweets[tweetId] = !updatedLikedTweets[tweetId];
+        return updatedLikedTweets;
+      });
 
-      // Update the state with the new comments
-      setForums(updatedForums);
+      // Vibrate to provide feedback (you can customize this)
+      Vibration.vibrate(200);
     };
 
     return (
@@ -232,7 +196,11 @@ const CommunityScreen = ({ navigation }) => {
               size={20}
               color="#fff"
               style={buttonStyle}
-              onPress={() => navigation.navigate("People")}
+              onPress={() =>
+                navigation.navigate("FromTheRiver", {
+                  screen: "Influencer",
+                })
+              }
             />
           </View>
         </TouchableOpacity>
@@ -280,31 +248,76 @@ const CommunityScreen = ({ navigation }) => {
           marginTop: 10,
         }}
       >
-        <ForumComment
-          forumComments={item.comments || []}
-          onAddForumComment={(comment) =>
-            handleForumCommentAdd(item.id, comment)
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("FromTheRiver", {
+              screen: "Comment",
+              params: {
+                forum: item,
+                user: user,
+              },
+            })
           }
+        >
+          <Ionicons name="chatbox-outline" size={20} color="#111" />
+        </TouchableOpacity>
+
+        <Ionicons
+          name={likedTweets[item.id] ? "flame" : "flame-outline"}
+          size={24}
+          color={likedTweets[item.id] ? "orange" : "#111"}
+          onPress={() => handleLikePress(item.id)}
         />
-        <Ionicons name="flame-outline" size={20} color="#111" />
-        <Ionicons name="bookmarks-outline" size={20} color="#111" />
+        <Ionicons
+          name="bookmarks-outline"
+          size={20}
+          color={bookmarkedForums.includes(item.id) ? "tomato" : "#111"}
+          onPress={() => handleBookmarkPress(item.id)}
+        />
         <Ionicons name="share-social-outline" size={20} color="#111" />
       </View>
     </View>
   );
 
+  const handleLikePress = (tweetId) => {
+    // Toggle the liked status for the tweet
+    setLikedTweets((prevLikedTweets) => {
+      const updatedLikedTweets = { ...prevLikedTweets };
+      updatedLikedTweets[tweetId] = !updatedLikedTweets[tweetId];
+      return updatedLikedTweets;
+    });
+
+    // Vibrate to provide feedback (you can customize this)
+    Vibration.vibrate(200);
+  };
+
+  const handleBookmarkPress = (forumId) => {
+    // Check if the forum is already bookmarked
+    const isBookmarked = bookmarkedForums.includes(forumId);
+
+    // Toggle the bookmark status
+    const updatedBookmarkedForums = isBookmarked
+      ? bookmarkedForums.filter((id) => id !== forumId)
+      : [...bookmarkedForums, forumId];
+
+    // Update the state with the new bookmarked forums
+    setBookmarkedForums(updatedBookmarkedForums);
+
+    // Vibrate to provide feedback (you can customize this)
+    Vibration.vibrate(200);
+  };
   const renderPost = ({ item, navigation }) => (
     <View style={styles.postContainer}>
-        <TouchableOpacity
-      onPress={() => {
-        navigation.navigate('FromTheRiver', {
-          screen: 'Slide',
-          params: {
-            post: item,
-          },
-        });
-      }}
-    >
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("FromTheRiver", {
+            screen: "Slide",
+            params: {
+              post: item,
+            },
+          });
+        }}
+      >
         {item.type === "tweet" && (
           <View style={[styles.postItem, styles.tweetItem]}>
             <Ionicons name="logo-twitter" size={24} color="#1DA1F2" />
@@ -358,7 +371,7 @@ const CommunityScreen = ({ navigation }) => {
           <FlatList
             data={posts}
             renderItem={({ item }) => renderPost({ item, navigation })}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
           />
         );
       case "Notifications":
@@ -475,7 +488,7 @@ const CommunityScreen = ({ navigation }) => {
         {renderTabContent(
           activeTab,
           forums,
-          posts,
+          posts, // Pass the posts data
           renderItem,
           navigation,
           notificationCount
@@ -518,20 +531,24 @@ const CommunityScreen = ({ navigation }) => {
               color="black"
               onPress={() => setIsModalVisible(false)}
             />
-
             <Ionicons
-              name="create"
+              name="add"
               size={30}
-              color="tomato"
-              onPress={createForum}
+              color="#111"
+              onPress={() => {
+                setIsModalVisible(true);
+                createForum(); // Call the createForum function when the "Add" button is pressed
+              }}
             />
           </View>
 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Forum Title:</Text>
             <TextInput
+              mode="outlined"
               style={styles.input}
-              placeholder="Enter forum title"
+              placeholder="Enter a descriptive title for your forum"
+              placeholderTextColor="#333"
               value={forumName}
               onChangeText={(text) => setForumName(text)}
             />
@@ -540,11 +557,48 @@ const CommunityScreen = ({ navigation }) => {
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Description:</Text>
             <TextInput
-              style={styles.input}
-              placeholder="Enter forum description"
+              mode="outlined"
+              style={[styles.input, styles.multilineInput]}
+              placeholderTextColor="#333"
+              placeholder="Provide a brief description of your forum"
               value={forumDescription}
               onChangeText={(text) => setForumDescription(text)}
               multiline
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Keywords:</Text>
+            <TextInput
+              mode="outlined"
+              style={styles.input}
+              placeholder="Enter keywords (comma-separated)"
+              placeholderTextColor="#333"
+              value={keywords}
+              onChangeText={(text) => setKeywords(text)}
+              onSubmitEditing={() => {
+                setDismissableKeywords((prevKeywords) => [
+                  ...prevKeywords,
+                  keywords.trim(),
+                ]);
+                setKeywords("");
+              }}
+            />
+          </View>
+
+          <View style={styles.keywordsContainer}>
+            <Text style={styles.label}>Selected Keywords:</Text>
+            <FlatList
+              data={dismissableKeywords}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => handleKeywordPress(item)}>
+                  <View style={styles.dismissableKeyword}>
+                    <Text style={styles.keywordText}>{item}</Text>
+                    <Ionicons name="close-circle" size={20} color="red" />
+                  </View>
+                </TouchableOpacity>
+              )}
             />
           </View>
         </SafeAreaView>

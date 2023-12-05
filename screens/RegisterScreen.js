@@ -73,8 +73,10 @@ const RegisterScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>From The River</Text>
       <Text style={styles.strapline}>To The Sea</Text>
-      {profilePicture && (
+      {profilePicture ? (
         <Image source={{ uri: profilePicture }} style={styles.profilePicture} />
+      ) : (
+        <Image source={require('../assets/palestine.jpeg')} style={styles.defaultProfilePicture} />
       )}
       <TouchableOpacity onPress={handlePickProfilePicture}>
         <Text style={styles.pickPictureButton}>Pick Profile Picture</Text>
@@ -163,6 +165,15 @@ const styles = StyleSheet.create({
     color: 'white',
     textDecorationLine: 'underline',
     marginBottom: 10,
+  },
+  defaultProfilePicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'gray', // You can set a background color for the default avatar
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 10,
   },
 });
 

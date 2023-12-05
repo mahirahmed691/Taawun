@@ -57,6 +57,12 @@ const LoginScreen = ({ navigation }) => {
       >
         Not a member yet? Register
       </Text>
+
+      <Text
+      onPress={() => {
+    navigation.navigate("ForgotPassword");
+      }}
+      style={styles.forgotLink}>Forgot Password?</Text>
     </View>
   );
 };
@@ -87,10 +93,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   link: {
-    fontSize: 12,
-    fontWeight: "900",
+    fontSize: 14,
+    fontWeight: "bold",
     color: "white",
     marginTop: 20,
+  },
+  forgotLink: {
+    fontSize: 12,
+    fontWeight: "900",
+    textDecorationLine: "underline",
+    color: "white",
+    bottom: 30,
+    position: "absolute",
   },
   buttonText: {
     color: "#fff",

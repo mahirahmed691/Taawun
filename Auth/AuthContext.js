@@ -1,18 +1,20 @@
 // AuthContext.js
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { auth } from '../config/firebaseConfig'; // Update the path to your firebaseConfig
 
 const AuthContext = createContext();
 
 const initialState = {
   isAuthenticated: false,
+  user: null, // Add user field
 };
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
-      return { isAuthenticated: true };
+      return { ...state, isAuthenticated: true, user: action.payload };
     case 'LOGOUT':
-      return { isAuthenticated: false };
+      return { ...state, isAuthenticated: false, user: null };
     default:
       return state;
   }
@@ -21,7 +23,19 @@ const authReducer = (state, action) => {
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  const login = () => dispatch({ type: 'LOGIN' });
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        dispatch({ type: 'LOGIN', payload: authUser });
+      } else {
+        dispatch({ type: 'LOGOUT' });
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const login = (user) => dispatch({ type: 'LOGIN', payload: user });
   const logout = () => dispatch({ type: 'LOGOUT' });
 
   return (
