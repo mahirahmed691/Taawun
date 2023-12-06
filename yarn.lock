@@ -4844,7 +4844,7 @@ expo-firebase-analytics@^8.0.0:
 
 expo-firebase-app@^2.0.0, expo-firebase-app@~2.0.0:
   version "2.0.0"
-  resolved "https://registry.npmjs.org/expo-firebase-app/-/expo-firebase-app-2.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/expo-firebase-app/-/expo-firebase-app-2.0.0.tgz#1c2158c6423cd2a1bdb7749b96cc52b678126866"
   integrity sha512-rhKErhQybgL5Vbv8HndYVzwoXikL62iCd5e8k5cZZhs6S0TiWEx0anKhALvI2eCGBzQmYHM2sIzbi8DeUemuCw==
   dependencies:
     expo-core "~2.0.0"
@@ -4882,7 +4882,7 @@ expo-firebase-database@^2.0.0:
 
 expo-firebase-firestore@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.npmjs.org/expo-firebase-firestore/-/expo-firebase-firestore-2.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/expo-firebase-firestore/-/expo-firebase-firestore-2.0.0.tgz#22c02ceff6395d361f6c0077d7b83432479ed6ee"
   integrity sha512-lfS1QK5hcfJiNo8QqlC7ZzBb1QjRPQCgoQv0EQvGeqTi4hR5Hsj+Vvb6QsOfQTfq8VyKM6jaZC7SEgOFv9BfIw==
   dependencies:
     expo-core "~2.0.0"
@@ -7727,6 +7727,11 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
+moment@^2.29.4:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
+
 move-concurrently@^1.0.1, move-concurrently@~1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/move-concurrently/-/move-concurrently-1.0.1.tgz"
@@ -9141,10 +9146,10 @@ react-native-voice@^0.3.0:
   resolved "https://registry.npmjs.org/react-native-voice/-/react-native-voice-0.3.0.tgz"
   integrity sha512-puSrXCNn1MM03UZkY8q+GW931OqBCEBCiupNK4vD8i49esGqRDDmzv8sRYyEgXj5ScVDKe6lnlKCmJSn5Wo2UA==
 
-react-native@0.72.5:
-  version "0.72.5"
-  resolved "https://registry.npmjs.org/react-native/-/react-native-0.72.5.tgz"
-  integrity sha512-oIewslu5DBwOmo7x5rdzZlZXCqDIna0R4dUwVpfmVteORYLr4yaZo5wQnMeR+H7x54GaMhmgeqp0ZpULtulJFg==
+react-native@0.72.6:
+  version "0.72.6"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.72.6.tgz#9f8d090694907e2f83af22e115cc0e4a3d5fa626"
+  integrity sha512-RafPY2gM7mcrFySS8TL8x+TIO3q7oAlHpzEmC7Im6pmXni6n1AuufGaVh0Narbr1daxstw7yW7T9BKW5dpVc2A==
   dependencies:
     "@jest/create-cache-key-function" "^29.2.1"
     "@react-native-community/cli" "11.3.7"

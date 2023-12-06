@@ -1,125 +1,44 @@
 {
-    "influencers": [
-      {
-        "id": "1",
-        "name": "Linda Sarsour",
-        "socialMedia": {
-          "twitter": "@lsarsour",
-          "instagram": "@lsarsour",
-          "facebook": "/LindaSarsourOfficial"
-        },
-        "description": "Political activist and co-chair of the Women's March."
+  "influencers": [
+    {
+      "id": "2",
+      "name": "Omar Offendum",
+      "socialMedia": {
+        "twitter": "@Offendum",
+        "instagram": "@offendum",
+        "facebook": "/offendum"
       },
-      {
-        "id": "2",
-        "name": "Omar Offendum",
-        "socialMedia": {
-          "twitter": "@Offendum",
-          "instagram": "@offendum",
-          "facebook": "/offendum"
-        },
-        "description": "Syrian-American hip-hop artist and peace advocate."
+      "description": "Syrian-American hip-hop artist and peace advocate."
+    },
+    {
+      "id": "3",
+      "name": "Ahed Tamimi",
+      "socialMedia": {
+        "twitter": "@AhedTamimiReal",
+        "instagram": "@ahedtamimi",
+        "facebook": "/AhedTamimiOfficial"
       },
-      {
-        "id": "3",
-        "name": "Ahed Tamimi",
-        "socialMedia": {
-          "twitter": "@AhedTamimiReal",
-          "instagram": "@ahedtamimi",
-          "facebook": "/AhedTamimiOfficial"
-        },
-        "description": "Palestinian activist known for her role in the resistance movement."
+      "description": "Palestinian activist known for her role in the resistance movement."
+    },
+    {
+      "id": "4",
+      "name": "Linda Sarsour",
+      "socialMedia": {
+        "twitter": "@lsarsour",
+        "instagram": "@lsarsour",
+        "facebook": "/linda.sarsour"
       },
-      {
-        "id": "4",
-        "name": "Malala Yousafzai",
-        "socialMedia": {
-          "twitter": "@Malala",
-          "instagram": "@malala",
-          "facebook": "/MalalaFund"
-        },
-        "description": "Pakistani activist for female education and the youngest Nobel Prize laureate."
+      "description": "Palestinian-American political activist and co-chair of the Women's March."
+    },
+    {
+      "id": "5",
+      "name": "Marc Lamont Hill",
+      "socialMedia": {
+        "twitter": "@marclamonthill",
+        "instagram": "@marclamonthill",
+        "facebook": "/marclamonthill"
       },
-      {
-        "id": "5",
-        "name": "Greta Thunberg",
-        "socialMedia": {
-          "twitter": "@GretaThunberg",
-          "instagram": "@gretathunberg",
-          "facebook": "/gretathunbergsweden"
-        },
-        "description": "Swedish environmental activist focused on climate change."
-      },
-      {
-        "id": "6",
-        "name": "Khalid",
-        "socialMedia": {
-          "twitter": "@thegreatkhalid",
-          "instagram": "@thegr8khalid",
-          "facebook": "/khalidofficial"
-        },
-        "description": "American singer-songwriter known for hits like 'Young Dumb & Broke.'"
-      },
-      {
-        "id": "7",
-        "name": "Emma Watson",
-        "socialMedia": {
-          "twitter": "@EmmaWatson",
-          "instagram": "@emmawatson",
-          "facebook": "/emwatson"
-        },
-        "description": "British actress and UN Women Goodwill Ambassador."
-      },
-      {
-        "id": "8",
-        "name": "Elon Musk",
-        "socialMedia": {
-          "twitter": "@elonmusk",
-          "instagram": "@elonmusk",
-          "facebook": "/elonmuskofficial"
-        },
-        "description": "Entrepreneur, inventor, and CEO of SpaceX and Tesla."
-      },
-      {
-        "id": "9",
-        "name": "Beyoncé",
-        "socialMedia": {
-          "twitter": "@Beyonce",
-          "instagram": "@beyonce",
-          "facebook": "/beyonce"
-        },
-        "description": "Grammy-winning singer, songwriter, and actress."
-      },
-      {
-        "id": "10",
-        "name": "Dwayne Johnson",
-        "socialMedia": {
-          "twitter": "@TheRock",
-          "instagram": "@therock",
-          "facebook": "/DwayneJohnson"
-        },
-        "description": "Actor, producer, and former professional wrestler."
-      },
-      {
-        "id": "11",
-        "name": "Michelle Obama",
-        "socialMedia": {
-          "twitter": "@MichelleObama",
-          "instagram": "@michelleobama",
-          "facebook": "/michelleobama"
-        },
-        "description": "Former First Lady of the United States and author."
-      },
-      {
-        "id": "12",
-        "name": "Virat Kohli",
-        "socialMedia": {
-          "twitter": "@imVkohli",
-          "instagram": "@virat.kohli",
-          "facebook": "/imVkohli"
-        },
-        "description": "Indian cricketer and former captain of the Indian national team."
-      }
-    ]
-  }
-  
+      "description": "American academic, author, and activist known for his advocacy of Palestinian rights."
+    }
+  ]
+}

@@ -173,8 +173,12 @@ const SettingsScreen = ({ navigation }) => {
     try {
       await auth.signOut();
       console.log("User logged out successfully.");
-      // Reload the app after logout
-      Updates.reload();
+  
+      // Check if Updates is available before calling reload
+      if (Updates && Updates.reload) {
+        // Reload the app after logout
+        await Updates.reload();
+      }
     } catch (error) {
       console.error("Error during logout:", error.message);
     }

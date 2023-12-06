@@ -18,24 +18,23 @@ async function addPeopleToFirestore() {
     const collectionName = 'Influencers'; // Change this to the desired collection name
 
     for (const person of people) {
-      const { name, ...personDataWithoutName } = person;
-      const personRef = db.collection(collectionName).doc(name);
-
+      const personRef = db.collection(collectionName).doc(person.id);
+        
       // Check if the person already exists
       const existingPerson = await personRef.get();
-
+        
       if (!existingPerson.exists) {
         // Add the person if it doesn't exist
-        await personRef.set(personDataWithoutName);
-
+        await personRef.set(person);
+        
         // Print information about the added document
-        console.log(`Person added with ID: ${name}`);
-        console.log('Data:', personDataWithoutName);
+        console.log(`Person added with ID (and as name): ${person.id}`);
+        console.log('Data:', person);
         console.log('------------------------------------');
       } else {
         // Print information about the duplicate
-        console.log(`Duplicate person found with ID: ${name}`);
-        console.log('Data:', personDataWithoutName);
+        console.log(`Duplicate person found with ID: ${person.id}`);
+        console.log('Data:', person);
         console.log('------------------------------------');
       }
     }

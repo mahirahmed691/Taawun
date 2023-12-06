@@ -20,7 +20,7 @@ import NotificationsTab from "../components/NotifcationsTab";
 import MessagesTab from "../components/MessagesTab";
 import styles from "../styles";
 import { firestore, db } from "../config/firebaseConfig";
-import { useAuth } from '../Auth/AuthContext'; 
+import { useAuth } from "../Auth/AuthContext";
 
 const CommunityScreen = ({ navigation }) => {
   const { isAuthenticated, user, login, logout } = useAuth();
@@ -39,6 +39,43 @@ const CommunityScreen = ({ navigation }) => {
 
   const [forums, setForums] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [postText, setPostText] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+
+  const fetchForums = async () => {
+    const unsubscribeForums = onSnapshot(forumsCollection, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log("Forums from Firestore:", data);
+      setForums(data); // Update the forums state
+    });
+
+    return unsubscribeForums;
+  };
+
+  const forumsCollection = collection(firestore, "forums");
+  useEffect(() => {
+    const unsubscribe = onSnapshot(forumsCollection, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log("Forums from Firestore:", data);
+      setForums(data); // Update the forums state
+    });
+
+    // Cleanup function to unsubscribe when component unmounts
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = fetchForums();
+
+    // Cleanup function to unsubscribe when component unmounts
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const forumsCollection = collection(firestore, "forums");
@@ -57,7 +94,7 @@ const CommunityScreen = ({ navigation }) => {
     };
   }, []);
 
-  const createForum = () => {
+  const createForum = async () => {
     // Validation
     if (forumName.trim() === "") {
       return;
@@ -70,22 +107,34 @@ const CommunityScreen = ({ navigation }) => {
       date: new Date().toLocaleDateString(),
     };
 
-    // Add the new forum to Firestore
-    addDoc(collection(db, "forums"), newForum)
-      .then((docRef) => {
-        console.log("Forum added successfully with ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.error("Error adding forum: ", error);
-      });
+    try {
+      // Add the new forum to Firestore
+      const docRef = await addDoc(collection(firestore, "forums"), newForum);
+      console.log("Forum added successfully with ID:", docRef.id);
 
-    // Clear local state
-    setForumName("");
-    setForumDescription("");
-    setIsModalVisible(false);
-    setIsLongPressActive(false);
-    setShouldKeepMenuOpen(false);
+      // Clear local state
+      setForumName("");
+      setForumDescription("");
+      setIsModalVisible(false);
+      setIsLongPressActive(false);
+      setShouldKeepMenuOpen(false);
+    } catch (error) {
+      console.error("Error adding forum:", error);
+    }
   };
+
+  const handlePost = () => {
+    // Implement logic to post the content (postText) to the forum
+    console.log('Post:', postText);
+    // You may want to send the data to your server or update state accordingly
+  };
+
+  const handleEdit = () => {
+    // Implement logic to edit the forum post
+    console.log('Edit:', postText);
+    // You may want to send the updated data to your server or update state accordingly
+  };
+
 
   const handleLongPress = () => {
     longPressTimeout.current = setTimeout(() => {
@@ -363,9 +412,16 @@ const CommunityScreen = ({ navigation }) => {
     navigation,
     notificationCount
   ) => {
+    // Implement the content for each tab as a FlatList
     switch (activeTab) {
       case "ForumList":
-        return <ForumListTab forums={forums} renderItem={renderItem} />;
+        return (
+          <FlatList
+            data={forums}
+            renderItem={({ item }) => renderItem({ item })}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        );
       case "Feed":
         return (
           <FlatList

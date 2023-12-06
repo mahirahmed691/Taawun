@@ -1,20 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
-// Import the JSON data
-import influencersData from '../data/people.json';
+import { app } from '../config/firebaseConfig.js';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
 const InfluencerScreen = () => {
+  const [influencers, setInfluencers] = useState([]);
   const [selectedInfluencers, setSelectedInfluencers] = useState([]);
+
+  useEffect(() => {
+    const fetchInfluencers = async () => {
+      try {
+        const influencersSnapshot = await getDocs(collection(getFirestore(app), 'Influencers'));
+        const influencersData = influencersSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setInfluencers(influencersData);
+      } catch (error) {
+        console.error('Error fetching influencers: ', error);
+      }
+    };
+  
+    fetchInfluencers();
+  }, []);
 
   const toggleFollowStatus = (id) => {
     setSelectedInfluencers((prevSelectedInfluencers) => {
       if (prevSelectedInfluencers.includes(id)) {
-        // If the influencer is already selected, remove them from the list
         return prevSelectedInfluencers.filter((influencerId) => influencerId !== id);
       } else {
-        // If the influencer is not selected, add them to the list
         return [...prevSelectedInfluencers, id];
       }
     });
@@ -35,14 +50,14 @@ const InfluencerScreen = () => {
       style={[
         styles.influencerItem,
         {
-          backgroundColor: isFollowed(item.id) ? '#00c1b2' : '#f0f0f0', // Light Blue for Follow, Default color for Unfollow
+          backgroundColor: isFollowed(item.id) ? '#00c1b2' : '#f0f0f0',
         },
       ]}
       onPress={() => toggleFollowStatus(item.id)}
     >
       <View style={[styles.textContainer]}>
-        <Text style={[ styles.name, { color: isFollowed(item.id) ? '#fff' : '#111' }]}>{item.name}</Text>
-        <Text style={[styles.description,{ color: isFollowed(item.id) ? '#fff' : '#111' } ]}>{item.description}</Text>
+        <Text style={[styles.name, { color: isFollowed(item.id) ? '#fff' : '#111' }]}>{item.name}</Text>
+        <Text style={[styles.description, { color: isFollowed(item.id) ? '#fff' : '#111' }]}>{item.description}</Text>
         {renderSocialIcons(item.socialMedia)}
       </View>
       <View style={styles.followButton}>
@@ -52,12 +67,13 @@ const InfluencerScreen = () => {
       </View>
     </TouchableOpacity>
   );
+  
 
   return (
     <FlatList
-      data={influencersData.influencers}
+      data={influencers}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
       numColumns={2}
       contentContainerStyle={styles.container}
     />
@@ -78,7 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 8,
     elevation: 10,
-    height:250,
+    height: 250,
   },
   textContainer: {
     flex: 1,
@@ -95,16 +111,16 @@ const styles = StyleSheet.create({
   },
   socialMediaContainer: {
     flexDirection: 'row',
-    marginTop:10,
-    marginBottom:10,
-    marginLeft:0,
-    backgroundColor:'white',
-    width:120,
-    alignSelf:'center',
-    padding:20,
-    borderRadius:10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 0,
+    backgroundColor: 'white',
+    width: 120,
+    alignSelf: 'center',
+    padding: 20,
+    borderRadius: 10,
     position: 'absolute',
-    bottom:0,
+    bottom: 0,
   },
   socialIcon: {
     marginRight: 8,
@@ -113,7 +129,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     justifyContent: 'center',
-    width:120,
+    width: 120,
     alignItems: 'center',
     backgroundColor: '#1E90FF',
   },

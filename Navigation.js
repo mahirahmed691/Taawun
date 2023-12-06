@@ -21,6 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { IconButton } from "react-native-paper";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import CommentScreen from "./screens/CommentScreen";
+import CommentDetailsScreen from "./screens/CommentDetailsScreen";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -68,6 +69,7 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Slide" component={SlideShowScreen} />
       <Stack.Screen name="Influencer" component={InfluencerScreen} />
       <Stack.Screen name="Comment" component={CommentScreen} />
+      <Stack.Screen name="CommentDetails" component={CommentDetailsScreen} />
     </Stack.Navigator>
   );
 };

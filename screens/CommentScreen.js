@@ -1,3 +1,5 @@
+// CommentScreen.js
+
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -6,19 +8,25 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import {
   addDoc,
   collection,
   onSnapshot,
   serverTimestamp,
+  setDoc,
+  doc,
 } from "firebase/firestore";
 import { Button, Card, Avatar } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import * as Calendar from "expo-calendar";
-import { firestore, db } from "../config/firebaseConfig";
+import { firestore } from "../config/firebaseConfig";
 import CommentList from "../components/CommentList";
 import { useAuth } from "../Auth/AuthContext";
+import { Ionicons } from "@expo/vector-icons";
 
 const CommentScreen = ({ route }) => {
   const { forum } = route.params;
@@ -69,49 +77,54 @@ const CommentScreen = ({ route }) => {
     }
 
     if (authUser) {
-      const commentData = {
-        user: authUser.displayName,
-        userAvatar: authUser.photoURL,
-        text: newComment,
-        forumId: forum.id,
-        timestamp: serverTimestamp(),
-        date: selectedDate.toISOString(),
-        parentCommentId: selectedComment, // Add the parent comment ID
-      };
-
       try {
-        const docRef = await addDoc(
-          collection(firestore, "comments"),
-          commentData
-        );
+        if (selectedComment !== null) {
+          const parentComment = comments.find((c) => c.id === selectedComment);
+          const replyData = {
+            user: authUser.displayName,
+            userAvatar: authUser.photoURL,
+            text: newComment,
+            forumId: forum.id,
+            timestamp: serverTimestamp(),
+            date: selectedDate.toISOString(),
+            parentCommentId: selectedComment,
+            userEmail: authUser.email,
+          };
 
-        // Create a calendar event
-        const eventDetails = {
-          title: "Comment Event",
-          startDate: selectedDate,
-          endDate: selectedDate,
-          notes: newComment,
-        };
+          parentComment.replies = parentComment.replies || [];
+          parentComment.replies.push(replyData);
 
-        const calendarId = await Calendar.createCalendarAsync({
-          title: "My App Calendar",
-          color: "#00cbaf",
-          entityType: Calendar.EntityTypes.EVENT,
-          sourceId: Calendar.Sources.DEFAULT,
-          sourceName: "My App",
-          name: "My App Calendar",
-          ownerAccount: "personal",
-          accessLevel: Calendar.CalendarAccessLevel.OWNER,
-        });
+          await setDoc(
+            doc(firestore, "comments", selectedComment),
+            parentComment
+          );
 
-        await Calendar.createEventAsync(calendarId, eventDetails);
+          setNewComment("");
+          setSelectedComment(null);
+        } else {
+          const commentData = {
+            user: authUser.displayName,
+            userAvatar: authUser.photoURL,
+            text: newComment,
+            forumId: forum.id,
+            timestamp: serverTimestamp(),
+            date: selectedDate.toISOString(),
+            userEmail: authUser.email,
+            replies: [],
+          };
 
-        console.log("Comment added successfully with ID: ", docRef.id);
-        setNewComment("");
-        setSelectedDate(new Date());
-        setSelectedComment(null); // Clear the selected comment after adding a reply
+          const docRef = await addDoc(
+            collection(firestore, "comments"),
+            commentData
+          );
+
+          console.log("Comment added successfully with ID: ", docRef.id);
+
+          setNewComment("");
+          setSelectedDate(new Date());
+        }
       } catch (error) {
-        console.error("Error adding comment: ", error);
+        console.error("Error adding comment or reply: ", error);
       }
     } else {
       console.error("User is not authenticated.");
@@ -120,89 +133,113 @@ const CommentScreen = ({ route }) => {
 
   const replyToComment = (commentId) => {
     setSelectedComment(commentId);
+    setNewComment(`@${comments.find((c) => c.id === commentId)?.user} `);
   };
 
   const cancelReply = () => {
     setSelectedComment(null);
+    setNewComment("");
   };
 
   return (
-    <View style={styles.container}>
-      <Card style={styles.commentCard}>
-        <Card.Title
-          title={forum.name}
-          subtitle={`Join the discussion in ${forum.description}`}
-          left={(props) => <Avatar.Icon {...props} icon="forum" />}
-        />
-      </Card>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.container}
+      >
+        <Card style={styles.commentCard}>
+          <Card.Title
+            title={forum.name}
+            subtitle={`Join the discussion in ${forum.description}`}
+            left={(props) => (
+              <Ionicons size={40} name="md-chatbubbles-outline" />
+            )}
+            titleStyle={styles.cardTitle}
+            subtitleStyle={styles.cardSubtitle}
+          />
+        </Card>
 
-      <ScrollView style={styles.scrollView}>
-        <CommentList
-          comments={comments}
-          currentUser={authUser}
-          onReply={replyToComment}
-        />
-      </ScrollView>
+        <ScrollView style={styles.commentListContainer}>
+          <CommentList
+            comments={comments}
+            currentUser={authUser}
+            onReply={replyToComment}
+          />
+        </ScrollView>
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Add a comment"
-          value={newComment}
-          onChangeText={(text) => setNewComment(text)}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="What are your thoughts..."
+            value={newComment}
+            onChangeText={(text) => setNewComment(text)}
+            multiline={true}
+            numberOfLines={4}
+          />
 
-        <View style={styles.buttonContainer}>
-          <Button mode="contained" onPress={showDatePicker} style={styles.button}>
-            Select Date
-          </Button>
+          <View style={styles.buttonContainer}>
+            <Button
+              mode="contained"
+              onPress={showDatePicker}
+              style={styles.button}
+            >
+              Select Date
+            </Button>
 
-          {isDatePickerVisible && (
-            <DateTimePicker
-              value={selectedDate}
-              mode="datetime"
-              is24Hour={true}
-              display="default"
-              onChange={handleDateConfirm}
-            />
-          )}
+            {isDatePickerVisible && (
+              <DateTimePicker
+                value={selectedDate}
+                mode="datetime"
+                is24Hour={true}
+                display="default"
+                onChange={handleDateConfirm}
+              />
+            )}
 
-          <Button mode="contained" onPress={addComment} style={styles.button}>
-            Add Comment
-          </Button>
+            <Button mode="contained" onPress={addComment} style={styles.button}>
+              Tweet
+            </Button>
+          </View>
         </View>
 
-        {/* Reply feature */}
-        {selectedComment && (
+        {selectedComment !== null && (
           <View style={styles.replyContainer}>
+            <Text style={styles.replyToText}>
+              Replying to:{" "}
+              {comments.find((c) => c.id === selectedComment)?.user}
+            </Text>
             <TextInput
               style={styles.input}
-              placeholder="Reply to the comment"
+              placeholder="Tweet your reply..."
               value={newComment}
               onChangeText={(text) => setNewComment(text)}
+              multiline={true}
+              numberOfLines={4}
             />
-            <TouchableOpacity onPress={cancelReply} style={styles.button}>
-              <Text style={styles.buttonText}>Cancel Reply</Text>
+            <TouchableOpacity onPress={addComment} style={styles.replyButton}>
+              <Text style={styles.replyButtonText}>Tweet</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={addComment} style={styles.button}>
-              <Text style={styles.buttonText}>Add Reply</Text>
+            <TouchableOpacity onPress={cancelReply} style={styles.replyButton}>
+              <Text style={styles.replyButtonText}>Cancel Reply</Text>
             </TouchableOpacity>
           </View>
         )}
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+    paddingBottom: 10, // Adjust as needed
   },
-  scrollView: {
+  commentListContainer: {
     flex: 1,
   },
   inputContainer: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#fff",
     padding: 10,
   },
   input: {
@@ -212,13 +249,10 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 8,
   },
-  commentCard: {
-    zIndex: 1,
-  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 15,
   },
   button: {
     flex: 1,
@@ -229,12 +263,42 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   replyContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
+    flexDirection: "column",
+    backgroundColor: "#00cbaf",
+    borderRadius: 8,
+    padding: 10,
   },
-  buttonText: {
+  replyToText: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  replyButton: {
+    backgroundColor: "#00cbaf",
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+    marginTop: 5,
+  },
+  replyButtonText: {
     color: "white",
+  },
+  commentCard: {
+    padding: 10,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    backgroundColor: "#f0f8ff",
+    zIndex: 1,
+  },
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  cardSubtitle: {
+    fontSize: 10,
+    color: "#555",
   },
 });
 
