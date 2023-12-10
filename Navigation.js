@@ -22,6 +22,8 @@ import { IconButton } from "react-native-paper";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import CommentScreen from "./screens/CommentScreen";
 import CommentDetailsScreen from "./screens/CommentDetailsScreen";
+import ChatDetailScreen from "./screens/ChatDetailScreen";
+import ChatListScreen from "./components/ChatListScreen.js"
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -29,7 +31,7 @@ const Stack = createStackNavigator();
 const AuthenticatedApp = () => (
   <Drawer.Navigator initialRouteName="Home">
     <Drawer.Screen name="Home" component={TabNavigation} />
-    <Drawer.Screen name="Community" component={CommunityScreen}  />
+    <Drawer.Screen name="Community" component={CommunityScreen} />
     <Drawer.Screen name="Barcode" component={BarcodeScanner} />
     <Drawer.Screen name="Shop" component={AllowedScreen} />
     <Drawer.Screen name="Settings" component={SettingsScreen} />
@@ -70,6 +72,8 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Influencer" component={InfluencerScreen} />
       <Stack.Screen name="Comment" component={CommentScreen} />
       <Stack.Screen name="CommentDetails" component={CommentDetailsScreen} />
+      <Stack.Screen name="ChatDetail" component={ChatDetailScreen} />
+      <Stack.Screen name="ChatList" component={ChatListScreen} />
     </Stack.Navigator>
   );
 };

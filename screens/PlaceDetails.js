@@ -13,7 +13,7 @@ import {
 import { Card, Title, Paragraph } from "react-native-paper";
 
 const PlaceDetails = ({ route }) => {
-  const { name, description, image, instagram, showcase, url } = route.params;
+  const { name, description, image, instagram, showcase, url, country } = route.params;
 
   const renderItem = ({ item }) => (
     <Image source={{ uri: item }} style={styles.showcaseImage} />
@@ -49,6 +49,9 @@ const PlaceDetails = ({ route }) => {
               <Ionicons name="link" size={15} /> {`${url}`}
             </Text>
           </TouchableOpacity>
+          <Text style={styles.detailInstagram}>
+              <Ionicons name="globe" size={15} /> {`${country}`}
+            </Text>
         </Card.Content>
       </Card>
 

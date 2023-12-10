@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 const serviceAccount = require('../boycott-40766-firebase-adminsdk-9lfbk-0a9af0fd70.json');
-const shopData = require('./allowed.json'); // Assuming allowed.json is in the same directory
+const shopData = require('./allowed.json');
 
 // Initialize Firebase Admin SDK
 admin.initializeApp({
@@ -14,8 +14,8 @@ const db = admin.firestore();
 // Add data to Firestore
 async function addShopsToFirestore() {
   try {
-    // Convert object to array
-    const shopsArray = Object.values(shopData.shops);
+    // Use the correct property name
+    const shopsArray = shopData.allowedTargets;
 
     for (const shop of shopsArray) {
       const { name, ...shopDataWithoutName } = shop;
@@ -31,7 +31,8 @@ async function addShopsToFirestore() {
 
         // Print information about the added document
         console.log(`Shop added with ID: ${name}`);
-        console.log('Data:', shopDataWithoutName);
+        console.log('Data:');
+        console.log(JSON.stringify(shopDataWithoutName, null, 2)); // Display with indentation
         console.log('------------------------------------');
       }
     }

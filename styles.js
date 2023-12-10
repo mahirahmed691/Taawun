@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    backgroundColor: "#fff",
   },
   container2: {
     flex: 1,
@@ -59,13 +60,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "80%",
   },
-  listItem: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    width: "100%",
-    justifyContent: "flex-start",
-  },
   logo: {
     width: "50%",
     height: 100,
@@ -74,14 +68,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     resizeMode: "contain",
     alignItems: "center",
-  },
-  itemImage: {
-    flex: 1,
-    resizeMode: "contain",
-    justifyContent: "center",
-    alignItems: "center",
-    height: 200,
-    width: 100,
   },
   headerText: {
     alignSelf: "center",
@@ -101,7 +87,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
   },
-
   sectionHeader2: {
     fontSize: 20,
     padding: 1,
@@ -153,8 +138,7 @@ const styles = StyleSheet.create({
   },
   listItem: {
     margin: 10,
-    padding: 10,
-    backgroundColor: "#FFF",
+    padding: 20,
     borderRadius: 8,
     elevation: 4,
   },
@@ -163,6 +147,8 @@ const styles = StyleSheet.create({
     height: 200,
     overflow: "hidden",
     position: "relative",
+    resizeMode: "cover",
+    aspectRatio: 2 / 1,
   },
   joinBoycottButton: {
     position: "absolute",
@@ -302,7 +288,7 @@ const styles = StyleSheet.create({
   },
   modalHeaderContainer: {
     flexDirection: "row",
-    width:"90%",
+    width: "90%",
     justifyContent: "space-between",
     marginBottom: 20,
     marginLeft: 0,
@@ -348,8 +334,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     paddingVertical: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: "#000",
+    borderBottomColor: "teal",
     alignSelf: "center",
   },
   tabBarButton: {
@@ -366,7 +351,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   activeTab: {
-    backgroundColor: "#000",
+    backgroundColor: "#094349",
   },
   activeTabText: {
     color: "tomato",
@@ -408,8 +393,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   postTitle: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "bold",
+    marginTop: 20,
+    alignItems: "center",
   },
   postDate: {
     color: "#555",
@@ -419,65 +406,12 @@ const styles = StyleSheet.create({
   },
   postImage: {
     marginTop: 10,
-    width: "100%",
-    height: 200,
-    borderRadius: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
   },
-  tabBar: {
-    flexDirection: "row",
-    backgroundColor: "#fff",
-    elevation: 2,
-  },
-  tabBarButton: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-  },
-  activeTab: {
-    backgroundColor: "#094349",
-  },
-  tabBarIcon: {
-    marginBottom: 3,
-  },
-  activeTabText: {
-    color: "#fff",
-  },
-  badgeContainer: {
-    position: "absolute",
-    top: 5,
-    right: 30,
-    width: 20,
-    height: 20,
-    backgroundColor: "tomato",
-    borderRadius: 10,
-    padding: 0,
-    zIndex: 1,
-  },
-  badgeText: {
-    color: "#fff",
-    marginTop: 2,
-    alignSelf: "center",
-  },
-  createButton: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    borderRadius: 25,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  instagramLink: {
-    position: "absolute",
-    top: -5,
-    right: 5,
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    padding: 5,
-    borderRadius: 5,
-    color: "tomato",
-    fontWeight: "700",
-    fontSize: 15,
-  },
+
   alternativeBrandsContainer: {
     width: "100%",
     marginLeft: "0%",
@@ -602,7 +536,7 @@ const styles = StyleSheet.create({
   zikrContainer: {
     padding: 20,
     backgroundColor: "#ecf0f1",
-    flex:1
+    flex: 1,
   },
   zikrHeader: {
     fontSize: 24,
@@ -635,13 +569,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     minHeight: "100%",
-    width:"100%"
+    width: "100%",
   },
   backgroundImage: {
     ...StyleSheet.absoluteFillObject,
     opacity: 1,
-    width:"100%",
-
+    width: "100%",
   },
   roundCounter: {
     fontSize: 18,
@@ -787,8 +720,286 @@ const styles = StyleSheet.create({
   },
   horizontalLine: {
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0", // You can set the color of the line
-    marginVertical: 10, // Adjust the margin as needed
+    borderBottomColor: "#f0f0f0",
+    marginVertical: 10,
+  },
+  screenContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  flatListContent: {
+    paddingBottom: 20,
+  },
+  userChatContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+  },
+  userChatAvatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 15,
+  },
+  userChatContent: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  nameAndStatus: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  userChatName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginRight: 5,
+  },
+  lastMessage: {
+    color: "#777",
+    marginTop: 5,
+  },
+  lastMessageTime: {
+    color: "#777",
+    fontSize: 12,
+  },
+  badgeContainer: {
+    borderRadius: 10,
+    padding: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 5,
+    right: 15,
+  },
+  unreadIcon: {
+    marginLeft: 2,
+  },
+  searchInput: {
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    margin: 16,
+    paddingLeft: 10,
+    backgroundColor: "#f5f5f5",
+    fontSize: 16,
+    color: "#333",
+  },
+  createGroupButton: {
+    backgroundColor: "#000",
+    borderRadius: 50,
+    padding: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "flex-end",
+    margin: 10,
+  },
+  createGroupButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    width: "90%",
+    maxHeight: "80%",
+    overflow: "hidden",
+    padding: 20,
+  },
+  modalUserItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  modalUserAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 16,
+  },
+  modalUserName: {
+    fontSize: 16,
+    flex: 1,
+    color: "#333",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 20,
+  },
+  modalButton: {
+    backgroundColor: "#000",
+    padding: 14,
+    borderRadius: 8,
+    flex: 1,
+    marginHorizontal: 8,
+    alignItems: "center",
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  checkIcon: {
+    marginLeft: "auto",
+  },
+  swipeDeleteContainer: {
+    backgroundColor: "#e74c3c",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 75,
+  },
+  groupNameInput: {
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    marginVertical: 10,
+    paddingLeft: 10,
+    fontSize: 16,
+    color: "#333",
+  },
+  groupSettingsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  groupSettingOption: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  topMenuBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#094349",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  menuBarButton: {
+    padding: 10,
+    borderRadius: 50,
+  },
+  feedList: {
+    padding: 10,
+    backgroundColor: "#f5f5f5", // Light background color
+  },
+  timelineItem: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+    padding: 16,
+    marginRight: 10,
+  },
+  timelineIconContainer: {
+    backgroundColor: "#3498db",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 16,
+    width: 40,
+    height: 40,
+  },
+  timelineContentContainer: {
+    flex: 1,
+  },
+  postTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    marginBottom: 8,
+    color: "#333",
+  },
+  postDescription: {
+    fontSize: 14,
+    color: "#555",
+    marginBottom: 12,
+  },
+  socialMediaContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
+    borderRadius:10,
+    padding:10,
+  },
+  socialMediaIconContainer: {
+    flexDirection: "row",
+    marginRight: 2,
+    alignItems: "center",
+    
+  },
+  socialMediaIcon: {
+    marginRight: 2,
+    color: "#555", // Icon color
+  },
+  socialMediaHandle: {
+    fontSize: 12,
+    color: "#777",
+  },
+  likeCommentContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  likeIcon: {
+    marginRight: 8,
+    color: "#e74c3c", // Like icon color
+  },
+  commentIcon: {
+    marginRight: 16,
+    color: "#3498db", // Comment icon color
+  },
+  commentContainer: {
+    maxHeight: 100,
+    marginBottom: 12,
+  },
+  commentText: {
+    fontSize: 12,
+    color: "#555",
+    marginBottom: 4,
+  },
+  commentAuthor: {
+    fontWeight: "700",
+  },
+  addCommentContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#ddd",
+    paddingTop: 8,
+  },
+  commentInput: {
+    flex: 1,
+    height: 40,
+    borderColor: "#ddd",
+    borderWidth: 0.5,
+    borderRadius: 4,
+    marginRight: 8,
+    paddingHorizontal: 16,
+    backgroundColor: "#fff", 
+  },
+  sendIcon: {
+    marginRight: 8,
+    color: "#3498db", 
   },
 });
 

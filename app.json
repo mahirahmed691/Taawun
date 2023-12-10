@@ -1,20 +1,18 @@
 {
   "expo": {
-    "name": "FromTheRiver",
-    "slug": "FromTheRiver",
+    "name": "boycott",
+    "slug": "boycott",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/logo.png",
-      "width":100,
+      "width": "100",
       "resizeMode": "contain",
       "backgroundColor": "#094349"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Your message here.",

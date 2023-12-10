@@ -12,7 +12,7 @@
       ],
       "url": "http://www.abayasboutique.com/",
       "description": "A genderless slow fashion brand handmade in Gaza. Anat aims to revive the textile industry in Gaza, which has been under a restrictive and unjust blockade for more than 10 years. For this reason, their garments are 100% made in Gaza, Palestine, from the denim, to the handmade embroidery, to the design",
-      "image": "https://scontent-lhr8-2.xx.fbcdn.net/v/t39.30808-6/273610931_852010885616841_5096047708012292333_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_ohc=TGqUDacdrlIAX8fv9Dp&_nc_ht=scontent-lhr8-2.xx&oh=00_AfAnRRDHTqFIwActAmUWAsuhr0bBpy72-9tXcUeQAMYeQA&oe=65664852"
+      "image": "https://abayasboutique.com/img/st/1-stores_default.jpg"
     },
     {
       "name": "Taj Sisters",
@@ -82,6 +82,48 @@
       "url": "https://anat-international.com/",
       "description": "A genderless slow fashion brand handmade in Gaza. Anat aims to revive the textile industry in Gaza, which has been under a restrictive and unjust blockade for more than 10 years. For this reason, their garments are 100% made in Gaza, Palestine, from the denim, to the handmade embroidery, to the design",
       "image": "https://cdn.shopify.com/s/files/1/0305/4606/7593/files/Skarmavbild_2020-02-11_kl._00.09.42.jpeg?height=628&pad_color=fff&v=1614304418&width=1200"
+    },
+    {
+      "name": "1309studios",
+      "country": "Quatar",
+      "showcase": [
+        "https://1309studios.com/cdn/shop/files/ZOEYoffwhite_5_1080x.png?v=1701255416",
+        "https://1309studios.com/cdn/shop/files/BAYANDAHDAHX1309-PARADISEGARDEN_6_1080x.png?v=1698928098",
+        "https://1309studios.com/cdn/shop/files/7_1080x.png?v=1697710275",
+        "https://1309studios.com/cdn/shop/files/16_1080x.png?v=1698149039"
+      ],
+      "instagram": "1309studios",
+      "url": "https://1309studios.com/",
+      "description": "A state of mind more than a way of dressing.",
+      "image": "https://cdn.shopify.com/s/files/1/0415/3825/7059/files/1309_Logo_English.png?height=628&pad_color=fff&v=1645449984&width=1200"
+    },
+    {
+      "name": "Aune Collections",
+      "country": "Quatar",
+      "showcase": [
+        "https://aunecollections.com/wp-content/uploads/2022/12/000031340015-copy-scaled.jpg",
+        "https://aunecollections.com/wp-content/uploads/2023/10/01760036-scaled.jpg",
+        "https://aunecollections.com/wp-content/uploads/2023/09/01760023-scaled.jpg",
+        "https://aunecollections.com/wp-content/uploads/2021/09/000009200037-1.jpg"
+      ],
+      "instagram": "xenab_lone",
+      "url": "https://aunecollections.com/",
+      "description": "Founder Xenab Lone Jamil took to Instagram to share a new, limited-edition collection that consists of made-to-measure long-sleeved tops and vests. Crafted in the colors of the Palestinian flag, the sleeved pieces feature the words “Free Palestine” with mesh inserts, with proceeds donated to Medical Aid for Palestinians.",
+      "image": "https://aunecollections.com/wp-content/themes/aunecollections/assets/Aune-Logo3.png"
+    },
+    {
+      "name": "Vela Scarves",
+      "country": "Quatar",
+      "showcase": [
+        "https://velascarves.com/cdn/shop/files/MODELSHOT-89_1296x.jpg?v=1699981224",
+        "https://velascarves.com/cdn/shop/files/MODELSHOT-75W_1296x.jpg?v=1701651487",
+        "https://velascarves.com/cdn/shop/products/custom_resized_0c0dc9c7-477e-4db4-bcd7-237026a75e49_1296x.jpg?v=1686661043",
+        "https://velascarves.com/cdn/shop/products/custom_resized_6333c8d3-f323-4159-8bd6-beb7b6f8c6f8_1296x.jpg?v=1686661349"
+      ],
+      "instagram": "xenab_lone",
+      "url": "https://velascarves.com/",
+      "description": "Timeless silhouettes with a unique touch, our abaya collection will have you feeling effortlessly elegant for every occasion.",
+      "image": "https://media.licdn.com/dms/image/C4E0BAQECX8GHclCubQ/company-logo_200_200/0/1631311924418?e=2147483647&v=beta&t=BX0kPTrXXiBHrg8giAJGksIe9q9HQA3j0WpyUPfmoS8"
     }
   ]
 }

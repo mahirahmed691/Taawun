@@ -39,6 +39,16 @@
         "facebook": "/marclamonthill"
       },
       "description": "American academic, author, and activist known for his advocacy of Palestinian rights."
+    },
+    {
+      "id": "6",
+      "name": "Mahir Ahmed",
+      "socialMedia": {
+        "twitter": "@k8sctl",
+        "instagram": "@mahirahmed691",
+    "facebook": "/mahirahmed"
+      },
+      "description": "American academic, author, and activist known for his advocacy of Palestinian rights."
     }
   ]
 }

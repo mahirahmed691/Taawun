@@ -13,14 +13,22 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import { collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  doc,
+} from "firebase/firestore";
 import ForumListTab from "../components/ForumListTab";
 import PrayerTab from "../components/PrayerTab";
 import NotificationsTab from "../components/NotifcationsTab";
-import MessagesTab from "../components/MessagesTab";
+import MessagesTab from "../components/ChatListScreen.js";
 import styles from "../styles";
 import { firestore, db } from "../config/firebaseConfig";
 import { useAuth } from "../Auth/AuthContext";
+import FeedScreen from "../screens/FeedScreen.js";
 
 const CommunityScreen = ({ navigation }) => {
   const { isAuthenticated, user, login, logout } = useAuth();
@@ -39,8 +47,30 @@ const CommunityScreen = ({ navigation }) => {
 
   const [forums, setForums] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [postText, setPostText] = useState('');
+  const [postText, setPostText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const influencerDocRef = doc(
+    firestore,
+    "Influencers",
+    "yourInfluencerDocumentId"
+  );
+  const influencerPostsCollection = collection(influencerDocRef, "posts");
+
+  useEffect(() => {
+    const unsubscribePosts = onSnapshot(
+      influencerPostsCollection,
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log("Posts from Firestore:", data);
+        setPosts(data);
+      }
+    );
+
+    return () => unsubscribePosts();
+  }, []);
 
   const fetchForums = async () => {
     const unsubscribeForums = onSnapshot(forumsCollection, (snapshot) => {
@@ -71,10 +101,10 @@ const CommunityScreen = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = fetchForums();
-
+    const unsubscribe = fetchForums(); // Use fetchForums directly
+  
     // Cleanup function to unsubscribe when component unmounts
-    return () => unsubscribe();
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
@@ -125,16 +155,15 @@ const CommunityScreen = ({ navigation }) => {
 
   const handlePost = () => {
     // Implement logic to post the content (postText) to the forum
-    console.log('Post:', postText);
+    console.log("Post:", postText);
     // You may want to send the data to your server or update state accordingly
   };
 
   const handleEdit = () => {
     // Implement logic to edit the forum post
-    console.log('Edit:', postText);
+    console.log("Edit:", postText);
     // You may want to send the updated data to your server or update state accordingly
   };
-
 
   const handleLongPress = () => {
     longPressTimeout.current = setTimeout(() => {
@@ -169,6 +198,41 @@ const CommunityScreen = ({ navigation }) => {
     }
   };
 
+  const renderCreateButton = () => {
+    if (activeTab === "ForumList") {
+      return (
+        <TouchableWithoutFeedback
+          onPress={handleCreateButtonPress}
+          onLongPress={() => {
+            handleLongPress();
+            setShouldKeepMenuOpen(true);
+          }}
+          onPressOut={handlePressOut}
+        >
+          <View
+            style={[
+              styles.createButton,
+              {
+                backgroundColor: isLongPressActive ? "black" : "tomato",
+                width: isLongPressActive ? 45 : 50,
+                height: isLongPressActive ? 45 : 50,
+              },
+            ]}
+          >
+            <Ionicons
+              name={isLongPressActive ? "close" : "add"}
+              size={isLongPressActive ? 24 : 30}
+              color="#fff"
+            />
+            {isLongPressActive && renderLongPressMenu()}
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    }
+
+    return null; // Don't render the button for other tabs
+  };
+
   const renderLongPressMenu = () => {
     const buttonStyle = {
       color: "#094349",
@@ -177,19 +241,6 @@ const CommunityScreen = ({ navigation }) => {
       borderRadius: 25,
       borderWidth: 2,
       borderColor: "#094349",
-      padding: 14,
-    };
-
-    const handleLikePress = (tweetId) => {
-      // Toggle the liked status for the tweet
-      setLikedTweets((prevLikedTweets) => {
-        const updatedLikedTweets = { ...prevLikedTweets };
-        updatedLikedTweets[tweetId] = !updatedLikedTweets[tweetId];
-        return updatedLikedTweets;
-      });
-
-      // Vibrate to provide feedback (you can customize this)
-      Vibration.vibrate(200);
     };
 
     return (
@@ -225,7 +276,7 @@ const CommunityScreen = ({ navigation }) => {
         <TouchableOpacity
           style={[
             styles.longPressMenuItem,
-            { position: "absolute", bottom: 80, right: 30 },
+            { position: "absolute", bottom: 0, right: 30 },
           ]}
           onPress={() => {
             console.log("Comment pressed");
@@ -355,54 +406,6 @@ const CommunityScreen = ({ navigation }) => {
     // Vibrate to provide feedback (you can customize this)
     Vibration.vibrate(200);
   };
-  const renderPost = ({ item, navigation }) => (
-    <View style={styles.postContainer}>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("FromTheRiver", {
-            screen: "Slide",
-            params: {
-              post: item,
-            },
-          });
-        }}
-      >
-        {item.type === "tweet" && (
-          <View style={[styles.postItem, styles.tweetItem]}>
-            <Ionicons name="logo-twitter" size={24} color="#1DA1F2" />
-            <View style={styles.postContentContainer}>
-              <Text style={styles.postTitle}>{item.title}</Text>
-              <Text style={styles.postDate}>{item.date}</Text>
-              <Text style={styles.postContent}>{item.content}</Text>
-            </View>
-          </View>
-        )}
-
-        {item.type === "instagram" && (
-          <View style={[styles.postItem, styles.instagramItem]}>
-            <Ionicons name="logo-instagram" size={24} color="#E1306C" />
-            <View style={styles.postContentContainer}>
-              <Image source={item.image} style={styles.postImage} />
-              <Text style={styles.postTitle}>{item.title}</Text>
-              <Text style={styles.postDate}>{item.date}</Text>
-              <Text style={styles.postContent}>{item.content}</Text>
-            </View>
-          </View>
-        )}
-
-        {item.type === "facebook" && (
-          <View style={[styles.postItem, styles.facebookItem]}>
-            <Ionicons name="logo-facebook" size={24} color="#1877F2" />
-            <View style={styles.postContentContainer}>
-              <Text style={styles.postTitle}>{item.title}</Text>
-              <Text style={styles.postDate}>{item.date}</Text>
-              <Text style={styles.postContent}>{item.content}</Text>
-            </View>
-          </View>
-        )}
-      </TouchableOpacity>
-    </View>
-  );
 
   const renderTabContent = (
     activeTab,
@@ -423,13 +426,7 @@ const CommunityScreen = ({ navigation }) => {
           />
         );
       case "Feed":
-        return (
-          <FlatList
-            data={posts}
-            renderItem={({ item }) => renderPost({ item, navigation })}
-            keyExtractor={(item) => item.id.toString()}
-          />
-        );
+        return <FeedScreen posts={posts} navigation={navigation} />;
       case "Notifications":
         return <NotificationsTab notificationCount={notificationCount} />;
       case "Messages":
@@ -540,7 +537,7 @@ const CommunityScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={{ flex: 1, marginBottom: 50 }}>
+      <ScrollView style={{ flex: 1 }}>
         {renderTabContent(
           activeTab,
           forums,
@@ -551,32 +548,7 @@ const CommunityScreen = ({ navigation }) => {
         )}
       </ScrollView>
 
-      <TouchableWithoutFeedback
-        onPress={handleCreateButtonPress}
-        onLongPress={() => {
-          handleLongPress();
-          setShouldKeepMenuOpen(true);
-        }}
-        onPressOut={handlePressOut}
-      >
-        <View
-          style={[
-            styles.createButton,
-            {
-              backgroundColor: isLongPressActive ? "black" : "tomato",
-              width: isLongPressActive ? 45 : 50,
-              height: isLongPressActive ? 45 : 50,
-            },
-          ]}
-        >
-          <Ionicons
-            name={isLongPressActive ? "close" : "add"}
-            size={isLongPressActive ? 24 : 30}
-            color="#fff"
-          />
-          {isLongPressActive && renderLongPressMenu()}
-        </View>
-      </TouchableWithoutFeedback>
+      {renderCreateButton()}
 
       <Modal visible={isModalVisible} animationType="slide">
         <SafeAreaView style={styles.modalContainer}>
@@ -593,7 +565,7 @@ const CommunityScreen = ({ navigation }) => {
               color="#111"
               onPress={() => {
                 setIsModalVisible(true);
-                createForum(); // Call the createForum function when the "Add" button is pressed
+                createForum();
               }}
             />
           </View>

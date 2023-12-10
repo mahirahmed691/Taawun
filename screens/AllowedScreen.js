@@ -1,5 +1,5 @@
 // AllowedScreen.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   SafeAreaView,
   Text,
@@ -10,6 +10,7 @@ import {
   View,
   Linking,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import { Button } from "react-native-paper";
 import styles from "../styles.js";
@@ -19,13 +20,26 @@ import { Ionicons } from "@expo/vector-icons";
 const AllowedScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [allowedPlaces, setAllowedPlaces] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    // You can fetch new data here
+    // For example, you can make an API call or update your local data
+    // For now, let's just simulate a delay with setTimeout
+    setTimeout(() => {
+      if (allowedData && allowedData.allowedTargets) {
+        setAllowedPlaces(allowedData.allowedTargets);
+      }
+      setRefreshing(false);
+    }, 1000); // Adjust the delay as needed
+  }, []);
 
   useEffect(() => {
-    if (allowedData && allowedData.allowedTargets) {
-      setAllowedPlaces(allowedData.allowedTargets);
-    }
-  }, [allowedData]);
+    onRefresh(); // Initial data fetch on component mount
+  }, [onRefresh]);
 
+  // Move the creation of sectionedData here
   const filteredPlaces = allowedPlaces.filter((place) =>
     place.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -56,6 +70,7 @@ const AllowedScreen = ({ navigation }) => {
         url: item.url,
         description: item.desc,
         showcase: item.showcase,
+        country: item.country,
       },
     });
   };
@@ -89,8 +104,8 @@ const AllowedScreen = ({ navigation }) => {
         </View>
       </TouchableOpacity>
 
-      <Text style={{ fontWeight: "700", marginTop: 5, marginBottom: 10 }}>
-        {item.desc}
+      <Text style={{ fontWeight: "300", fontStyle:"italic", marginTop: 5, marginBottom: 10 }}>
+        {item.description}
       </Text>
       <ImageBackground
         source={{ uri: item.image }}
@@ -136,6 +151,9 @@ const AllowedScreen = ({ navigation }) => {
             />
           </View>
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
       <StatusBar style="auto" />
     </SafeAreaView>
