@@ -63,7 +63,7 @@
         "https://sh.skechers.com/logos/images/CORP_SKX_BLU-logo.jpg"
       ],
       "description": "Invests in Israeli banks financing war crimes and the theft of Palestinian land and resources.",
-      "industry": "Insaurance",
+      "industry": "Insurance",
       "image": "https://www.adviserhome.co.uk/cd-content/uploads/images/axa__logo.png"
     },
     {
@@ -123,7 +123,7 @@
     {
       "name": "Disney",
       "country": "US",
-      "industry":"Entertainment",
+      "industry": "Entertainment",
       "description": "Marvel Studios promoting a 'superhero' personifying apartheid Israel in the next Captain America film.",
       "image": "https://i.etsystatic.com/23511185/r/il/e8011d/2428310207/il_fullxfull.2428310207_re6b.jpg"
     },
@@ -272,28 +272,28 @@
     {
       "name": "Caterpillar Inc.",
       "country": "US",
-      "industry":"Construction",
+      "industry": "Construction",
       "description": "Provides bulldozers and equipment used in the demolition of Palestinian homes.",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeucaDicsckJS3DFMjXkbxnZJhjUvPTDmSkkWclgt-O4DcWMFy6q1j0n1y9v1JrpXxFa8&usqp=CAU"
     },
     {
       "name": "HeidelbergCement",
       "country": "Germany",
-      "industry":"Construction",
+      "industry": "Construction",
       "description": "Operates quarries in the occupied West Bank, extracting resources from Palestinian land.",
       "image": "https://www.genesys.com/media/BankHapoalim_ResourceThumbnail.jpg"
     },
     {
       "name": "Veoneer",
       "country": "Sweden",
-      "industry":"Autmotive",
+      "industry": "Autmotive",
       "description": "Accused of supplying vision systems used in Israeli military vehicles.",
       "image": "https://www.veoneer.com/sites/default/files/ia/veoneer_logo_blue_300dpi.jpg"
     },
     {
       "name": "Bank Hapoalim",
       "country": "Israel",
-      "industry":"Banking & Finance",
+      "industry": "Banking & Finance",
       "description": "One of the largest banks in Israel, accused of providing financial services to settlements.",
       "image": "https://www.genesys.com/media/BankHapoalim_ResourceThumbnail.jpg"
     },
@@ -307,7 +307,7 @@
     {
       "name": "Bezeq",
       "country": "Israel",
-      "industry":"Telecommunication",
+      "industry": "Telecommunication",
       "description": "Accused of providing telecommunication services to Israeli settlements.",
       "image": "data:image/jpeg;base64,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"
     },

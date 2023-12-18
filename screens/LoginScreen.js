@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#094349",
+    backgroundColor: "#234A57",
   },
   logo: {
     width: "90%",
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   loginButton: {
-    backgroundColor: "#CF5189",
+    backgroundColor: "red",
     width: "90%",
     padding: 5,
     borderRadius: 5,

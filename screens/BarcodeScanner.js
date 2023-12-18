@@ -72,7 +72,7 @@ const BarcodeScanner = () => {
   };
 
   const requestCameraPermission = async () => {
-    const { status } = await Camera.requestPermissionsAsync();
+    const { status } = await Camera.requestCameraPermissionsAsync();
     if (status !== "granted") {
       console.log("Camera permission denied");
     }

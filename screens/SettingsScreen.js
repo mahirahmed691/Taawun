@@ -147,6 +147,7 @@ const SettingsScreen = ({ navigation }) => {
     fetchUserInfo();
   }, []);
 
+  
   const handlePickProfilePicture = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -167,6 +168,28 @@ const SettingsScreen = ({ navigation }) => {
       console.error("Error picking an image", error);
     }
   };
+
+  const handleChangePassword = async () => {
+    try {
+      const user = auth.currentUser;
+
+      if (user && user.providerData[0].providerId === "password") {
+        // You can implement your own logic for getting the new password from the user
+        const newPassword = "newPassword123"; // Replace this with your logic
+
+        await user.updatePassword(newPassword);
+        console.log("Password updated successfully!");
+        // You might want to notify the user that the password has been changed
+      } else {
+        console.error("Invalid user or user is not authenticated with email/password.");
+        // Handle the case where the user is not authenticated with email/password
+      }
+    } catch (error) {
+      console.error("Error changing password:", error.message);
+      // Handle the error appropriately (e.g., show an error message to the user)
+    }
+  };
+  
 
   const handleLogout = async () => {
     console.log("Logging out...");
@@ -240,12 +263,13 @@ const SettingsScreen = ({ navigation }) => {
           <Text style={styles.sectionHeader}>Account Settings</Text>
 
           {/* Change Password */}
-          <View style={styles.settingItem}>
-            <Text>Change Password</Text>
-            <TouchableOpacity>
-              <Text style={styles.settingAction}>Change</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.settingItem}
+            onPress={handleChangePassword}
+          >
+            <Text style={styles.settingLabel}>Change Password</Text>
+            <Text style={styles.settingAction}>Change</Text>
+          </TouchableOpacity>
 
           {/* Email Notifications */}
           <View style={styles.settingItem}>

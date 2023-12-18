@@ -145,11 +145,10 @@ const styles = StyleSheet.create({
   itemImage: {
     width: "100%",
     height: 200,
-    overflow: "hidden",
-    position: "relative",
-    resizeMode: "cover",
-    aspectRatio: 2 / 1,
+    alignSelf: "center",
+    resizeMode: "contain",
   },
+
   joinBoycottButton: {
     position: "absolute",
     top: 0,
@@ -212,7 +211,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 16,
+    padding: 0,
   },
   logoContainer: {
     marginRight: 16,
@@ -226,10 +225,9 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingLeft: 12,
+    fontWeight: 600,
+    borderBottomWidth: 0,
+    fontSize: 12,
   },
   header: {
     fontSize: 24,
@@ -341,13 +339,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 6,
+    paddingHorizontal: 0,
     paddingVertical: 10,
     borderRadius: 0,
+    width: "16.6.%",
   },
   tabBarIcon: {
     marginRight: 5,
-    width: "25%",
+    width: "50",
     alignSelf: "center",
   },
   activeTab: {
@@ -534,37 +533,42 @@ const styles = StyleSheet.create({
     color: "#7f8c8d",
   },
   zikrContainer: {
-    padding: 20,
-    backgroundColor: "#ecf0f1",
-    flex: 1,
+    padding: 16,
+    backgroundColor: '#f8f8f8',
   },
   zikrHeader: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: 'bold',
     marginBottom: 10,
+    color: '#333',
   },
   zikrItemContainer: {
-    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 10,
   },
   zikrTitle: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#e74c3c",
+    fontWeight: 'bold',
+    color: '#333',
   },
   zikrDescription: {
     fontSize: 16,
-    color: "#95a5a6",
+    color: '#555',
+    marginTop: 8,
   },
   zikrCount: {
     fontSize: 14,
-    color: "#34495e",
+    color: '#888',
+    marginTop: 8,
   },
   modalContainer: {
     justifyContent: "flex-end",
     margin: 0,
   },
   modalContent: {
-    backgroundColor: "#fff",
     padding: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -894,8 +898,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   feedList: {
+    flex: 1,
     padding: 10,
-    backgroundColor: "#f5f5f5", // Light background color
+    marginTop: 60,
+    backgroundColor: "#fff", // Light background color
   },
   timelineItem: {
     flexDirection: "row",
@@ -923,7 +929,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   postTitle: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "700",
     marginBottom: 8,
     color: "#333",
@@ -937,14 +943,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#f0f0f0",
-    borderRadius:10,
-    padding:10,
+    borderRadius: 10,
+    padding: 10,
   },
   socialMediaIconContainer: {
     flexDirection: "row",
     marginRight: 2,
     alignItems: "center",
-    
   },
   socialMediaIcon: {
     marginRight: 2,
@@ -995,11 +1000,94 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginRight: 8,
     paddingHorizontal: 16,
-    backgroundColor: "#fff", 
+    backgroundColor: "#fff",
   },
   sendIcon: {
     marginRight: 8,
-    color: "#3498db", 
+    color: "#3498db",
+  },
+  FeedSearchInput: {
+    padding: 10,
+    marginBottom: 20,
+    backgroundColor: "#fff", // Set the background color as needed
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc", // Set the border color as needed
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1, // Ensure the TextInput appears above other components
+  },
+  sortContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  sortLabel: {
+    marginRight: 10,
+    fontSize: 16,
+  },
+  sortPicker: {
+    width: 150,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    overflow: "hidden",
+    marginRight: 10,
+  },
+
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    padding: 16,
+  },
+
+  modalHeaderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
+  },
+
+  inputContainer: {
+    marginBottom: 16,
+  },
+
+  input: {
+    height: 40,
+    fontSize: 16,
+    backgroundColor: "#fff",
+    marginBottom: 8,
+    width: "90%",
+    alignSelf: "center",
+  },
+
+  multilineInput: {
+    height: 80,
+  },
+
+  keywordsContainer: {
+    marginBottom: 16,
+  },
+
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+    marginLeft: "5%",
+  },
+
+  dismissableKeyword: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f0f0f0",
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginRight: 8,
+  },
+
+  keywordText: {
+    marginRight: 8,
   },
 });
 

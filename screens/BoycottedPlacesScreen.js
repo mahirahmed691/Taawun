@@ -1,8 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
-  TextInput,
   FlatList,
   Image,
   ImageBackground,
@@ -11,7 +10,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
-import { Chip, IconButton } from "react-native-paper";
+import { Chip, IconButton, TextInput } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerActions } from "@react-navigation/native";
 import styles from "../styles.js";
@@ -20,6 +19,8 @@ import ModalSelector from "react-native-modal-selector";
 import * as Sharing from "expo-sharing";
 import { captureRef } from "react-native-view-shot";
 import { Ionicons } from "@expo/vector-icons";
+import { firestore } from "../config/firebaseConfig.js";
+import PushNotificationService from "../components/PushNotifcation.js";
 
 const BoycottedPlacesScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
@@ -38,6 +39,11 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   const drawerNavigation = useNavigation();
   const viewRef = useRef();
 
+  useEffect(() => {
+    // Initialize the notification service
+    PushNotificationService.configure();
+  }, []);
+
   const openDrawer = () => {
     drawerNavigation.dispatch(DrawerActions.openDrawer());
   };
@@ -55,10 +61,24 @@ const BoycottedPlacesScreen = ({ navigation }) => {
     setShowClearFilters(true);
   };
 
-  const handleJoinBoycott = (place) => {
-    const updatedJoinCounts = { ...joinCounts };
-    updatedJoinCounts[place.name] = (joinCounts[place.name] || 0) + 1;
-    setJoinCounts(updatedJoinCounts);
+  // Update the handleJoinBoycott function
+  const handleJoinBoycott = async (place) => {
+    const placeRef = firestore.collection("boycottedPlaces").doc(place.name);
+  
+    try {
+      // Get the current join count from Firestore
+      const doc = await placeRef.get();
+      const currentJoinCount = doc.exists ? doc.data().joinCount || 0 : 0;
+  
+      // Update the join count
+      await placeRef.set({
+        joinCount: currentJoinCount + 1,
+      });
+  
+      console.log(`Boycott joined for ${place.name}. Join count: ${currentJoinCount + 1}`);
+    } catch (error) {
+      console.error("Error updating join count:", error.message);
+    }
   };
 
   const clearFilters = () => {
@@ -200,7 +220,6 @@ const BoycottedPlacesScreen = ({ navigation }) => {
     );
   };
 
-  // Render item for the tile view
   const renderTileItem = ({ item }) => (
     <TouchableOpacity
       style={styles.listItem}
@@ -217,24 +236,21 @@ const BoycottedPlacesScreen = ({ navigation }) => {
 
   const onShare = async () => {
     try {
-      // Capture the entire view
       const uri = await captureRef(viewRef, {
-        format: "png", // or 'jpeg'
+        format: "png",
         quality: 0.8,
       });
 
-      // Check if sharing is available on the device
       if (!(await Sharing.isAvailableAsync())) {
         alert("Sharing is not available on your device");
         return;
       }
 
-      // Share the captured image with a title (considered as default message on Twitter)
       await Sharing.shareAsync(uri, {
-        mimeType: "image/png", // or 'image/jpeg'
+        mimeType: "image/png",
         dialogTitle: "Share this view",
-        UTI: "public.png", // or 'public.jpeg'
-        title: "Check out this amazing view from the app!", // Your custom message
+        UTI: "public.png",
+        title: "Check out this amazing view from the app!",
       });
     } catch (error) {
       console.error("Sharing failed:", error.message);
@@ -248,7 +264,9 @@ const BoycottedPlacesScreen = ({ navigation }) => {
           <TextInput
             style={styles.searchBar}
             placeholderTextColor="black"
-            placeholder="Search boycotted places by name..."
+            backgroundColor="white"
+            mode="outlined"
+            placeholder="Search boycotted places..."
             onChangeText={(text) => setSearch(text)}
           />
         </View>
@@ -269,15 +287,15 @@ const BoycottedPlacesScreen = ({ navigation }) => {
         }))}
         initValue="Filter by Industry"
         onChange={(option) => handleIndustryFilterChange(option.key)}
-        selectStyle={{ borderWidth: 1, backgroundColor: "black" }} // Remove border
-        selectTextStyle={{ color: "black" }} // Text color
-        selectedItemTextStyle={{ color: "black" }} // Selected item text color
-        optionStyle={{ backgroundColor: "#F5F5F5" }} // Option background color
-        optionTextStyle={{ color: "black" }} // Option text color
-        cancelStyle={{ backgroundColor: "crimson" }} // Cancel button background color
-        cancelTextStyle={{ color: "white" }} // Cancel button text color
-        overlayStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} // Overlay background color
-        sectionTextStyle={{ color: "black" }} // Section text color
+        selectStyle={{ borderWidth: 1, backgroundColor: "black" }}
+        selectTextStyle={{ color: "black" }}
+        selectedItemTextStyle={{ color: "black" }}
+        optionStyle={{ backgroundColor: "#F5F5F5" }}
+        optionTextStyle={{ color: "black" }}
+        cancelStyle={{ backgroundColor: "crimson" }}
+        cancelTextStyle={{ color: "white" }}
+        overlayStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        sectionTextStyle={{ color: "black" }}
       />
 
       {selectedCategory ? (
@@ -345,7 +363,7 @@ const BoycottedPlacesScreen = ({ navigation }) => {
           backgroundColor: "#000",
         }}
         onPress={() => setViewAsTiles(!viewAsTiles)}
-        underlayColor="yourPressedColor" // Set the color when pressed
+        underlayColor="yourPressedColor"
       >
         <Text style={styles.toggleViewButtonText}>
           {viewAsTiles ? "List View" : "Tile View"}

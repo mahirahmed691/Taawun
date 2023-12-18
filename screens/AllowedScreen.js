@@ -16,6 +16,7 @@ import { Button } from "react-native-paper";
 import styles from "../styles.js";
 import allowedData from "../data/allowed.json";
 import { Ionicons } from "@expo/vector-icons";
+import * as Sharing from 'expo-sharing';
 
 const AllowedScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
@@ -24,22 +25,18 @@ const AllowedScreen = ({ navigation }) => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    // You can fetch new data here
-    // For example, you can make an API call or update your local data
-    // For now, let's just simulate a delay with setTimeout
     setTimeout(() => {
       if (allowedData && allowedData.allowedTargets) {
         setAllowedPlaces(allowedData.allowedTargets);
       }
       setRefreshing(false);
-    }, 1000); // Adjust the delay as needed
+    }, 1000); 
   }, []);
 
   useEffect(() => {
-    onRefresh(); // Initial data fetch on component mount
+    onRefresh(); 
   }, [onRefresh]);
 
-  // Move the creation of sectionedData here
   const filteredPlaces = allowedPlaces.filter((place) =>
     place.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -120,6 +117,15 @@ const AllowedScreen = ({ navigation }) => {
     Linking.openURL(instagramURL).catch((err) =>
       console.error(`Failed to open Instagram: ${err}`)
     );
+  };
+
+
+  const sharePlace = async (item) => {
+    try {
+      await Sharing.shareAsync(`Check out this place: ${item.name}`);
+    } catch (error) {
+      console.error(`Sharing failed: ${error.message}`);
+    }
   };
 
   const renderSectionHeader = ({ section }) => (

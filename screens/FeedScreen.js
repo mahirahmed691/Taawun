@@ -1,4 +1,3 @@
-// FeedScreen.js
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -6,9 +5,10 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  TextInput,
   ScrollView,
+  RefreshControl,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "../styles";
@@ -16,6 +16,8 @@ import styles from "../styles";
 const FeedScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
   const [commentInput, setCommentInput] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const sampleData = [
     {
@@ -83,6 +85,15 @@ const FeedScreen = ({ navigation }) => {
       image: require("../assets/logo.png"),
     },
   ];
+
+  const loadData = () => {
+    // Simulate fetching data from an API
+    setRefreshing(true);
+    setTimeout(() => {
+      setPosts(sampleData);
+      setRefreshing(false);
+    }, 1000);
+  };
 
   useEffect(() => {
     setPosts(sampleData);
@@ -178,51 +189,24 @@ const FeedScreen = ({ navigation }) => {
   );
 
   const getSocialMediaIcon = (platform) => {
+    const iconMapping = {
+      twitter: { name: "logo-twitter", color: "#1DA1F2" },
+      instagram: { name: "logo-instagram", color: "#E1306C" },
+      facebook: { name: "logo-facebook", color: "#1877F2" },
+      tiktok: { name: "tiktok", type: "font-awesome-5", color: "#000" },
+      default: { name: "md-globe", color: "#333" },
+    };
+  
+    const { name, type, color } = iconMapping[platform] || iconMapping.default;
     const iconStyle = { marginRight: 5, marginBottom: 2 };
-
-    switch (platform) {
-      case "twitter":
-        return (
-          <Ionicons
-            name="logo-twitter"
-            size={24}
-            color="#000"
-            style={iconStyle}
-          />
-        );
-      case "instagram":
-        return (
-          <Ionicons
-            name="logo-instagram"
-            size={24}
-            color="#E1306C"
-            style={iconStyle}
-          />
-        );
-      case "facebook":
-        return (
-          <Ionicons
-            name="logo-facebook"
-            size={24}
-            color="#1877F2"
-            style={iconStyle}
-          />
-        );
-      case "tiktok":
-        return (
-          <FontAwesome5
-            name="tiktok"
-            size={24}
-            color="#000"
-            style={iconStyle}
-          />
-        );
-      default:
-        return (
-          <Ionicons name="md-globe" size={24} color="#333" style={iconStyle} />
-        );
+  
+    if (type === "font-awesome-5") {
+      return <FontAwesome5 name={name} size={12} color={color} style={iconStyle} />;
     }
+  
+    return <Ionicons name={name} size={12} color={color} style={iconStyle} />;
   };
+  
 
   const handleLike = (post) => {
     post.isLiked = !post.isLiked;
@@ -244,13 +228,32 @@ const FeedScreen = ({ navigation }) => {
     }
   };
 
+  const handleSearch = () => {
+    const filteredPosts = sampleData.filter((post) =>
+      post.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setPosts(filteredPosts);
+  };
   return (
-    <FlatList
-      data={posts}
-      renderItem={({ item }) => renderPost({ item })}
-      keyExtractor={(item) => item.id.toString()}
-      style={styles.feedList}
-    />
+    <View style={styles.container}>
+      <TextInput
+        style={styles.FeedSearchInput}
+        placeholder="Search"
+        value={searchTerm}
+        onChangeText={(text) => setSearchTerm(text)}
+        onSubmitEditing={handleSearch}
+      />
+
+      <FlatList
+        data={posts}
+        renderItem={({ item }) => renderPost({ item })}
+        keyExtractor={(item) => item.id.toString()}
+        style={styles.feedList}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={loadData} />
+        }
+      />
+    </View>
   );
 };
 

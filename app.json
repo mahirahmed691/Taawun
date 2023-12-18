@@ -10,7 +10,7 @@
       "image": "./assets/logo.png",
       "width": "100",
       "resizeMode": "contain",
-      "backgroundColor": "#094349"
+      "backgroundColor": "#234A57"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {

@@ -18,7 +18,6 @@ import * as Speech from "expo-speech";
 import Modal from "react-native-modal";
 import styles from "../styles";
 import * as Animatable from "react-native-animatable";
-import FastImage from "react-native-fast-image";
 
 const getRandomImageURL = () => {
   const { width, height } = Dimensions.get("window");
@@ -213,6 +212,45 @@ const PrayerTab = () => {
   };
 
   useEffect(() => {
+    const fetchPrayerTimes = async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+  
+        if (status === 'granted') {
+          const location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.High,
+          });
+  
+          const { latitude, longitude } = location.coords;
+  
+          // Use the Aladhan API to get prayer times
+          const response = await axios.get(
+            `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`
+          );
+  
+          const { data } = response;
+  
+          if (data && data.data && data.data.timings) {
+            setPrayerTimes({
+              Fajr: data.data.timings.Fajr,
+              Dhuhr: data.data.timings.Dhuhr,
+              Asr: data.data.timings.Asr,
+              Maghrib: data.data.timings.Maghrib,
+              Isha: data.data.timings.Isha,
+            });
+          }
+        } else {
+          console.log('Location permission denied');
+        }
+      } catch (error) {
+        console.error('Error fetching prayer times:', error);
+      }
+    };
+  
+    fetchPrayerTimes();
+  }, []);
+
+  useEffect(() => {
     const imageInterval = setInterval(() => {
       setCurrentImageUrl(getRandomImageURL());
     }, 20000);
@@ -387,6 +425,8 @@ const PrayerTab = () => {
 
     fetchPrayerTimes();
   }, []);
+
+  
 
   const readDua = async (dua) => {
     try {

@@ -29,6 +29,7 @@ import styles from "../styles";
 import { firestore, db } from "../config/firebaseConfig";
 import { useAuth } from "../Auth/AuthContext";
 import FeedScreen from "../screens/FeedScreen.js";
+import LegalAdvice from "../components/LegalAdvice.js";
 
 const CommunityScreen = ({ navigation }) => {
   const { isAuthenticated, user, login, logout } = useAuth();
@@ -57,19 +58,23 @@ const CommunityScreen = ({ navigation }) => {
   const influencerPostsCollection = collection(influencerDocRef, "posts");
 
   useEffect(() => {
-    const unsubscribePosts = onSnapshot(
-      influencerPostsCollection,
-      (snapshot) => {
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        console.log("Posts from Firestore:", data);
-        setPosts(data);
-      }
-    );
+    const fetchData = async () => {
+      const unsubscribePosts = onSnapshot(
+        influencerPostsCollection,
+        (snapshot) => {
+          const data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          console.log("Posts from Firestore:", data);
+          setPosts(data);
+        }
+      );
 
-    return () => unsubscribePosts();
+      return () => unsubscribePosts();
+    };
+
+    fetchData();
   }, []);
 
   const fetchForums = async () => {
@@ -102,7 +107,7 @@ const CommunityScreen = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe = fetchForums(); // Use fetchForums directly
-  
+
     // Cleanup function to unsubscribe when component unmounts
     return unsubscribe;
   }, []);
@@ -151,18 +156,6 @@ const CommunityScreen = ({ navigation }) => {
     } catch (error) {
       console.error("Error adding forum:", error);
     }
-  };
-
-  const handlePost = () => {
-    // Implement logic to post the content (postText) to the forum
-    console.log("Post:", postText);
-    // You may want to send the data to your server or update state accordingly
-  };
-
-  const handleEdit = () => {
-    // Implement logic to edit the forum post
-    console.log("Edit:", postText);
-    // You may want to send the updated data to your server or update state accordingly
   };
 
   const handleLongPress = () => {
@@ -221,7 +214,7 @@ const CommunityScreen = ({ navigation }) => {
           >
             <Ionicons
               name={isLongPressActive ? "close" : "add"}
-              size={isLongPressActive ? 24 : 30}
+              size={isLongPressActive ? 16 : 30}
               color="#fff"
             />
             {isLongPressActive && renderLongPressMenu()}
@@ -230,7 +223,7 @@ const CommunityScreen = ({ navigation }) => {
       );
     }
 
-    return null; // Don't render the button for other tabs
+    return null;
   };
 
   const renderLongPressMenu = () => {
@@ -241,6 +234,7 @@ const CommunityScreen = ({ navigation }) => {
       borderRadius: 25,
       borderWidth: 2,
       borderColor: "#094349",
+      alignSelf: "center",
     };
 
     return (
@@ -248,7 +242,7 @@ const CommunityScreen = ({ navigation }) => {
         <TouchableOpacity
           style={[
             styles.longPressMenuItem,
-            { position: "absolute", bottom: 20, right: 55 },
+            { position: "absolute", bottom: 50, right: 25 },
           ]}
           onPress={() => {
             console.log("Like pressed");
@@ -276,7 +270,7 @@ const CommunityScreen = ({ navigation }) => {
         <TouchableOpacity
           style={[
             styles.longPressMenuItem,
-            { position: "absolute", bottom: 0, right: 30 },
+            { position: "absolute", bottom: -20, right: 30 },
           ]}
           onPress={() => {
             console.log("Comment pressed");
@@ -364,7 +358,7 @@ const CommunityScreen = ({ navigation }) => {
 
         <Ionicons
           name={likedTweets[item.id] ? "flame" : "flame-outline"}
-          size={24}
+          size={20}
           color={likedTweets[item.id] ? "orange" : "#111"}
           onPress={() => handleLikePress(item.id)}
         />
@@ -380,19 +374,16 @@ const CommunityScreen = ({ navigation }) => {
   );
 
   const handleLikePress = (tweetId) => {
-    // Toggle the liked status for the tweet
     setLikedTweets((prevLikedTweets) => {
       const updatedLikedTweets = { ...prevLikedTweets };
       updatedLikedTweets[tweetId] = !updatedLikedTweets[tweetId];
       return updatedLikedTweets;
     });
 
-    // Vibrate to provide feedback (you can customize this)
     Vibration.vibrate(200);
   };
 
   const handleBookmarkPress = (forumId) => {
-    // Check if the forum is already bookmarked
     const isBookmarked = bookmarkedForums.includes(forumId);
 
     // Toggle the bookmark status
@@ -400,10 +391,8 @@ const CommunityScreen = ({ navigation }) => {
       ? bookmarkedForums.filter((id) => id !== forumId)
       : [...bookmarkedForums, forumId];
 
-    // Update the state with the new bookmarked forums
     setBookmarkedForums(updatedBookmarkedForums);
 
-    // Vibrate to provide feedback (you can customize this)
     Vibration.vibrate(200);
   };
 
@@ -433,6 +422,8 @@ const CommunityScreen = ({ navigation }) => {
         return <MessagesTab />;
       case "Prayer":
         return <PrayerTab />;
+      case "Legal":
+        return <LegalAdvice />;
       default:
         return null;
     }
@@ -450,7 +441,7 @@ const CommunityScreen = ({ navigation }) => {
         >
           <Ionicons
             name="chatbox-outline"
-            size={24}
+            size={16}
             color={activeTab === "ForumList" ? "tomato" : "#094349"}
             style={[
               styles.tabBarIcon,
@@ -468,7 +459,7 @@ const CommunityScreen = ({ navigation }) => {
         >
           <Ionicons
             name="newspaper-outline"
-            size={24}
+            size={16}
             color={activeTab === "Feed" ? "#fff" : "#094349"}
             style={[
               styles.tabBarIcon,
@@ -486,11 +477,28 @@ const CommunityScreen = ({ navigation }) => {
         >
           <Ionicons
             name="moon-outline"
-            size={24}
+            size={16}
             color={activeTab === "Prayer" ? "#fff" : "#094349"}
             style={[
               styles.tabBarIcon,
               activeTab === "Prayer" && styles.activeTabText,
+            ]}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.tabBarButton,
+            activeTab === "Legal" && styles.activeTab,
+          ]}
+          onPress={() => setActiveTab("Legal")}
+        >
+          <Ionicons
+            name="medkit-outline"
+            size={16}
+            color={activeTab === "Legal" ? "#fff" : "#094349"}
+            style={[
+              styles.tabBarIcon,
+              activeTab === "Legal" && styles.activeTabText,
             ]}
           />
         </TouchableOpacity>
@@ -504,7 +512,7 @@ const CommunityScreen = ({ navigation }) => {
         >
           <Ionicons
             name="mail-outline"
-            size={24}
+            size={16}
             color={activeTab === "Messages" ? "#fff" : "#094349"}
             style={[
               styles.tabBarIcon,
@@ -522,7 +530,7 @@ const CommunityScreen = ({ navigation }) => {
         >
           <Ionicons
             name="notifications-outline"
-            size={24}
+            size={16}
             color={activeTab === "Notifications" ? "#fff" : "#094349"}
             style={[
               styles.tabBarIcon,
@@ -537,16 +545,14 @@ const CommunityScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={{ flex: 1 }}>
-        {renderTabContent(
-          activeTab,
-          forums,
-          posts, // Pass the posts data
-          renderItem,
-          navigation,
-          notificationCount
-        )}
-      </ScrollView>
+      {renderTabContent(
+        activeTab,
+        forums,
+        posts,
+        renderItem,
+        navigation,
+        notificationCount
+      )}
 
       {renderCreateButton()}
 
