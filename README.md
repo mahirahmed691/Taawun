@@ -1,4 +1,4 @@
-# FromTheRiver
+# Ta'awun
 
 
 <img src="https://github.com/mahirahmed691/FromTheRiver/blob/main/assets/logo.png" width="200">
