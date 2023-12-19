@@ -5,7 +5,7 @@
 
 ## Overview
 
-**FromTheRiver** is not just an app; it's a movement empowering individuals to make informed choices by boycotting products and companies that don't align with their values. Dive into a community-driven platform where users share insights, scan products, follow influencers, and collectively drive positive change.
+**Taawum** is not just an app; it's a movement empowering individuals to make informed choices by boycotting products and companies that don't align with their values. Dive into a community-driven platform where users share insights, scan products, follow influencers, and collectively drive positive change.
 
 ## Features
 
