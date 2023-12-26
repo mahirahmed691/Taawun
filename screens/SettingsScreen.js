@@ -14,8 +14,7 @@ import { auth } from "../config/firebaseConfig";
 import { Ionicons } from "@expo/vector-icons";
 import { Updates } from "expo";
 import { Paragraph, IconButton } from "react-native-paper";
-import * as ImagePicker from 'expo-image-picker';
-
+import * as ImagePicker from "expo-image-picker";
 
 const PrivacyPolicyContent = ({ onClose }) => {
   const privacyPolicyText = (
@@ -147,7 +146,6 @@ const SettingsScreen = ({ navigation }) => {
     fetchUserInfo();
   }, []);
 
-  
   const handlePickProfilePicture = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -181,7 +179,9 @@ const SettingsScreen = ({ navigation }) => {
         console.log("Password updated successfully!");
         // You might want to notify the user that the password has been changed
       } else {
-        console.error("Invalid user or user is not authenticated with email/password.");
+        console.error(
+          "Invalid user or user is not authenticated with email/password."
+        );
         // Handle the case where the user is not authenticated with email/password
       }
     } catch (error) {
@@ -189,14 +189,13 @@ const SettingsScreen = ({ navigation }) => {
       // Handle the error appropriately (e.g., show an error message to the user)
     }
   };
-  
 
   const handleLogout = async () => {
     console.log("Logging out...");
     try {
       await auth.signOut();
       console.log("User logged out successfully.");
-  
+
       // Check if Updates is available before calling reload
       if (Updates && Updates.reload) {
         // Reload the app after logout
@@ -241,7 +240,7 @@ const SettingsScreen = ({ navigation }) => {
             <Text>Push Notifications</Text>
             <Switch
               value={true}
-              trackColor={{ false: "#767577", true: "teal" }}
+              trackColor={{ false: "#767577", true: "#234A57" }}
             />
           </View>
 
@@ -276,7 +275,7 @@ const SettingsScreen = ({ navigation }) => {
             <Text>Email Notifications</Text>
             <Switch
               value={true}
-              trackColor={{ false: "#767577", true: "teal" }}
+              trackColor={{ false: "#767577", true: "#234A57" }}
             />
           </View>
         </View>
@@ -387,7 +386,7 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     bottom: 10,
-    backgroundColor: "teal",
+    backgroundColor: "#234A57",
     padding: 15,
     marginTop: 20,
     alignItems: "center",
@@ -416,5 +415,3 @@ const styles = StyleSheet.create({
 });
 
 export default SettingsScreen;
-
-

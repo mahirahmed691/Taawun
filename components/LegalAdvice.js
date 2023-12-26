@@ -103,44 +103,32 @@ const LegalAdvice = ({ navigation }) => {
   ];
 
   useEffect(() => {
-    // Set the initial list of legal advice services
     setLegalAdviceServices(realLegalAdviceServices);
     setFilteredServices(realLegalAdviceServices);
   }, []);
 
   const handleSearch = (query) => {
-    // Perform search based on the query
     const filteredServices = legalAdviceServices.filter((service) =>
       service.name.toLowerCase().includes(query.toLowerCase())
     );
 
-    // Update the list of legal advice services
     setFilteredServices(filteredServices);
-
-    // Set the search query
     setSearchQuery(query);
   };
 
   const handleRefresh = () => {
     setRefreshing(true);
-
-    // Fetch updated legal advice services
-    // Replace the following with your actual API call or data fetching logic
     setTimeout(() => {
       setRefreshing(false);
     }, 1000);
   };
 
   const handleFilterPress = (filter) => {
-    // Toggle the selected state of the filter
     const updatedFilters = selectedFilters.includes(filter)
       ? selectedFilters.filter((selectedFilter) => selectedFilter !== filter)
       : [...selectedFilters, filter];
 
-    // Update the selected filters
     setSelectedFilters(updatedFilters);
-
-    // Apply filters to the legal advice services
     const filteredServices = applyFilters(updatedFilters);
     setFilteredServices(filteredServices);
   };
@@ -149,7 +137,6 @@ const LegalAdvice = ({ navigation }) => {
     if (filters.length === 0) {
       return legalAdviceServices;
     }
-
     return legalAdviceServices.filter((service) =>
       filters.includes(service.type)
     );
@@ -171,7 +158,7 @@ const LegalAdvice = ({ navigation }) => {
           key={i}
           name={i <= rating ? "star" : "star-outline"}
           size={20}
-          color={i <= rating ? "#FFD700" : "#CCCCCC"}
+          color={i <= rating ? "#fff" : "#CCCCCC"}
         />
       );
     }
@@ -205,7 +192,7 @@ const LegalAdvice = ({ navigation }) => {
           style={styles.searchButton}
           onPress={() => handleSearch(searchQuery)}
         >
-          <Ionicons name="search" size={24} color="white" />
+          <Ionicons name="search" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
@@ -247,14 +234,14 @@ const LegalAdvice = ({ navigation }) => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
             <Animated.View
-            style={{
-              ...styles.serviceContainer,
-              transform: [
-                {
-                  translateY: 10, // Change this value as needed
-                },
-              ],
-            }}
+              style={{
+                ...styles.serviceContainer,
+                transform: [
+                  {
+                    translateY: 10,
+                  },
+                ],
+              }}
             >
               <Text style={styles.serviceName}>{item.name}</Text>
               <Text style={styles.servicePhoneNumber}>{item.phoneNumber}</Text>
@@ -278,17 +265,19 @@ const LegalAdvice = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#ffff",
     paddingHorizontal: 16,
   },
   searchContainer: {
     flexDirection: "row",
     marginBottom: 16,
     overflow: "hidden",
-    paddingVertical: 20,
-    position: "sticky",
-    top: 0,
-    zIndex: 1,
+    paddingVertical: 10,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   searchInput: {
     flex: 1,
@@ -297,85 +286,59 @@ const styles = StyleSheet.create({
   },
   searchButton: {
     height: 40,
-    backgroundColor: "#000",
-    borderRadius: 0,
+    backgroundColor: "#234A57",
+    borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
-  },
-  sortContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-  },
-  sortTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginRight: 8,
-  },
-  sortPicker: {
-    flex: 1,
-    height: 40,
-    marginRight: 8,
-  },
-  sortOrderPicker: {
-    width: 120,
-    height: 40,
+    marginLeft: 8,
   },
   filterContainer: {
     marginBottom: 16,
   },
-  filterTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
   filterButton: {
-    backgroundColor: "#000",
+    backgroundColor: "#234A57",
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 16,
     marginEnd: 8,
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   selectedFilterButton: {
     backgroundColor: "crimson",
   },
   filterButtonText: {
-    color: "#ffffff",
+    color: "#fff",
     fontSize: 16,
   },
   selectedFilterButtonText: {
     fontWeight: "bold",
+    color: "#fff",
   },
   serviceContainer: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#234A57",
     borderRadius: 8,
     marginVertical: 8,
     padding: 20,
-    elevation: 2,
+    elevation: 3,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-  },
-  serviceHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  serviceLogo: {
-    width: 40,
-    height: 40,
-    marginRight: 16,
-    borderRadius: 20,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   serviceName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333333",
+    color: "#fff",
   },
   servicePhoneNumber: {
     fontSize: 16,
-    color: "#555555",
+    color: "crimson",
+    fontWeight: "bold",
   },
   ratingContainer: {
     flexDirection: "row",
@@ -385,11 +348,11 @@ const styles = StyleSheet.create({
   ratingText: {
     marginLeft: 4,
     fontSize: 14,
-    color: "#777777",
+    color: "#fff",
   },
   serviceType: {
     fontSize: 16,
-    color: "#4285f4",
+    color: "#fff",
     marginTop: 8,
   },
 });

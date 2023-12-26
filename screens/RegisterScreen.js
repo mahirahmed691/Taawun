@@ -167,11 +167,12 @@ const styles = StyleSheet.create({
     letterSpacing: 10,
   },
   registerButton: {
-    backgroundColor: "#CF5189",
+    backgroundColor: "#000",
     width: "90%",
     padding: 5,
     borderRadius: 5,
     marginTop: 10,
+    borderWidth:0,
   },
   buttonText: {
     color: "#fff",
@@ -192,7 +193,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: "gray", // You can set a background color for the default avatar
+    backgroundColor: "gray", 
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,

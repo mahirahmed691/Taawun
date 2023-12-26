@@ -6,16 +6,11 @@ import {
   StyleSheet,
   Image,
   Animated,
+  Vibration
 } from "react-native";
 import { Camera } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
-
-const generateMockProductInfo = (barcode) => {
-  return {
-    productName: `Mock Product ${barcode}`,
-  };
-};
 
 const BarcodeScanner = () => {
   const [scannedData, setScannedData] = useState(null);
@@ -25,6 +20,8 @@ const BarcodeScanner = () => {
   const [showSadModal, setShowSadModal] = useState(false);
   const [flashOn, setFlashOn] = useState(false);
   const [productInfo, setProductInfo] = useState(null);
+  const [scannedHistory, setScannedHistory] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const cameraRef = useRef(null);
 
@@ -38,31 +35,23 @@ const BarcodeScanner = () => {
     setScannedData(data);
     setIsScanning(false);
 
-    if (data.startsWith("5010")) {
+    setScannedHistory((prevHistory) => [...prevHistory, data]);
+
+    Vibration.vibrate();
+
+if (data.startsWith("729")) {
       setShowSadModal(true);
     } else {
-      // Mock product information for testing
-      const mockProductData = generateMockProductInfo(data);
-      console.log("Mock Product data:", mockProductData);
-
-      // Display the mock product information
-      setProductInfo(mockProductData);
-      setCountryInfo(await getCountryInfo(data));
       setShowHappyModal(true);
     }
   };
 
-  const getProductInfo = async (barcode) => {
-    try {
-      console.log("Fetching product information for barcode:", barcode);
-      const response = await fetch(`YOUR_PRODUCT_API_ENDPOINT/${barcode}`);
-      const productData = await response.json();
-      console.log("Product data:", productData);
-      return productData;
-    } catch (error) {
-      console.error("Error fetching product information:", error);
-      return null;
-    }
+  const renderFocusBox = () => {
+    return (
+      <View style={styles.focusContainer}>
+        <View style={styles.focusBox}></View>
+      </View>
+    );
   };
 
   const startScanning = () => {
@@ -76,10 +65,6 @@ const BarcodeScanner = () => {
     if (status !== "granted") {
       console.log("Camera permission denied");
     }
-  };
-
-  const getCountryInfo = async (barcode) => {
-    return { country: "Sample Country", details: "Sample Country Details" };
   };
 
   const toggleFlashlight = () => {
@@ -102,16 +87,44 @@ const BarcodeScanner = () => {
     }, 300);
   };
 
-  const renderFocusBox = () => {
-    return (
-      <View style={styles.focusContainer}>
-        <View style={styles.focusBox}></View>
-      </View>
+  const handleSearch = (query) => {
+    const filteredResults = scannedHistory.filter((barcode) =>
+      barcode.includes(query)
     );
+    setScannedData(null);
+    setCountryInfo(null);
+    setSearchQuery(query);
+  };
+
+  const clearScannedHistory = () => {
+    setScannedHistory([]);
+  };
+
+  const renderHistoryItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.historyItem}
+      onPress={() => handleSearch(item)}
+    >
+      <Text style={styles.historyItemText}>{item}</Text>
+    </TouchableOpacity>
+  );
+
+  const closeCamera = () => {
+    setIsScanning(false);
+    setScannedData(null);
   };
 
   return (
     <View style={styles.container}>
+      {isScanning && (
+        <TouchableOpacity
+          style={styles.closeCameraButton}
+          onPress={closeCamera}
+        >
+          <Ionicons name="close" size={24} color="white" />
+        </TouchableOpacity>
+      )}
+
       {!isScanning && (
         <>
           <Image
@@ -119,12 +132,14 @@ const BarcodeScanner = () => {
             style={styles.scannerImage}
           />
           <Text style={styles.infoText}>
-            Welcome to From The River! Ensure proper lighting conditions for
-            accurate barcode scanning. Hold your device steady while scanning.
-            Our app supports various barcode formats. Your privacy is our
-            priority, and we do not store or share scanned data without your
-            consent. Contact support@fromtheriver.com for assistance.
+            Welcome to Ta'awun! To ensure accurate barcode scanning, please use
+            the app in well-lit conditions. Keep your device steady during
+            scanning. Ta'awun supports various barcode formats. Rest assured,
+            your privacy is our top priority; we neither store nor share scanned
+            data without your consent. If you need assistance, feel free to
+            contact support@taawun.com.
           </Text>
+
           <TouchableOpacity style={styles.scanButton} onPress={startScanning}>
             <Text style={styles.scanButtonText}>Scan Barcode</Text>
           </TouchableOpacity>
@@ -134,7 +149,6 @@ const BarcodeScanner = () => {
       {productInfo && (
         <View style={styles.productInfoContainer}>
           <Text style={styles.productInfoText}>{productInfo.productName}</Text>
-          {/* Include additional product information here */}
         </View>
       )}
 
@@ -161,13 +175,6 @@ const BarcodeScanner = () => {
       {scannedData && (
         <View style={styles.scanResultContainer}>
           <Text style={styles.scanResultText}>{scannedData}</Text>
-        </View>
-      )}
-
-      {countryInfo && (
-        <View style={styles.countryInfoContainer}>
-          <Text style={styles.countryInfoText}>{countryInfo.country}</Text>
-          <Text style={styles.countryInfoDetails}>{countryInfo.details}</Text>
         </View>
       )}
 
@@ -230,7 +237,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   logoImage: {
-    width: 200,
+    width: 325,
     height: 50,
     marginBottom: 10,
   },
@@ -242,20 +249,23 @@ const styles = StyleSheet.create({
     color: "black",
   },
   scanButton: {
-    backgroundColor: "black",
+    backgroundColor: "#234A57",
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 30,
     marginBottom: 20,
+    width: "80%",
   },
   scanButtonText: {
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
+    alignSelf: "center",
   },
   scanResultContainer: {
-    padding: 15,
-    backgroundColor: "black",
+    padding: 20,
+    width: "80%",
+    backgroundColor: "#234A57",
     elevation: 3,
     marginBottom: 20,
   },
@@ -263,6 +273,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "200",
     color: "#fff",
+    alignSelf: "center",
     letterSpacing: 3,
   },
   modalContainer: {
@@ -354,6 +365,73 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "black",
     marginBottom: 5,
+  },
+  closeCameraButton: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    zIndex: 1,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  searchInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginRight: 10,
+  },
+  clearSearchButton: {
+    padding: 8,
+    borderRadius: 5,
+    backgroundColor: "lightgray",
+  },
+  historyTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  historyList: {
+    marginBottom: 20,
+  },
+  historyItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgray",
+  },
+  historyItemText: {
+    fontSize: 16,
+  },
+  clearHistoryButton: {
+    backgroundColor: "red",
+    borderRadius: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    marginTop: 20,
+  },
+  clearHistoryButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  focusContainer: {
+    flex: 1,
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  focusBox: {
+    width: 200,
+    height: 200,
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 10,
   },
 });
 

@@ -82,11 +82,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   resetButton: {
-    backgroundColor: '#CF5189',
+    backgroundColor: '#000',
     width: '90%',
     padding: 5,
     borderRadius: 5,
     marginTop: 10,
+    borderWidth:0
   },
   buttonText: {
     color: '#fff',

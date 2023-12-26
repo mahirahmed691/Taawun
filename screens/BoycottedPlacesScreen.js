@@ -19,7 +19,15 @@ import ModalSelector from "react-native-modal-selector";
 import * as Sharing from "expo-sharing";
 import { captureRef } from "react-native-view-shot";
 import { Ionicons } from "@expo/vector-icons";
-import { firestore } from "../config/firebaseConfig.js";
+import {
+  firestore,
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  getDocs,
+} from "../config/firebaseConfig.js";
 import PushNotificationService from "../components/PushNotifcation.js";
 
 const BoycottedPlacesScreen = ({ navigation }) => {
@@ -42,6 +50,24 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   useEffect(() => {
     // Initialize the notification service
     PushNotificationService.configure();
+
+    // Fetch and update join counts when the component mounts
+    const fetchJoinCounts = async () => {
+      const counts = {};
+
+      try {
+        const snapshot = await firestore.collection("boycottCounts").get();
+        snapshot.forEach((doc) => {
+          counts[doc.id] = doc.data().joinCount || 0;
+        });
+
+        setJoinCounts(counts);
+      } catch (error) {
+        console.error("Error fetching join counts:", error.message);
+      }
+    };
+
+    fetchJoinCounts();
   }, []);
 
   const openDrawer = () => {
@@ -61,21 +87,44 @@ const BoycottedPlacesScreen = ({ navigation }) => {
     setShowClearFilters(true);
   };
 
-  // Update the handleJoinBoycott function
-  const handleJoinBoycott = async (place) => {
-    const placeRef = firestore.collection("boycottedPlaces").doc(place.name);
-  
+  const handleJoinBoycott = async (place, userEmail) => {
+    const placeName = place.name;
+
+    const placeRef = doc(firestore, "boycottCounts", placeName);
+
     try {
-      // Get the current join count from Firestore
-      const doc = await placeRef.get();
-      const currentJoinCount = doc.exists ? doc.data().joinCount || 0 : 0;
-  
-      // Update the join count
-      await placeRef.set({
+      // Get the current join count and joined users from Firestore
+      const docSnapshot = await getDoc(placeRef);
+      const currentJoinCount = docSnapshot.exists()
+        ? docSnapshot.data().joinCount || 0
+        : 0;
+      const joinedUsers = docSnapshot.exists()
+        ? docSnapshot.data().joinedUsers || []
+        : [];
+
+      // Check if the user has already joined
+      if (joinedUsers.includes(userEmail)) {
+        console.log(`User with email ${userEmail} has already joined.`);
+        return;
+      }
+
+      // Update the join count and joined users
+      await setDoc(placeRef, {
         joinCount: currentJoinCount + 1,
+        joinedUsers: [...joinedUsers, userEmail], // Add the user's email
       });
-  
-      console.log(`Boycott joined for ${place.name}. Join count: ${currentJoinCount + 1}`);
+
+      // Update the local joinCounts state
+      setJoinCounts((prevJoinCounts) => ({
+        ...prevJoinCounts,
+        [placeName]: currentJoinCount + 1,
+      }));
+
+      console.log(
+        `Boycott joined for ${placeName}. Join count: ${
+          currentJoinCount + 1
+        }. User: ${userEmail}`
+      );
     } catch (error) {
       console.error("Error updating join count:", error.message);
     }
@@ -187,8 +236,13 @@ const BoycottedPlacesScreen = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.joinBoycottButton}
                 onPress={() => handleJoinBoycott(item)}
+                disabled={joinCounts[item.name] !== undefined} // Disable the button if user has already joined
               >
-                <Text style={styles.joinBoycottButtonText}>Join Boycott</Text>
+                <Text style={styles.joinBoycottButtonText}>
+                  {joinCounts[item.name] !== undefined
+                    ? `Joined (${itemJoinCount})`
+                    : "Join Boycott"}
+                </Text>
               </TouchableOpacity>
             </ImageBackground>
             <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
@@ -287,16 +341,26 @@ const BoycottedPlacesScreen = ({ navigation }) => {
         }))}
         initValue="Filter by Industry"
         onChange={(option) => handleIndustryFilterChange(option.key)}
-        selectStyle={{ borderWidth: 1, backgroundColor: "black" }}
-        selectTextStyle={{ color: "black" }}
-        selectedItemTextStyle={{ color: "black" }}
-        optionStyle={{ backgroundColor: "#F5F5F5" }}
-        optionTextStyle={{ color: "black" }}
-        cancelStyle={{ backgroundColor: "crimson" }}
-        cancelTextStyle={{ color: "white" }}
-        overlayStyle={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        selectStyle={{
+          backgroundColor: "#234A57",
+          borderRadius: 8,
+          paddingVertical: 12,
+          paddingHorizontal: 16,
+          borderWidth: 2,
+          borderColor: "rgba(255, 255, 255, 0.5)",
+        }}
+        selectTextStyle={{ color: "white", fontSize: 18, fontWeight: "600" }}
+        selectedItemTextStyle={{ color: "#234A57", fontWeight: "700" }}
+        optionStyle={{ backgroundColor: "#234A57", borderColor: "transparent", borderRadius: 0, padding:10 }}
+        optionTextStyle={{ color: "white", fontWeight: "500", fontSize: 16 }}
+        cancelStyle={{ backgroundColor: "black", borderRadius: 8, margin: -4 }}
+        alwaysBounceHorizontal={true}
+        fadingEdgeLength={true}
+        cancelTextStyle={{ color: "white", fontWeight: "700", fontSize: 16 }}
+        overlayStyle={{ backgroundColor: "rgba(35, 74, 87, 0.9)" }}
         sectionTextStyle={{ color: "black" }}
       />
+
 
       {selectedCategory ? (
         <Text style={styles.selectedCategoryText}>
@@ -360,7 +424,7 @@ const BoycottedPlacesScreen = ({ navigation }) => {
       <TouchableHighlight
         style={{
           ...styles.toggleViewButton,
-          backgroundColor: "#000",
+          backgroundColor: "#234A57",
         }}
         onPress={() => setViewAsTiles(!viewAsTiles)}
         underlayColor="yourPressedColor"

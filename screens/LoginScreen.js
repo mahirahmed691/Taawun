@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   loginButton: {
-    backgroundColor: "red",
+backgroundColor: "#000",
     width: "90%",
     padding: 5,
     borderRadius: 5,
@@ -108,8 +108,7 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     textDecorationLine: "underline",
     color: "white",
-    bottom: 30,
-    position: "absolute",
+    marginTop:10
   },
   buttonText: {
     color: "#fff",

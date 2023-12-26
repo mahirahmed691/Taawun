@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   itemImage: {
     width: "100%",
-    height: 200,
+    height: 300,
     alignSelf: "center",
     resizeMode: "contain",
   },
@@ -228,6 +228,9 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     borderBottomWidth: 0,
     fontSize: 12,
+    marginLeft: 30,
+    fontWeight: "500",
+    fontSize: 14,
   },
   header: {
     fontSize: 24,
@@ -534,34 +537,34 @@ const styles = StyleSheet.create({
   },
   zikrContainer: {
     padding: 16,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#f8f8f8",
   },
   zikrHeader: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
-    color: '#333',
+    color: "#333",
   },
   zikrItemContainer: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 8,
     padding: 16,
     marginBottom: 10,
   },
   zikrTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
   },
   zikrDescription: {
     fontSize: 16,
-    color: '#555',
+    color: "#555",
     marginTop: 8,
   },
   zikrCount: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
     marginTop: 8,
   },
   modalContainer: {
@@ -650,7 +653,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 10,
-    backgroundColor: "#000",
+    backgroundColor: "#234A57",
     borderRadius: 0,
     paddingHorizontal: 0,
     alignItems: "center",
@@ -1061,7 +1064,6 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
   },
-
   multilineInput: {
     height: 80,
   },
@@ -1069,13 +1071,11 @@ const styles = StyleSheet.create({
   keywordsContainer: {
     marginBottom: 16,
   },
-
   label: {
     fontSize: 16,
     marginBottom: 8,
     marginLeft: "5%",
   },
-
   dismissableKeyword: {
     flexDirection: "row",
     alignItems: "center",
