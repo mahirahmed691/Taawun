@@ -1,7 +1,6 @@
 # Ta'awun
 
-
-<img src="https://github.com/mahirahmed691/FromTheRiver/blob/main/assets/logo.png" width="200">
+<img src="https://github.com/mahirahmed691/FromTheRiver/blob/main/assets/logo.png" width="150">
 
 ## Overview
 
@@ -13,31 +12,31 @@
 
 Empower yourself by scanning product barcodes to access detailed information about a company's practices, ethics, and environmental impact. Make informed decisions and choose products that resonate with your values.
 
-![Product Scanner](https://github.com/mahirahmed691/Taawun/blob/main/assets/login.png)
+<img src="https://github.com/mahirahmed691/Taawun/blob/main/assets/login.png" width="200">
 
 ### 2. Boycott Campaigns
 
 Join or initiate boycott campaigns against products or companies that violate ethical standards. Collaborate with like-minded individuals to make a collective impact and promote responsible consumerism.
 
-![Boycott Campaigns](https://github.com/mahirahmed691/Taawun/blob/main/assets/home.png)
+<img src="https://github.com/mahirahmed691/Taawun/blob/main/assets/home.png" width="200">
 
 ### 3. Influencer Hub
 
 Follow influencers who advocate for ethical consumerism. Stay updated on their recommendations, boycott campaigns, and contributions to the community. Be inspired by those who actively promote positive change.
 
-![Influencer Hub](https://github.com/mahirahmed691/Taawun/blob/main/assets/home.png/shop.png)
+<img src="https://github.com/mahirahmed691/Taawun/blob/main/assets/shop.png" width="200">
 
 ### 4. Community Engagement
 
 Connect with a passionate community dedicated to making a difference. Participate in discussions, share your experiences, and learn from others. The collective voice of the community drives change and fosters a conscious consumer culture.
 
-![Community Engagement](https://github.com/mahirahmed691/Taawun/blob/main/assets/prayer.png)
+<img src="https://github.com/mahirahmed691/Taawun/blob/main/assets/prayer.png" width="200">
 
 ### 5. Personal Impact Tracker
 
 Monitor your personal impact on the app. Track the number of products scanned, contributions to boycott campaigns, and your overall influence on promoting ethical choices.
 
-![Personal Impact Tracker](https://github.com/mahirahmed691/Taawun/blob/main/assets/detail.png)
+<img src="https://github.com/mahirahmed691/Taawun/blob/main/assets/detail.png" width="200">
 
 ## Getting Started
 
