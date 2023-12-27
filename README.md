@@ -36,7 +36,7 @@ Connect with a passionate community dedicated to making a difference. Participat
 
 Monitor your personal impact on the app. Track the number of products scanned, contributions to boycott campaigns, and your overall influence on promoting ethical choices.
 
-<img src="https://github.com/mahirahmed691/Taawun/blob/main/assets/detail.png" width="200">
+<img src="https://github.com/mahirahmed691/Taawun/blob/main/assets/details.png" width="200">
 
 ## Getting Started
 
