@@ -19,16 +19,17 @@ import ModalSelector from "react-native-modal-selector";
 import * as Sharing from "expo-sharing";
 import { captureRef } from "react-native-view-shot";
 import { Ionicons } from "@expo/vector-icons";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
-  firestore,
   getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
   doc,
   getDoc,
   setDoc,
-  collection,
-  getDocs,
-} from "../config/firebaseConfig.js";
-import PushNotificationService from "../components/PushNotifcation.js";
+} from "firebase/firestore";
 
 const BoycottedPlacesScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
@@ -43,52 +44,152 @@ const BoycottedPlacesScreen = ({ navigation }) => {
   const [areAlternativesVisible, setAreAlternativesVisible] = useState(false);
   const [viewAsTiles, setViewAsTiles] = useState(false);
   const [showClearFilters, setShowClearFilters] = useState(false);
-
   const drawerNavigation = useNavigation();
   const viewRef = useRef();
+  const auth = getAuth();
+  const firestore = getFirestore();
+  const [joinedStatus, setJoinedStatus] = useState({});
+
 
   useEffect(() => {
-    // Initialize the notification service
-    PushNotificationService.configure();
-
     // Fetch and update join counts when the component mounts
     const fetchJoinCounts = async () => {
-      const counts = {};
-
       try {
-        const snapshot = await firestore.collection("boycottCounts").get();
-        snapshot.forEach((doc) => {
-          counts[doc.id] = doc.data().joinCount || 0;
-        });
-
-        setJoinCounts(counts);
+        const user = auth.currentUser;
+  
+        if (user) {
+          const userDocQuery = query(
+            collection(firestore, "userBoycottHistory"),
+            where("email", "==", user.email)
+          );
+          const userDocSnapshot = await getDocs(userDocQuery);
+  
+          if (!userDocSnapshot.empty) {
+            const userDocId = userDocSnapshot.docs[0].id;
+  
+            // Fetch join counts only if the user document exists
+            const snapshot = await getDoc(
+              doc(firestore, "boycottCounts", userDocId)
+            );
+  
+            // Check if the snapshot exists
+            if (snapshot.exists()) {
+              const joinCount = snapshot.data()?.joinCount || 0;
+  
+              // Retrieve the user's boycott history
+              const userBoycottHistory = snapshot.data()?.boycottHistory || [];
+  
+              // Update the local state to indicate companies that the user has joined
+              const joinedStatusUpdates = {};
+              userBoycottHistory.forEach((company) => {
+                joinedStatusUpdates[company] = true;
+              });
+  
+              setJoinedStatus((prevStatus) => ({
+                ...prevStatus,
+                ...joinedStatusUpdates,
+              }));
+  
+              // Update your joinCounts state
+              setJoinCounts({ ...joinCounts, [user.email]: joinCount });
+            } else {
+              console.error("Document does not exist for user");
+            }
+          } else {
+            console.error(`User with email ${user.email} not found.`);
+          }
+        } else {
+          console.error("No authenticated user found.");
+        }
       } catch (error) {
         console.error("Error fetching join counts:", error.message);
       }
     };
+  
+    fetchJoinCounts();
+  }, [firestore, auth, joinCounts]);
+
+  useEffect(() => {
+    // Fetch and update join counts when the component mounts
+    const fetchJoinCounts = async () => {
+      // ... (existing code)
+
+      setJoinCounts(counts);
+      setJoinedStatus(joinedStatus); // Initialize joinedStatus state here
+    };
 
     fetchJoinCounts();
-  }, []);
+  }, [firestore]);
 
-  const openDrawer = () => {
-    drawerNavigation.dispatch(DrawerActions.openDrawer());
-  };
-
-  const renderSectionHeader = ({ section }) => (
-    <Text style={styles.sectionHeader}>{section.title}</Text>
-  );
-
-  const industries = Array.from(
-    new Set(boycottedPlaces.map((place) => place.industry))
-  ).filter(Boolean);
 
   const handleIndustryFilterChange = (industry) => {
+    // Add logic to handle industry filter change
     setIndustryFilter(industry);
     setShowClearFilters(true);
   };
 
-  const handleJoinBoycott = async (place, userEmail) => {
+  const fetchJoinCounts = async () => {
+    const counts = {};
+    const joinedStatus = {};
+
+    try {
+      const user = auth.currentUser;
+
+      if (user) {
+        const userDocQuery = query(
+          collection(firestore, "userBoycottHistory"),
+          where("email", "==", user.email)
+        );
+        const userDocSnapshot = await getDocs(userDocQuery);
+
+        if (!userDocSnapshot.empty) {
+          const userDocId = userDocSnapshot.docs[0].id;
+          const snapshot = await getDoc(
+            doc(firestore, "boycottCounts", userDocId)
+          );
+
+          // Check if the snapshot exists
+          if (snapshot.exists()) {
+            joinCounts[doc.id] = snapshot.data()?.joinCount || 0;
+            joinedStatus[userDocId] = true;
+          } else {
+            // If the document doesn't exist, you can handle it accordingly
+            console.error("Document does not exist");
+          }
+
+          setJoinCounts(counts);
+          setJoinedStatus(joinedStatus);
+        } else {
+          console.error(`User with email ${user.email} not found.`);
+        }
+      } else {
+        console.error("No authenticated user found.");
+      }
+    } catch (error) {
+      console.error("Error fetching join counts:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchJoinCounts();
+  }, [firestore]);
+
+  // Listen for changes in authentication state
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, fetch join counts
+      fetchJoinCounts();
+    }
+  });
+
+  const handleJoinBoycott = async (place) => {
     const placeName = place.name;
+    const userEmail = auth.currentUser?.email;
+
+    if (!userEmail) {
+      console.error("No authenticated user found.");
+      return;
+    }
 
     const placeRef = doc(firestore, "boycottCounts", placeName);
 
@@ -105,13 +206,17 @@ const BoycottedPlacesScreen = ({ navigation }) => {
       // Check if the user has already joined
       if (joinedUsers.includes(userEmail)) {
         console.log(`User with email ${userEmail} has already joined.`);
+
+        // Display a message or perform any other action for already joined users
+        alert(`You have already joined the boycott for ${placeName}!`);
+
         return;
       }
 
       // Update the join count and joined users
       await setDoc(placeRef, {
         joinCount: currentJoinCount + 1,
-        joinedUsers: [...joinedUsers, userEmail], // Add the user's email
+        joinedUsers: [...joinedUsers, userEmail],
       });
 
       // Update the local joinCounts state
@@ -120,15 +225,56 @@ const BoycottedPlacesScreen = ({ navigation }) => {
         [placeName]: currentJoinCount + 1,
       }));
 
+      // Update the user's boycott history
+      const userBoycottRef = doc(firestore, "userBoycottHistory", userEmail);
+      const userBoycottSnapshot = await getDoc(userBoycottRef);
+      const userBoycottHistory = userBoycottSnapshot.exists()
+        ? userBoycottSnapshot.data().boycottHistory || []
+        : [];
+
+      await setDoc(userBoycottRef, {
+        boycottHistory: [...userBoycottHistory, placeName],
+      });
+
       console.log(
         `Boycott joined for ${placeName}. Join count: ${
           currentJoinCount + 1
         }. User: ${userEmail}`
       );
+
+      // Display a success alert
+      alert(`You have successfully joined the boycott for ${placeName}!`);
+
+      // Update the local state to indicate that the user has joined
+      setJoinedStatus((prevStatus) => ({
+        ...prevStatus,
+        [placeName]: true,
+      }));
+
+      // Optionally, you can update the local state to indicate the join count
+      setBoycottedPlaces((prevPlaces) =>
+        prevPlaces.map((prevPlace) =>
+          prevPlace.name === placeName
+            ? { ...prevPlace, joined: true, joinCount: currentJoinCount + 1 }
+            : prevPlace
+        )
+      );
     } catch (error) {
       console.error("Error updating join count:", error.message);
     }
   };
+
+  const openDrawer = () => {
+    drawerNavigation.dispatch(DrawerActions.openDrawer());
+  };
+
+  const renderSectionHeader = ({ section }) => (
+    <Text style={styles.sectionHeader}>{section.title}</Text>
+  );
+
+  const industries = Array.from(
+    new Set(boycottedPlaces.map((place) => place.industry))
+  ).filter(Boolean);
 
   const clearFilters = () => {
     setSelectedCategory("");
@@ -179,81 +325,82 @@ const BoycottedPlacesScreen = ({ navigation }) => {
       };
     });
 
-  const renderItem = ({ item }) => {
-    const itemJoinCount = joinCounts[item.name] || 0;
-    const alternatives = item.alternatives || [];
-
-    return (
-      <>
-        {viewAsTiles ? (
-          <TouchableOpacity
-            style={styles.tileItemContainer}
-            onPress={() =>
-              navigation.navigate("FromTheRiver", {
-                screen: "PlaceDetailScreen",
-                params: { place: item },
-              })
-            }
-          >
-            <Image source={{ uri: item.image }} style={styles.tileItemImage} />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.listItem}
-            onPress={() =>
-              navigation.navigate("FromTheRiver", {
-                screen: "PlaceDetailScreen",
-                params: { place: item },
-              })
-            }
-          >
-            <ImageBackground
-              source={{ uri: item.image }}
-              style={styles.imageBackground}
+    const renderItem = ({ item }) => {
+      const itemJoinCount = joinCounts[item.name] || 0;
+      const alternatives = item.alternatives || [];
+      const userEmail = auth.currentUser?.email;
+    
+      // Check if the user has already joined
+      const userJoined = userEmail && joinedStatus[userEmail];
+    
+      return (
+        <>
+          {viewAsTiles ? (
+            // ... (existing tile rendering logic)
+            null
+          ) : (
+            <TouchableOpacity
+              style={styles.listItem}
+              onPress={() =>
+                navigation.navigate("FromTheRiver", {
+                  screen: "PlaceDetailScreen",
+                  params: { place: item },
+                })
+              }
             >
-              <Chip
-                style={{
-                  width: "50%",
-                  backgroundColor: "crimson",
-                  borderRadius: 0,
-                  padding: 3,
-                  top: 0,
-                  position: "absolute",
-                  left: 0,
-                }}
+              <ImageBackground
+                source={{ uri: item.image }}
+                style={styles.imageBackground}
               >
-                <Text
+                <Chip
                   style={{
-                    color: "white",
-                    fontSize: 15,
-                    fontWeight: "800",
-                    alignSelf: "center",
+                    width: "50%",
+                    backgroundColor: "crimson",
+                    borderRadius: 0,
+                    padding: 3,
+                    top: 0,
+                    position: "absolute",
+                    left: 0,
                   }}
                 >
-                  Boycotting: {itemJoinCount}
-                </Text>
-              </Chip>
-              <TouchableOpacity
-                style={styles.joinBoycottButton}
-                onPress={() => handleJoinBoycott(item)}
-                disabled={joinCounts[item.name] !== undefined} // Disable the button if user has already joined
-              >
-                <Text style={styles.joinBoycottButtonText}>
-                  {joinCounts[item.name] !== undefined
-                    ? `Joined (${itemJoinCount})`
-                    : "Join Boycott"}
-                </Text>
-              </TouchableOpacity>
-            </ImageBackground>
-            <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
-            <Text style={{ fontWeight: "400", marginTop: 5 }}>
-              {item.description}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </>
-    );
-  };
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 15,
+                      fontWeight: "800",
+                      alignSelf: "center",
+                    }}
+                  >
+                    Boycotting: {itemJoinCount}
+                  </Text>
+                </Chip>
+                <TouchableOpacity
+                  style={[
+                    styles.joinBoycottButton,
+                    userJoined && { backgroundColor: "green" }, // Change the style if joined
+                  ]}
+                  onPress={() =>
+                    handleJoinBoycott(item /* Add user email parameter here */)
+                  }
+                  disabled={userJoined}
+                >
+                  <Text style={styles.joinBoycottButtonText}>
+                    {userJoined ? `Joined (${itemJoinCount})` : "Join"}
+                  </Text>
+                </TouchableOpacity>
+              </ImageBackground>
+              <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
+              <Text style={{ fontWeight: "400", marginTop: 5 }}>
+                {item.description}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </>
+      );
+    };
+    
+    
+    
 
   const renderDynamicHeader = () => {
     const industryToDisplay =
@@ -351,7 +498,12 @@ const BoycottedPlacesScreen = ({ navigation }) => {
         }}
         selectTextStyle={{ color: "white", fontSize: 18, fontWeight: "600" }}
         selectedItemTextStyle={{ color: "#234A57", fontWeight: "700" }}
-        optionStyle={{ backgroundColor: "#234A57", borderColor: "transparent", borderRadius: 0, padding:10 }}
+        optionStyle={{
+          backgroundColor: "#234A57",
+          borderColor: "transparent",
+          borderRadius: 0,
+          padding: 10,
+        }}
         optionTextStyle={{ color: "white", fontWeight: "500", fontSize: 16 }}
         cancelStyle={{ backgroundColor: "black", borderRadius: 8, margin: -4 }}
         alwaysBounceHorizontal={true}
@@ -360,7 +512,6 @@ const BoycottedPlacesScreen = ({ navigation }) => {
         overlayStyle={{ backgroundColor: "rgba(35, 74, 87, 0.9)" }}
         sectionTextStyle={{ color: "black" }}
       />
-
 
       {selectedCategory ? (
         <Text style={styles.selectedCategoryText}>
