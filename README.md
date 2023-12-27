@@ -13,31 +13,31 @@
 
 Empower yourself by scanning product barcodes to access detailed information about a company's practices, ethics, and environmental impact. Make informed decisions and choose products that resonate with your values.
 
-![Product Scanner](https://github.com/mahirahmed691/Taawun/blob/main/assets/home.png)
+![Product Scanner](https://github.com/mahirahmed691/Taawun/blob/main/assets/login.png)
 
 ### 2. Boycott Campaigns
 
 Join or initiate boycott campaigns against products or companies that violate ethical standards. Collaborate with like-minded individuals to make a collective impact and promote responsible consumerism.
 
-![Boycott Campaigns](link_to_boycott_campaigns_image)
+![Boycott Campaigns](https://github.com/mahirahmed691/Taawun/blob/main/assets/home.png)
 
 ### 3. Influencer Hub
 
 Follow influencers who advocate for ethical consumerism. Stay updated on their recommendations, boycott campaigns, and contributions to the community. Be inspired by those who actively promote positive change.
 
-![Influencer Hub](link_to_influencer_hub_image)
+![Influencer Hub](https://github.com/mahirahmed691/Taawun/blob/main/assets/home.png/shop.png)
 
 ### 4. Community Engagement
 
 Connect with a passionate community dedicated to making a difference. Participate in discussions, share your experiences, and learn from others. The collective voice of the community drives change and fosters a conscious consumer culture.
 
-![Community Engagement](link_to_community_engagement_image)
+![Community Engagement](https://github.com/mahirahmed691/Taawun/blob/main/assets/prayer.png)
 
 ### 5. Personal Impact Tracker
 
 Monitor your personal impact on the app. Track the number of products scanned, contributions to boycott campaigns, and your overall influence on promoting ethical choices.
 
-![Personal Impact Tracker](link_to_personal_impact_tracker_image)
+![Personal Impact Tracker](https://github.com/mahirahmed691/Taawun/blob/main/assets/detail.png)
 
 ## Getting Started
 
