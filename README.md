@@ -13,7 +13,7 @@
 
 Empower yourself by scanning product barcodes to access detailed information about a company's practices, ethics, and environmental impact. Make informed decisions and choose products that resonate with your values.
 
-![Product Scanner](link_to_product_scanner_image)
+![Product Scanner](https://github.com/mahirahmed691/Taawun/blob/main/assets/home.png)
 
 ### 2. Boycott Campaigns
 
