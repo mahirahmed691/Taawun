@@ -188,10 +188,8 @@ if (data.startsWith("729")) {
       >
         <Animated.View style={styles.modalContainer}>
           {showHappyModal && (
-            <Image
-              source={require("../assets/palestine.jpeg")}
-              style={styles.faceImage}
-            />
+            <Image source={PalestineImage} style={styles.faceImage} />
+
           )}
           {showSadModal && (
             <Image

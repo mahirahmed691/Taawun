@@ -3,7 +3,9 @@ import { View, Text, Alert, StyleSheet, Image } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; // Import the correct functions
 import { auth } from "../config/firebaseConfig";
-import Logo from "../assets/logo.png";
+const Logo = require("../assets/logo.png");
+
+
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
